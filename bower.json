@@ -1,0 +1,34 @@
+{
+  "name": "LayerSelector",
+  "version": "0.1.0",
+  "authors": [
+    "steveoh <sgourley@utah.gov>"
+  ],
+  "description": "select layers",
+  "main": "LayerSelector.js",
+  "moduleType": [
+    "amd"
+  ],
+  "keywords": [
+    "esri",
+    "js",
+    "arcgis",
+    "map",
+    "gis"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "src",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "esri": "arcgis-js-api#~3.14.0",
+    "jasmine-favicon-reporter": "*",
+    "agrc-jasmine-matchers": "~0.1.0",
+    "jasmine-jsreporter": "~0.1.2"
+  }
+}

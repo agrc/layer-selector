@@ -1,0 +1,28 @@
+{
+    "predef": [
+        "JSON"
+    ],
+
+    // globals
+    "devel": true,
+    "jasmine": true,
+    "dojo": true,
+    "node": true,
+    "browser": true,
+    "jquery": true,
+
+    "bitwise": true,
+    "curly": true,
+    "eqeqeq": true,
+    "eqnull": true,
+    "es3": true,
+    "forin": true,
+    "freeze": true,
+    "latedef": true,
+    "maxcomplexity": 15,
+    "maxerr": 250,
+    "noarg": true,
+    "nonbsp": true,
+    "undef": true,
+    "unused": true
+}
