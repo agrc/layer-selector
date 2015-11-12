@@ -3,8 +3,9 @@ window.dojoConfig = {
     baseUrl: './',
     packages: [
         {
-            name: 'LayerSelector',
-            location: 'src/'
+            name: 'layer-selector',
+            location: 'src/layer-selector',
+            main: 'layer-selector'
         }, {
             name: 'dojo',
             location: 'src/dojo'

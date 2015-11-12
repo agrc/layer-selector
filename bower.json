@@ -1,11 +1,11 @@
 {
-  "name": "LayerSelector",
+  "name": "layer-selector",
   "version": "0.1.0",
   "authors": [
     "steveoh <sgourley@utah.gov>"
   ],
   "description": "select layers",
-  "main": "LayerSelector.js",
+  "main": "layer-selector.js",
   "moduleType": [
     "amd"
   ],

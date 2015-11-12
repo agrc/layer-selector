@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>layer-selector Tests</title>
+
+    <!-- META TAGS -->
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../resources/layer-selector.css">
+    <link rel="stylesheet" href="../../esri/css/esri.css">
+    <style type='text/css'>
+        body, html, #map {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+    </style>
+
+    <!-- JAVASCRIPT -->
+    <script type='text/javascript' src="../../dojo/dojo.js"></script>
+    <script type="text/javascript">
+        var baseUrl = window.location.pathname.replace(/\/[^\/]+$/, '') + '/' + '../../';
+        var widgetUnderTest;
+
+        require({
+            baseUrl: baseUrl,
+            packages: ['dojo', 'dijit', 'dojox',
+            {
+                name: 'layer-selector',
+                location: '../src/layer-selector',
+                main: 'layer-selector'
+            }, {
+                name: 'esri',
+                location: '../src/esri'
+            }]
+        }, [
+            'layer-selector',
+
+            'esri/map',
+            'esri/layers/ArcGISTiledMapServiceLayer',
+
+            'dojo/domReady!'
+        ], function(Module, Map, TiledLayer) {
+            var map = new Map('map', {});
+
+            widgetUnderTest = new Module({
+                map: map,
+                baseLayers: [{
+                    factory: TiledLayer,
+                    url: 'http://basemaps.utah.gov/ArcGIS/rest/services/BaseMaps/Terrain/MapServer',
+                    id: 'Terrain'
+                },{
+                    factory: TiledLayer,
+                    url: 'http://basemaps.utah.gov/ArcGIS/rest/services/BaseMaps/Lite/MapServer',
+                    id: 'Lite',
+                    selected: true
+                }],
+                overlays: []
+            });
+
+            widgetUnderTest.startup();
+        });
+</script>
+</head>
+<body>
+    <div id="map"></div>
+    <div class="node" id="node"></div>
+    <div class="node" id="node2"></div>
+    <div class="node" id="node3"></div>
+    <div class="node" id="node4"></div>
+</body>
+</html>

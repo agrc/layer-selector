@@ -3,10 +3,10 @@ module.exports = function (grunt) {
 
     var jasminePort = grunt.option('jasminePort') || 8001;
 
-    var jsAppFiles = 'src/LayerSelector/**/*.js';
+    var jsAppFiles = 'src/layer-selector/**/*.js';
     var otherFiles = [
-        'src/LayerSelector/**/*.html',
-        'src/LayerSelector/**/*.css'
+        'src/layer-selector/**/*.html',
+        'src/layer-selector/**/*.css'
     ];
     var gruntFile = 'GruntFile.js';
     var jsFiles = [
@@ -22,7 +22,7 @@ module.exports = function (grunt) {
                 },
                 files: [{
                     src: [
-                        'src/LayerSelectorjs'
+                        'src/layer-selector/*.js'
                     ]
                 }]
             }
@@ -48,14 +48,14 @@ module.exports = function (grunt) {
             main: {
                 src: [],
                 options: {
-                    specs: ['src/LayerSelector/**/Spec*.js'],
+                    specs: ['src/layer-selector/**/spec-*.js'],
                     vendor: [
                         'src/jasmine-favicon-reporter/vendor/favico.js',
                         'src/jasmine-favicon-reporter/jasmine-favicon-reporter.js',
                         'src/jasmine-jsreporter/jasmine-jsreporter.js',
-                        'src/LayerSelector/tests/run.js',
+                        'src/layer-selector/tests/run.js',
                         'src/dojo/dojo.js',
-                        'src/LayerSelector/tests/jasmineAMDErrorChecking.js'
+                        'src/layer-selector/tests/jasmineAMDErrorChecking.js'
                     ],
                     host: 'http://localhost:' + jasminePort
                 }
@@ -96,7 +96,7 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     cwd: 'src/',
-                    src: ['LayerSelector/resources/LayerSelector.styl'],
+                    src: ['layer-selector/**/*.styl'],
                     dest: 'src/',
                     ext: '.css'
                 }]
@@ -114,7 +114,7 @@ module.exports = function (grunt) {
                 files: jsFiles.concat(otherFiles)
             },
             stylus: {
-                files: 'src/LayerSelector/**/*.styl',
+                files: 'src/layer-selector/**/*.styl',
                 tasks: ['stylus']
             }
         }

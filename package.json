@@ -4,7 +4,7 @@
   "description": "Select layers",
   "main": "GruntFile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"`grunt` will open a browser and show a jasmine test page\" && exit 1"
   },
   "keywords": [
     "esri",

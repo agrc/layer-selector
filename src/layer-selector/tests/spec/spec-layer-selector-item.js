@@ -1,5 +1,5 @@
 require([
-    'LayerSelector/LayerSelector/LayerSelector',
+    'layer-selector/layer-selector-item',
 
     'dojo/dom-construct'
 ], function (
@@ -7,7 +7,7 @@ require([
 
     domConstruct
 ) {
-    describe('LayerSelector/LayerSelector/LayerSelector', function () {
+    describe('layer-selector/layer-selector-item', function () {
         var widget;
         var destroy = function (widget) {
             widget.destroyRecursive();
@@ -26,7 +26,7 @@ require([
         });
 
         describe('Sanity', function () {
-            it('should create a LayerSelector', function () {
+            it('should create a layer-selector-item', function () {
                 expect(widget).toEqual(jasmine.any(WidgetUnderTest));
             });
         });

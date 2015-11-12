@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>layer-selector-item Tests</title>
+
+    <!-- META TAGS -->
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../resources/layer-selector-item.css">
+    <style type='text/css'>
+        body, html, #map {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+    </style>
+
+    <!-- JAVASCRIPT -->
+    <script type='text/javascript' src="../../dojo/dojo.js"></script>
+    <script type="text/javascript">
+        var baseUrl = window.location.pathname.replace(/\/[^\/]+$/, '') + '/' + '../../';
+        var widgetUnderTest;
+
+        require({
+            baseUrl: baseUrl,
+            packages: ['esri', 'dojo', 'dijit',
+            {
+                name: 'layer-selector',
+                location: '../src/layer-selector',
+                main: 'layer-selector'
+            }]
+        }, [
+            'layer-selector/layer-selector-item',
+
+            'dojo/domReady!'
+        ], function(Module) {
+            widgetUnderTest = new Module({
+                layer: {
+                    name: 'test'
+                },
+                type: 'radio'
+            }, 'node');
+
+            widgetUnderTest.startup();
+        });
+</script>
+</head>
+<body>
+    <div id="node"></div>
+</body>
+</html>
