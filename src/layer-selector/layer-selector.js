@@ -113,9 +113,7 @@ define([
             this._selectLayerElements(overlays, this.overlayWidgets, false);
 
             if (visibleBaseLayers.length > 0 && this.overlayWidgets.length > 0) {
-                if (this.overlayWidgets && this.overlayWidgets.length) {
-                    domConstruct.place(this.separator, this.layerContainer, this.baseLayerWidgets.length * numberOfElementsPerRow);
-                }
+                domConstruct.place(this.separator, this.layerContainer, this.baseLayerWidgets.length * numberOfElementsPerRow);
             }
         },
         /** Places the widget in the map container and in which corner using this.top and this.right.
