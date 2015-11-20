@@ -30,5 +30,17 @@ require([
                 expect(widget).toEqual(jasmine.any(WidgetUnderTest));
             });
         });
+        describe('_setupConnections', function () {
+            it('should fire selected event', function () {
+                var fired;
+                widget.on('changed', function () {
+                    fired = true;
+                });
+
+                widget.input.click();
+
+                expect(fired).toBe(true);
+            });
+        });
     });
 });

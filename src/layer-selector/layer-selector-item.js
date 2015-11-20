@@ -81,8 +81,8 @@ define([
         _setupConnections: function () {
             console.log('layer-selector-item::setupConnections', arguments);
 
-            this.watch('selected', lang.hitch(this, function changed() {
-                on.emit(this.domNode, 'selected', {
+            this.watch('selected', lang.hitch(this, function () {
+                on.emit(this.domNode, 'changed', {
                     layer: this.layer,
                     selected: this.get('selected'),
                     layerType: this.layerType
@@ -90,7 +90,7 @@ define([
             }));
 
             this.own(
-                on(this.input, 'click', lang.hitch(this, function changed(e) {
+                on(this.input, 'click', lang.hitch(this, function (e) {
                     this.set('selected', e.target.checked);
                 }))
             );

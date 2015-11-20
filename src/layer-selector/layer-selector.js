@@ -159,10 +159,10 @@ define([
                 }).placeAt(container);
 
                 this.own(
-                    item.on('selected', lang.hitch(this, '_updateMap'))
+                    item.on('changed', lang.hitch(this, '_updateMap')),
+                    item
                 );
 
-                this.own(item);
                 widgets.push(item);
             }, this);
 
