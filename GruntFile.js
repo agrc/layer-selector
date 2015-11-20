@@ -124,7 +124,6 @@ module.exports = function (grunt) {
         'jshint:force',
         'jscs:force',
         'amdcheck:main',
-        'configureProxies:server',
         'connect:jasmine',
         'stylus',
         'watch'
