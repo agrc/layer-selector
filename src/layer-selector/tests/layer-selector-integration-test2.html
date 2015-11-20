@@ -63,7 +63,8 @@
                 {
                     factory: WebTiledLayer,
                     url: 'https://storage.googleapis.com/state-of-utah-lite-tiles/Lite/${level}/${col}/${row}',
-                    id: 'Lite'
+                    id: 'Lite',
+                    linked: ['Squiggles']
                 }, {
                     factory: TiledLayer,
                     url: 'http://172.16.17.56/arcgis/rest/services/BaseMaps_WGS/Topo/MapServer',

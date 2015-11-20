@@ -13,13 +13,13 @@ require([
 ) {
     describe('layer-selector', function () {
         var widget;
-        var mapNode;
+        var map;
 
         var destroy = function (widget) {
             widget.destroyRecursive();
             widget = null;
             try {
-                document.body.removeChild(mapNode);
+                document.body.removeChild(map.root);
             } catch (e) {
 
             }
@@ -34,11 +34,16 @@ require([
         };
 
         beforeEach(function () {
-            mapNode = domConstruct.create('div', null, document.body);
-            widget = new WidgetUnderTest({map: {
-                root: mapNode
-            }});
-            widget.startup();
+            map = {
+                root: domConstruct.create('div', null, document.body),
+                getLayer: function () {
+                    return {
+                        suspend: function () {},
+                        resume: function () {}
+                    };
+                },
+                addLayer: function () {}
+            };
         });
 
         afterEach(function () {
@@ -49,21 +54,45 @@ require([
 
         describe('Sanity', function () {
             it('should create a layer-selector', function () {
+                widget = new WidgetUnderTest({map: map});
+                widget.startup();
+
                 expect(widget).toEqual(jasmine.any(WidgetUnderTest));
             });
         });
 
-        describe('UI', function () {
-            beforeEach(function () {
-                if (widget) {
-                    destroy(widget);
-                }
+        describe('constructor', function () {
+            it('sets hasLinked appropriately', function () {
+                widget = new WidgetUnderTest({
+                    map: map,
+                    baseLayers: [{
+                        name: 'blah'
+                    }, {
+                        name: 'blah2',
+                        linked: ['blah3']
+                    }]
+                });
+
+                expect(widget.hasLinked).toBe(true, 'linked layers');
+
+                destroy(widget);
+
+                widget = new WidgetUnderTest({
+                    map: map,
+                    baseLayers: [{
+                        name: 'blah'
+                    }, {
+                        name: 'blah2'
+                    }]
+                });
+
+                expect(widget.hasLinked).toBe(false, 'no linked layers');
             });
+        });
+        describe('UI', function () {
             it('It should not display separator if there are 1 base layer and > 0 overlays', function () {
                 widget = new WidgetUnderTest({
-                    map: {
-                        root: mapNode
-                    },
+                    map: map,
                     baseLayers: [{
                         name: '1'
                     }],
@@ -86,9 +115,7 @@ require([
             });
             it('It should add separator if there > 1 base layer and > 0 overlays', function () {
                 widget = new WidgetUnderTest({
-                    map: {
-                        root: mapNode
-                    },
+                    map: map,
                     baseLayers: [{
                         name: '1'
                     }, {
@@ -112,9 +139,7 @@ require([
             });
             it('It should not display separator if there are no overlays', function () {
                 widget = new WidgetUnderTest({
-                    map: {
-                        root: mapNode
-                    },
+                    map: map,
                     baseLayers: [{
                         name: '1'
                     }, {
@@ -135,9 +160,7 @@ require([
             });
             it('It should not display at all if there are 1 baselayer and no overlays', function () {
                 widget = new WidgetUnderTest({
-                    map: {
-                        root: mapNode
-                    },
+                    map: map,
                     baseLayers: [{
                         name: 'only 1'
                     }]
@@ -148,9 +171,7 @@ require([
             });
             it('It should not display at all if there are no baselayer and no overlays', function () {
                 widget = new WidgetUnderTest({
-                    map: {
-                        root: mapNode
-                    }
+                    map: map
                 });
                 widget.startup();
 
@@ -159,9 +180,7 @@ require([
             describe('baseLayers', function () {
                 it('should select first item in list if no property selected:true found', function () {
                     widget = new WidgetUnderTest({
-                        map: {
-                            root: mapNode
-                        },
+                        map: map,
                         baseLayers: [{
                             name: 'i am checked'
                         }, {
@@ -176,9 +195,7 @@ require([
                 });
                 it('should select first item with property selected:true found', function () {
                     widget = new WidgetUnderTest({
-                        map: {
-                            root: mapNode
-                        },
+                        map: map,
                         baseLayers: [{
                             name: 'i am not checked'
                         }, {
@@ -199,19 +216,23 @@ require([
                 });
                 it('should uncheck overlays when baselayer is active and linked is empty', function () {
                     widget = new WidgetUnderTest({
-                        map: {
-                            root: mapNode
-                        },
+                        map: map,
                         baseLayers: [{
-                            name: 'i am checked'
+                            name: 'i am checked',
+                            factory: function () {},
+                            selected: true
                         }, {
-                            name: 'i am not checked'
+                            name: 'i am not checked',
+                            factory: function () {},
+                            linked: ['i was checked']
                         }],
                         overlays: [{
                             name: 'i was checked',
+                            factory: function () {},
                             selected: true
                         }, {
                             name: 'i was also checked',
+                            factory: function () {},
                             selected: true
                         }]
                     });
@@ -224,9 +245,7 @@ require([
                 });
                 it('should check overlays when baselayer is active and has linked[name]', function () {
                     widget = new WidgetUnderTest({
-                        map: {
-                            root: mapNode
-                        },
+                        map: map,
                         baseLayers: [{
                             name: 'i am checked',
                             linked: ['i am checked']
@@ -252,9 +271,7 @@ require([
             describe('overlays', function () {
                 it('should check all items with selected:true', function () {
                     widget = new WidgetUnderTest({
-                        map: {
-                            root: mapNode
-                        },
+                        map: map,
                         baseLayers: [{
                             name: 'ignore me'
                         }],
@@ -276,6 +293,29 @@ require([
                     var checkedInputs = nodeList.filter(checked);
 
                     expect(checkedInputs.length).toEqual(2);
+                });
+                it('should check no overlays if none are selected', function () {
+                    widget = new WidgetUnderTest({
+                        map: map,
+                        baseLayers: [{
+                            name: 'ignore me'
+                        }],
+                        overlays: [{
+                            name: 'i am not checked'
+                        }, {
+                            name: 'i am also not checked'
+                        }, {
+                            name: 'i am checked'
+                        }, {
+                            name: 'i am also checked'
+                        }]
+                    });
+                    widget.startup();
+
+                    var nodeList = query('input[name="over-layer"]', widget.domNode);
+                    var checkedInputs = nodeList.filter(checked);
+
+                    expect(checkedInputs.length).toEqual(0);
                 });
             });
         });

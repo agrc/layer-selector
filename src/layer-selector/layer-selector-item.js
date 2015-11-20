@@ -54,18 +54,18 @@ define([
 
             if (!params) {
                 params = {
-                    layer: {
+                    layerInfo: {
                         name: 'unknown'
                     }
                 };
             }
 
-            this.name = params.layer.id || params.layer.name;
-            this.inputType = params.type || 'radio';
+            this.name = params.layerInfo.id || params.layerInfo.name;
+            this.inputType = params.inputType || 'radio';
         },
         /** Overrides method of same name in dijit._Widget.
-         * @param {[esri/layers/layer]} layer - mutually exclusive layers (only one can be visible on your map).
-         * @param {string} type - `radio` or `checkbox` depending on the type of input.
+         * @param {[esri/layers/layer]} layerInfo - name, selected, linked ...
+         * @param {string} inputType - `radio` or `checkbox` depending on the type of input.
          */
         postCreate: function () {
             console.log('layer-selector-item::postCreate', arguments);
@@ -82,11 +82,7 @@ define([
             console.log('layer-selector-item::setupConnections', arguments);
 
             this.watch('selected', lang.hitch(this, function () {
-                on.emit(this.domNode, 'changed', {
-                    layer: this.layer,
-                    selected: this.get('selected'),
-                    layerType: this.layerType
-                });
+                on.emit(this.domNode, 'changed', this);
             }));
 
             this.own(

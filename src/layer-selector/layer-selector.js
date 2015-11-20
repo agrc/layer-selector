@@ -40,6 +40,8 @@ define([
         top: true,
         /** @property {bool} - True if the widget should be in the right of the container. */
         right: true,
+        /** @property {bool} - True if any of the baseLayers have a linked property. */
+        hasLinked: false,
 
         /** The initilizer for the class.
          * @param {{Object}} - params - The params passed into the constructor.
@@ -51,6 +53,10 @@ define([
             if (!params.map) {
                 throw new Error('Missing map in layer-selector. `new layer-selector({map: map});`');
             }
+
+            this.hasLinked = params.baseLayers && params.baseLayers.some(function (layerInfo) {
+                return layerInfo.linked;
+            });
         },
         /** Overrides method of same name in dijit._Widget.
          * @param {esri/map|agrc/widgets/map/BaseMap} map - The map to control layer selection.
@@ -109,8 +115,8 @@ define([
                 return;
             }
 
-            this._selectLayerElements(baseLayers, this.baseLayerWidgets, true);
             this._selectLayerElements(overlays, this.overlayWidgets, false);
+            this._selectLayerElements(baseLayers, this.baseLayerWidgets, true);
 
             if (visibleBaseLayers.length > 0 && this.overlayWidgets.length > 0) {
                 domConstruct.place(this.separator, this.layerContainer, this.baseLayerWidgets.length * numberOfElementsPerRow);
@@ -137,23 +143,23 @@ define([
             domConstruct.place(node, refNode);
         },
         /** Takes the `baseLayers` or `overlays` and addes them to the `container`.
-         * @param {[esri/layers]} - layers - mutually exlusive layers (only one can be visible on your map).
+         * @param {[Object]} - layerInfos - layer infos as passed via `baseLayers` or `overlays`
          * @param {domNode} - container - the dom node to hold the created elements.
          * @param {string} - type - radio or checkbox.
          * @returns {[DomNodes]} - the nodes placed.
          */
-        _buildLayerItemWidgets: function (layers, container, type) {
+        _buildLayerItemWidgets: function (layerInfos, container, type) {
             console.log('layer-selector:_buildLayerItemWidgets', arguments);
 
-            if (!layers || !layers.length) {
+            if (!layerInfos || !layerInfos.length) {
                 return [];
             }
 
             var widgets = [];
-            layers.forEach(function (layer) {
+            layerInfos.forEach(function (li) {
                 var item = new LayerSelectorItem({
-                    layer: layer,
-                    type: type
+                    layerInfo: li,
+                    inputType: type
                 }).placeAt(container);
 
                 this.own(
@@ -203,38 +209,38 @@ define([
             });
         },
         /** Recieves the old, new, and property from the selected watcher.
-         * @param {Object} - args - contains old, new, and property name that changed.
+         * @param {Object} - layerItem - item that was changed
          * @returns return_type - return_description
          */
-        _updateMap: function (args) {
+        _updateMap: function (layerItem) {
             console.log('layer-selector:_updateMap', arguments);
 
-            if (args.selected === false && args.layerType === 'base-layer') {
+            if (layerItem.get('selected') === false && layerItem.layerType === 'base-layer') {
                 return;
             }
             var managedLayers = this.get('managedLayers') || {};
 
             var keys = Object.keys(managedLayers);
-            if (keys.length > 0 && args.layerType === 'base-layer') {
-                array.forEach(keys, function (layer) {
-                    if (managedLayers[layer] === 'base-layer') {
-                        this.map.getLayer(layer).suspend();
+            if (keys.length > 0 && layerItem.layerType === 'base-layer') {
+                array.forEach(keys, function (id) {
+                    if (managedLayers[id] === 'base-layer') {
+                        this.map.getLayer(id).suspend();
                     }
                 }, this);
             }
 
-            if (keys.indexOf(args.layer.id) < 0) {
-                managedLayers[args.layer.id] = args.layerType;
+            if (keys.indexOf(layerItem.name) < 0) {
+                managedLayers[layerItem.name] = layerItem.layerType;
             }
 
             this.set('managedLayers', managedLayers);
 
-            var layer = this.map.getLayer(args.layer.id);
+            var layer = this.map.getLayer(layerItem.name);
             if (!layer) {
-                layer = new args.layer.factory(args.layer.url, args.layer);
+                layer = new layerItem.layerInfo.factory(layerItem.layerInfo.url, layerItem.layerInfo);
 
                 var index = 0;
-                if (args.layerType !== 'base-layer') {
+                if (layerItem.layerType !== 'base-layer') {
                     array.forEach(Object.keys(managedLayers), function (key, i) {
                         if (managedLayers[key] === 'base-layer') {
                             index = i + 1;
@@ -243,27 +249,39 @@ define([
                 }
                 this.map.addLayer(layer, index);
             }
-            if (args.selected === true) {
+            if (layerItem.get('selected') === true) {
                 layer.resume();
             } else {
                 layer.suspend();
             }
 
-            if (args.layerType === 'base-layer') {
-                this._syncSelectedWithUi(this.baseLayerWidgets, args.layer.id);
+            if (layerItem.layerType === 'base-layer') {
+                this._syncSelectedWithUi(layerItem.name);
             }
         },
         /** Keep the selected button consistent across layer Items.
-         * @param {string} - name - The name of the layer added to the map.
+         * @param {string} - id - The id of the layer added to the map.
          */
-        _syncSelectedWithUi: function (layerItems, name) {
+        _syncSelectedWithUi: function (id) {
             console.log('layer-selector:_syncSelectedWithUi', arguments);
 
-            array.forEach(layerItems, function (item) {
-                if (item.name !== name) {
+            // turn off all other base layers
+            var baseWidget;
+            array.forEach(this.baseLayerWidgets, function (item) {
+                if (item.name !== id) {
                     item.set('selected', false);
+                } else {
+                    baseWidget = item;
                 }
             });
+
+            // toggle overlays based on linked only if there is a baselayer with a linked property
+            if (this.hasLinked) {
+                var linked = baseWidget.layerInfo.linked || [];
+                array.forEach(this.overlayWidgets, function (item) {
+                    item.set('selected', linked.indexOf(item.name) > -1);
+                });
+            }
         },
         /** polyfill array.find from MDN. */
         _polyfill: function () {
