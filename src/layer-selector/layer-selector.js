@@ -182,7 +182,7 @@ define([
 
             if (firstOnly) {
                 var selectedIndex = -1;
-                var found = layers.find(function findSelected(layer, i) {
+                var found = layers.find(function (layer, i) {
                     selectedIndex = i;
                     return layer.selected;
                 }, this);
@@ -198,7 +198,7 @@ define([
                 return;
             }
 
-            array.forEach(layers, function findSelected(layer, i) {
+            array.forEach(layers, function (layer, i) {
                 if (layer.selected) {
                     widgets[i].set('selected', true);
                 }
@@ -218,7 +218,7 @@ define([
 
             var keys = Object.keys(managedLayers);
             if (keys.length > 0 && args.layerType === 'base-layer') {
-                array.forEach(keys, function suspendBaseMaps(layer) {
+                array.forEach(keys, function (layer) {
                     if (managedLayers[layer] === 'base-layer') {
                         this.map.getLayer(layer).suspend();
                     }
@@ -261,7 +261,7 @@ define([
         _syncSelectedWithUi: function (layerItems, name) {
             console.log('layer-selector:_syncSelectedWithUi', arguments);
 
-            array.forEach(layerItems, function updateSelected(item) {
+            array.forEach(layerItems, function (item) {
                 if (item.name !== name) {
                     item.set('selected', false);
                 }
@@ -315,10 +315,10 @@ define([
         startup: function () {
             console.log('layer-selector:startup', arguments);
 
-            array.forEach(this.baseLayerWidgets, function startupChildren(child) {
+            array.forEach(this.baseLayerWidgets, function (child) {
                 child.startup();
             });
-            array.forEach(this.overlayWidgets, function startupChildren(child) {
+            array.forEach(this.overlayWidgets, function (child) {
                 child.startup();
             });
 
