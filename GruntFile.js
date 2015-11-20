@@ -29,8 +29,7 @@ module.exports = function (grunt) {
         },
         connect: {
             options: {
-                livereload: true,
-                open: true
+                livereload: true
             },
             jasmine: {
                 options: {
