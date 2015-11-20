@@ -30,5 +30,8 @@
     "jasmine-favicon-reporter": "*",
     "agrc-jasmine-matchers": "~0.1.0",
     "jasmine-jsreporter": "~0.1.2"
+  },
+  "resolutions": {
+    "dojo": "v1.10.4/esri-3.14.0"
   }
 }
