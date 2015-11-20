@@ -109,8 +109,8 @@ define([
                 return;
             }
 
-            this._selectLayerElelments(baseLayers, this.baseLayerWidgets, true);
-            this._selectLayerElelments(overlays, this.overlayWidgets, false);
+            this._selectLayerElements(baseLayers, this.baseLayerWidgets, true);
+            this._selectLayerElements(overlays, this.overlayWidgets, false);
 
             if (visibleBaseLayers.length > 0 && this.overlayWidgets.length > 0) {
                 if (this.overlayWidgets && this.overlayWidgets.length) {
@@ -173,8 +173,8 @@ define([
          * @param {[layer-selector-item]} - widgets - the html representation of the layer.
          * @param {bool} - firstOnly - only select the first item. Or select them all.
          */
-        _selectLayerElelments: function (layers, widgets, firstOnly) {
-            console.log('layer-selector:_selectLayerElelments', arguments);
+        _selectLayerElements: function (layers, widgets, firstOnly) {
+            console.log('layer-selector:_selectLayerElements', arguments);
 
             if (!layers || !layers.length) {
                 return;
