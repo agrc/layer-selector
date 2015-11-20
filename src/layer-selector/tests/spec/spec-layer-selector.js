@@ -59,7 +59,7 @@ require([
                     destroy(widget);
                 }
             });
-            it('It should not display seperator if there are 1 base layer and > 0 overlays', function () {
+            it('It should not display separator if there are 1 base layer and > 0 overlays', function () {
                 widget = new WidgetUnderTest({
                     map: {
                         root: mapNode
@@ -82,9 +82,9 @@ require([
                 expect(visibleBaseLayers.length).toEqual(0, 'should not be any visible base-layers');
 
                 expect(visibleOverlays.length).toEqual(1, 'all overlayers should be visible');
-                expect(query('hr', widget.layerContainer).length).toEqual(0, 'no seperator should be visible');
+                expect(query('hr', widget.layerContainer).length).toEqual(0, 'no separator should be visible');
             });
-            it('It should add seperator if there > 1 base layer and > 0 overlays', function () {
+            it('It should add separator if there > 1 base layer and > 0 overlays', function () {
                 widget = new WidgetUnderTest({
                     map: {
                         root: mapNode
@@ -108,7 +108,7 @@ require([
 
                 expect(visibleBaseLayers.length).toEqual(2, 'basemaps should both be visible');
                 expect(visibleOverlays.length).toEqual(1, 'overlay should always be visible');
-                expect(query('hr', widget.layerContainer).length).toEqual(1, 'there shoudl be a seperator');
+                expect(query('hr', widget.layerContainer).length).toEqual(1, 'there shoudl be a separator');
             });
             it('It should not display separator if there are no overlays', function () {
                 widget = new WidgetUnderTest({

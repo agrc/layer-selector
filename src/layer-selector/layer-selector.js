@@ -35,7 +35,7 @@ define([
         /** @property {string} - The class' css `baseClass` property. */
         baseClass: 'layer-selector',
         /** @property {string} - HTML fragment. */
-        seperator: '<hr class="layer-selector-seperator" />',
+        separator: '<hr class="layer-selector-separator" />',
         /** @property {bool} - True if the widget should be in the top of the container. */
         top: true,
         /** @property {bool} - True if the widget should be in the right of the container. */
@@ -114,7 +114,7 @@ define([
 
             if (visibleBaseLayers.length > 0 && this.overlayWidgets.length > 0) {
                 if (this.overlayWidgets && this.overlayWidgets.length) {
-                    domConstruct.place(this.seperator, this.layerContainer, this.baseLayerWidgets.length * numberOfElementsPerRow);
+                    domConstruct.place(this.separator, this.layerContainer, this.baseLayerWidgets.length * numberOfElementsPerRow);
                 }
             }
         },
