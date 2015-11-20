@@ -139,7 +139,7 @@ define([
             domConstruct.place(node, refNode);
         },
         /** Takes the `baseLayers` or `overlays` and addes them to the `container`.
-         * @param {[eri/layers]} - layers - mutually exlusive layers (only one can be visible on your map).
+         * @param {[esri/layers]} - layers - mutually exlusive layers (only one can be visible on your map).
          * @param {domNode} - container - the dom node to hold the created elements.
          * @param {string} - type - radio or checkbox.
          * @returns {[DomNodes]} - the nodes placed.
@@ -152,7 +152,7 @@ define([
             }
 
             var widgets = [];
-            layers.forEach(function addToContainer(layer) {
+            layers.forEach(function (layer) {
                 var item = new LayerSelectorItem({
                     layer: layer,
                     type: type
