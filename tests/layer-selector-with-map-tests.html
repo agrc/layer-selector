@@ -8,6 +8,7 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="../resources/layer-selector.css">
+    <link rel="stylesheet" href="../bower_components/esri/css/esri.css">
     <style type='text/css'>
         body, html, #map {
             width: 100%;
@@ -19,28 +20,27 @@
     </style>
 
     <!-- JAVASCRIPT -->
-    <script type='text/javascript' src="../../dojo/dojo.js"></script>
+    <script type='text/javascript' src="dojoConfig.js"></script>
+    <script type='text/javascript' src="../bower_components/dojo/dojo.js"></script>
     <script type="text/javascript">
         var baseUrl = window.location.pathname.replace(/\/[^\/]+$/, '') + '/' + '../../';
         var widgetUnderTest;
 
-        require({
-            baseUrl: baseUrl,
-            packages: ['esri', 'dojo', 'dijit',
-            {
-                name: 'layer-selector',
-                location: '../src/layer-selector',
-                main: 'layer-selector'
-            }]
-        }, [
-            'layer-selector',
+        require([
+            'layer-selector/layer-selector',
+
+            'esri/map',
 
             'dojo/domReady!'
-        ], function(Module) {
+        ], function(Module, Map) {
+            var map = new Map('map', {
+                basemap: 'hybrid',
+                center: [-122.45, 37.75], // longitude, latitude
+                zoom: 13
+            });
+
             widgetUnderTest = new Module({
-                map: {
-                    root: document.body
-                },
+                map: map,
                 right: false,
                 baseLayers: [{
                     name: 'Layer1'
@@ -48,17 +48,14 @@
                 overlays: [{
                     name: 'Overlay1'
                 }]
-            }, 'node');
+            });
 
             widgetUnderTest.startup();
 
             var widgetUnderTest2 = new Module({
-                map: {
-                    root: document.body
-                },
+                map: map,
                 baseLayers: [{
-                    name: 'Layer1',
-                    linked: ['Overlay1']
+                    name: 'Layer1'
                 }, {
                     name: 'Layer2'
                 }],
@@ -67,13 +64,11 @@
                 }, {
                     name: 'Overlay2'
                 }]
-            }, 'node2');
+            });
 
             widgetUnderTest2.startup();
             var widgetUnderTest3 = new Module({
-                map: {
-                    root: document.body
-                },
+                map: map,
                 top: false,
                 baseLayers: [{
                     name: 'Layer1'
@@ -85,13 +80,11 @@
                 }, {
                     name: 'Overlay2'
                 }]
-            }, 'node3');
+            });
 
             widgetUnderTest3.startup();
             var widgetUnderTest4 = new Module({
-                map: {
-                    root: document.body
-                },
+                map: map,
                 top: false,
                 right: false,
                 baseLayers: [{
@@ -104,13 +97,14 @@
                 }, {
                     name: 'Overlay2'
                 }]
-            }, 'node4');
+            });
 
             widgetUnderTest4.startup();
         });
 </script>
 </head>
 <body>
+    <div id="map"></div>
     <div class="node" id="node"></div>
     <div class="node" id="node2"></div>
     <div class="node" id="node3"></div>
