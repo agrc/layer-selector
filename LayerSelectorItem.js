@@ -11,7 +11,7 @@ define([
     'dojo/dom-attr',
     'dojo/dom-class',
     'dojo/on',
-    'dojo/text!layer-selector/templates/layer-selector-item.html',
+    'dojo/text!./templates/LayerSelectorItem.html',
     'dojo/_base/declare',
     'dojo/_base/lang'
 ], function (
@@ -72,6 +72,7 @@ define([
 
             this.layerType = this.inputType === 'radio' ? 'base-layer' : 'over-layer';
             domAttr.set(this.input, 'name', this.layerType);
+            domClass.add(this.domNode, ['radio', 'checkbox', 'layer-selector-input']);
 
             this._setupConnections();
 

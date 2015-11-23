@@ -1,5 +1,5 @@
 require([
-    'layer-selector/layer-selector-item',
+    'layer-selector/LayerSelectorItem',
 
     'dojo/dom-construct'
 ], function (

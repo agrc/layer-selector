@@ -3,13 +3,9 @@ module.exports = function (grunt) {
 
     var jasminePort = grunt.option('jasminePort') || 8001;
     var host = 'http://localhost:' + jasminePort;
-    var jsAppFiles = 'layer*.js';
-    var otherFiles = ['templates/*.html', 'tests/*.html'];
-    var gruntFile = 'GruntFile.js';
-    var jsFiles = [
-        jsAppFiles,
-        gruntFile
-    ];
+    var jsFiles = ['!bower_components', '*.js'];
+    var otherFiles = ['templates/*.html', 'tests/*.html', 'tests/*.js'];
+
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         amdcheck: {
@@ -18,9 +14,7 @@ module.exports = function (grunt) {
                     removeUnusedDependencies: false
                 },
                 files: [{
-                    src: [
-                        'layer*.js'
-                    ]
+                    src: jsFiles
                 }]
             }
         },
@@ -32,7 +26,7 @@ module.exports = function (grunt) {
             },
             open: {
                 options: {
-                    open: host + 'tests/_SpecRunner.html'
+                    open: host + '/tests/_specRunner.html'
                 }
             },
             jasmine: { }
@@ -41,8 +35,8 @@ module.exports = function (grunt) {
             main: {
                 src: [],
                 options: {
-                    outfile: 'tests/_SpecRunner.html',
-                    specs: ['tests/**/spec-*.js'],
+                    outfile: 'tests/_specRunner.html',
+                    specs: ['tests/**/Spec*.js'],
                     vendor: [
                         'bower_components/jasmine-favicon-reporter/vendor/favico.js',
                         'bower_components/jasmine-favicon-reporter/jasmine-favicon-reporter.js',
