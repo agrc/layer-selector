@@ -81,12 +81,12 @@ define([
         _setupConnections: function () {
             console.log('layer-selector-item::setupConnections', arguments);
 
-            this.watch('selected', lang.hitch(this, function () {
+            this.watch('selected', lang.hitch(this, function changed() {
                 on.emit(this.domNode, 'changed', this);
             }));
 
             this.own(
-                on(this.input, 'click', lang.hitch(this, function (e) {
+                on(this.input, 'click', lang.hitch(this, function changed(e) {
                     this.set('selected', e.target.checked);
                 }))
             );

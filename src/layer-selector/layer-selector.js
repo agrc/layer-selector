@@ -54,7 +54,7 @@ define([
                 throw new Error('Missing map in layer-selector. `new layer-selector({map: map});`');
             }
 
-            this.hasLinked = params.baseLayers && params.baseLayers.some(function (layerInfo) {
+            this.hasLinked = params.baseLayers && params.baseLayers.some(function checkForLinked(layerInfo) {
                 return layerInfo.linked;
             });
         },
@@ -156,7 +156,7 @@ define([
             }
 
             var widgets = [];
-            layerInfos.forEach(function (li) {
+            layerInfos.forEach(function addToContainer(li) {
                 var item = new LayerSelectorItem({
                     layerInfo: li,
                     inputType: type
@@ -186,7 +186,7 @@ define([
 
             if (firstOnly) {
                 var selectedIndex = -1;
-                var found = layers.find(function (layer, i) {
+                var found = layers.find(function findSelected(layer, i) {
                     selectedIndex = i;
                     return layer.selected;
                 }, this);
@@ -202,7 +202,7 @@ define([
                 return;
             }
 
-            array.forEach(layers, function (layer, i) {
+            array.forEach(layers, function findSelected(layer, i) {
                 if (layer.selected) {
                     widgets[i].set('selected', true);
                 }
@@ -222,7 +222,7 @@ define([
 
             var keys = Object.keys(managedLayers);
             if (keys.length > 0 && layerItem.layerType === 'base-layer') {
-                array.forEach(keys, function (id) {
+                array.forEach(keys, function suspendBaseMaps(id) {
                     if (managedLayers[id] === 'base-layer') {
                         this.map.getLayer(id).suspend();
                     }
@@ -241,7 +241,7 @@ define([
 
                 var index = 0;
                 if (layerItem.layerType !== 'base-layer') {
-                    array.forEach(Object.keys(managedLayers), function (key, i) {
+                    array.forEach(Object.keys(managedLayers), function findMatch(key, i) {
                         if (managedLayers[key] === 'base-layer') {
                             index = i + 1;
                         }
@@ -267,7 +267,7 @@ define([
 
             // turn off all other base layers
             var baseWidget;
-            array.forEach(this.baseLayerWidgets, function (item) {
+            array.forEach(this.baseLayerWidgets, function updateSelected(item) {
                 if (item.name !== id) {
                     item.set('selected', false);
                 } else {
@@ -278,7 +278,7 @@ define([
             // toggle overlays based on linked only if there is a baselayer with a linked property
             if (this.hasLinked) {
                 var linked = baseWidget.layerInfo.linked || [];
-                array.forEach(this.overlayWidgets, function (item) {
+                array.forEach(this.overlayWidgets, function updateSelected(item) {
                     item.set('selected', linked.indexOf(item.name) > -1);
                 });
             }
@@ -331,12 +331,11 @@ define([
         startup: function () {
             console.log('layer-selector:startup', arguments);
 
-            array.forEach(this.baseLayerWidgets, function (child) {
+            var startup = function (child) {
                 child.startup();
-            });
-            array.forEach(this.overlayWidgets, function (child) {
-                child.startup();
-            });
+            };
+            array.forEach(this.baseLayerWidgets, startup);
+            array.forEach(this.overlayWidgets, startup);
 
             this.inherited(arguments);
         }
