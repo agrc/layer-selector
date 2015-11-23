@@ -18,12 +18,14 @@
   ],
   "license": "MIT",
   "ignore": [
-    "**/.*",
-    "node_modules",
+    ".grunt"
     "bower_components",
-    "src",
-    "test",
-    "tests"
+    "node_modules",
+    "tests",
+    ".gitignore",
+    ".jscsrc",
+    ".jshintrc",
+    "GruntFile.js"
   ],
   "dependencies": {
     "esri": "arcgis-js-api#~3.14.0",

@@ -2,12 +2,9 @@ module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
 
     var jasminePort = grunt.option('jasminePort') || 8001;
-
-    var jsAppFiles = 'src/layer-selector/**/*.js';
-    var otherFiles = [
-        'src/layer-selector/**/*.html',
-        'src/layer-selector/**/*.css'
-    ];
+    var host = 'http://localhost:' + jasminePort;
+    var jsAppFiles = 'layer*.js';
+    var otherFiles = ['templates/*.html', 'tests/*.html'];
     var gruntFile = 'GruntFile.js';
     var jsFiles = [
         jsAppFiles,
@@ -22,7 +19,7 @@ module.exports = function (grunt) {
                 },
                 files: [{
                     src: [
-                        'src/layer-selector/*.js'
+                        'layer*.js'
                     ]
                 }]
             }
@@ -31,16 +28,11 @@ module.exports = function (grunt) {
             options: {
                 livereload: true,
                 port: jasminePort,
-                base: {
-                    path: '.',
-                    options: {
-                        index: '_SpecRunner.html'
-                    }
-                }
+                base: '.'
             },
             open: {
                 options: {
-                    open: true
+                    open: host + 'tests/_SpecRunner.html'
                 }
             },
             jasmine: { }
@@ -49,16 +41,17 @@ module.exports = function (grunt) {
             main: {
                 src: [],
                 options: {
-                    specs: ['src/layer-selector/**/spec-*.js'],
+                    outfile: 'tests/_SpecRunner.html',
+                    specs: ['tests/**/spec-*.js'],
                     vendor: [
-                        'src/jasmine-favicon-reporter/vendor/favico.js',
-                        'src/jasmine-favicon-reporter/jasmine-favicon-reporter.js',
-                        'src/jasmine-jsreporter/jasmine-jsreporter.js',
-                        'src/layer-selector/tests/run.js',
-                        'src/dojo/dojo.js',
-                        'src/layer-selector/tests/jasmineAMDErrorChecking.js'
+                        'bower_components/jasmine-favicon-reporter/vendor/favico.js',
+                        'bower_components/jasmine-favicon-reporter/jasmine-favicon-reporter.js',
+                        'bower_components/jasmine-jsreporter/jasmine-jsreporter.js',
+                        '../tests/dojoConfig.js',
+                        'bower_components/dojo/dojo.js',
+                        '../tests/jasmineAMDErrorChecking.js'
                     ],
-                    host: 'http://localhost:' + jasminePort
+                    host: host
                 }
             }
         },
@@ -96,9 +89,9 @@ module.exports = function (grunt) {
                 },
                 files: [{
                     expand: true,
-                    cwd: 'src/',
-                    src: ['layer-selector/**/*.styl'],
-                    dest: 'src/',
+                    cwd: './',
+                    src: ['resources/*.styl'],
+                    dest: './',
                     ext: '.css'
                 }]
             }
@@ -115,7 +108,7 @@ module.exports = function (grunt) {
                 files: jsFiles.concat(otherFiles)
             },
             stylus: {
-                files: 'src/layer-selector/**/*.styl',
+                files: 'resources/*.styl',
                 tasks: ['stylus']
             }
         }
