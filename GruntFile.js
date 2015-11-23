@@ -29,19 +29,21 @@ module.exports = function (grunt) {
         },
         connect: {
             options: {
-                livereload: true
-            },
-            jasmine: {
-                options: {
-                    port: jasminePort,
-                    base: {
-                        path: '.',
-                        options: {
-                            index: '_SpecRunner.html'
-                        }
+                livereload: true,
+                port: jasminePort,
+                base: {
+                    path: '.',
+                    options: {
+                        index: '_SpecRunner.html'
                     }
                 }
-            }
+            },
+            open: {
+                options: {
+                    open: true
+                }
+            },
+            jasmine: { }
         },
         jasmine: {
             main: {
@@ -125,6 +127,16 @@ module.exports = function (grunt) {
         'jscs:force',
         'amdcheck:main',
         'connect:jasmine',
+        'stylus',
+        'watch'
+    ]);
+
+    grunt.registerTask('launch', [
+        'jasmine:main:build',
+        'jshint:force',
+        'jscs:force',
+        'amdcheck:main',
+        'connect:open',
         'stylus',
         'watch'
     ]);
