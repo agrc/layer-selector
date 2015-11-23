@@ -7,7 +7,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="../resources/layer-selector.css">
+    <link rel="stylesheet" href="../resources/LayerSelector.css">
     <link rel="stylesheet" href="../bower_components/esri/css/esri.css">
     <style type='text/css'>
         body, html, #map {
@@ -28,7 +28,7 @@
         var widgetUnderTest;
 
         require([
-            'layer-selector/layer-selector',
+            'layer-selector',
 
             'esri/map',
             'esri/geometry/Extent',
@@ -58,8 +58,8 @@
                     linked: ['Squiggles']
                 }, {
                     factory: TiledLayer,
-                    url: 'http://172.16.17.56/arcgis/rest/services/BaseMaps_WGS/Topo/MapServer',
-                    id: 'Topo'
+                    url: 'http://172.16.17.56/arcgis/rest/services/BaseMaps_WGS/Terrain/MapServer',
+                    id: 'Terrain'
                 }],
                 overlays: [{
                     factory: TiledLayer,
