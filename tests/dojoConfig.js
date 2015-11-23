@@ -8,8 +8,7 @@ window.dojoConfig = {
         'esri',
         {
             name: 'layer-selector',
-            location: '../../',
-            main: 'layer-selector'
+            location: '../../'
         }, {
             name: 'stubmodule',
             main: 'stub-module'

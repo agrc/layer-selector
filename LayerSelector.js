@@ -10,12 +10,12 @@ define([
 
     'dojo/dom-class',
     'dojo/dom-construct',
-    'dojo/text!layer-selector/templates/layer-selector.html',
+    'dojo/text!./templates/LayerSelector.html',
     'dojo/_base/array',
     'dojo/_base/declare',
     'dojo/_base/lang',
 
-    'layer-selector/layer-selector-item'
+    './LayerSelectorItem'
 ], function (
     _TemplatedMixin,
     _WidgetBase,

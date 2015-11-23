@@ -11,7 +11,7 @@ define([
     'dojo/dom-attr',
     'dojo/dom-class',
     'dojo/on',
-    'dojo/text!layer-selector/templates/layer-selector-item.html',
+    'dojo/text!./templates/LayerSelectorItem.html',
     'dojo/_base/declare',
     'dojo/_base/lang'
 ], function (
