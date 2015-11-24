@@ -14,7 +14,7 @@ module.exports = function (grunt) {
                     removeUnusedDependencies: false
                 },
                 files: [{
-                    src: ['layer*.js']
+                    src: jsFiles
                 }]
             }
         },
@@ -26,7 +26,7 @@ module.exports = function (grunt) {
             },
             open: {
                 options: {
-                    open: host + 'tests/_SpecRunner.html'
+                    open: host + '/tests/_specRunner.html'
                 }
             },
             jasmine: { }
@@ -35,8 +35,8 @@ module.exports = function (grunt) {
             main: {
                 src: [],
                 options: {
-                    outfile: 'tests/_SpecRunner.html',
-                    specs: ['tests/spec*.js'],
+                    outfile: 'tests/_specRunner.html',
+                    specs: ['tests/**/Spec*.js'],
                     vendor: [
                         'bower_components/jasmine-favicon-reporter/vendor/favico.js',
                         'bower_components/jasmine-favicon-reporter/jasmine-favicon-reporter.js',

@@ -40,12 +40,7 @@ require([
         beforeEach(function () {
             map = {
                 root: domConstruct.create('div', null, document.body),
-                getLayer: function () {
-                    return {
-                        suspend: noop,
-                        resume: noop
-                    };
-                },
+                getLayer: noop,
                 addLayer: noop
             };
         });
