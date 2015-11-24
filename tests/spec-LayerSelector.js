@@ -62,7 +62,7 @@ require([
         });
 
         describe('constructor', function () {
-            it('sets hasLinked appropriately', function () {
+            it('sets _hasLinkedLayers appropriately', function () {
                 widget = new WidgetUnderTest({
                     map: map,
                     baseLayers: [{
@@ -73,7 +73,7 @@ require([
                     }]
                 });
 
-                expect(widget.hasLinked).toBe(true, 'linked layers');
+                expect(widget._hasLinkedLayers).toBe(true, 'linked layers');
 
                 destroy(widget);
 
@@ -86,7 +86,7 @@ require([
                     }]
                 });
 
-                expect(widget.hasLinked).toBe(false, 'no linked layers');
+                expect(widget._hasLinkedLayers).toBe(false, 'no linked layers');
             });
         });
         describe('UI', function () {

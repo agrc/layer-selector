@@ -4,7 +4,7 @@ module.exports = function (grunt) {
     var jasminePort = grunt.option('jasminePort') || 8001;
     var host = 'http://localhost:' + jasminePort;
     var jsFiles = ['!bower_components', '*.js'];
-    var otherFiles = ['templates/*.html', 'tests/*.html'];
+    var otherFiles = ['templates/*.html', 'tests/*.html', 'tests/*.js'];
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),

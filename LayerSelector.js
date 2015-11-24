@@ -41,7 +41,7 @@ define([
         /** @property {bool} - True if the widget should be in the right of the container. */
         right: true,
         /** @property {bool} - True if any of the baseLayers have a linked property. */
-        hasLinked: false,
+        _hasLinkedLayers: false,
 
         /** The initilizer for the class.
          * @param {{Object}} - params - The params passed into the constructor.
@@ -54,7 +54,7 @@ define([
                 throw new Error('Missing map in layer-selector. `new layer-selector({map: map});`');
             }
 
-            this.hasLinked = params.baseLayers && params.baseLayers.some(function checkForLinked(layerInfo) {
+            this._hasLinkedLayers = params.baseLayers && params.baseLayers.some(function checkForLinked(layerInfo) {
                 return layerInfo.linked;
             });
         },
@@ -276,7 +276,7 @@ define([
             });
 
             // toggle overlays based on linked only if there is a baselayer with a linked property
-            if (this.hasLinked) {
+            if (this._hasLinkedLayers) {
                 var linked = baseWidget.layerInfo.linked || [];
                 array.forEach(this.overlayWidgets, function updateSelected(item) {
                     item.set('selected', linked.indexOf(item.name) > -1);
