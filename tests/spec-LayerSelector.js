@@ -26,7 +26,7 @@ require([
         };
 
         var visible = function (layer) {
-            return !domClass.contains(layer.parentNode, 'layer-selector-hidden');
+            return !domClass.contains(layer.parentNode.parentNode, 'layer-selector-hidden');
         };
 
         var checked = function (input) {

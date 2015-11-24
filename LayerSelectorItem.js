@@ -72,6 +72,7 @@ define([
 
             this.layerType = this.inputType === 'radio' ? 'base-layer' : 'over-layer';
             domAttr.set(this.input, 'name', this.layerType);
+            domClass.add(this.domNode, ['radio', 'checkbox', 'layer-selector-input']);
 
             this._setupConnections();
 
