@@ -10,12 +10,12 @@ define([
 
     'dojo/dom-class',
     'dojo/dom-construct',
-    'dojo/text!layer-selector/templates/layer-selector.html',
+    'dojo/text!./templates/LayerSelector.html',
     'dojo/_base/array',
     'dojo/_base/declare',
     'dojo/_base/lang',
 
-    'layer-selector/layer-selector-item'
+    './LayerSelectorItem'
 ], function (
     _TemplatedMixin,
     _WidgetBase,
@@ -41,7 +41,7 @@ define([
         /** @property {bool} - True if the widget should be in the right of the container. */
         right: true,
         /** @property {bool} - True if any of the baseLayers have a linked property. */
-        hasLinked: false,
+        _hasLinkedLayers: false,
 
         /** The initilizer for the class.
          * @param {{Object}} - params - The params passed into the constructor.
@@ -54,7 +54,7 @@ define([
                 throw new Error('Missing map in layer-selector. `new layer-selector({map: map});`');
             }
 
-            this.hasLinked = params.baseLayers && params.baseLayers.some(function checkForLinked(layerInfo) {
+            this._hasLinkedLayers = params.baseLayers && params.baseLayers.some(function checkForLinked(layerInfo) {
                 return layerInfo.linked;
             });
         },
@@ -215,44 +215,39 @@ define([
         _updateMap: function (layerItem) {
             console.log('layer-selector:_updateMap', arguments);
 
-            if (layerItem.get('selected') === false && layerItem.layerType === 'base-layer') {
-                return;
-            }
             var managedLayers = this.get('managedLayers') || {};
 
-            var keys = Object.keys(managedLayers);
-            if (keys.length > 0 && layerItem.layerType === 'base-layer') {
-                array.forEach(keys, function suspendBaseMaps(id) {
-                    if (managedLayers[id] === 'base-layer') {
-                        this.map.getLayer(id).suspend();
-                    }
-                }, this);
+            if (layerItem.get('selected') === false) {
+                var managedLayer = managedLayers[layerItem.name] || {};
+                if (!managedLayer.layer) {
+                    managedLayer.layer = this.map.getLayer(layerItem.name);
+                }
+
+                if (managedLayer.layer) {
+                    this.map.removeLayer(managedLayer.layer);
+                }
+
+                return;
             }
 
-            if (keys.indexOf(layerItem.name) < 0) {
-                managedLayers[layerItem.name] = layerItem.layerType;
+            if (Object.keys(managedLayers).indexOf(layerItem.name) < 0) {
+                managedLayers[layerItem.name] = {
+                    layerType: layerItem.layerType
+                };
             }
 
             this.set('managedLayers', managedLayers);
 
-            var layer = this.map.getLayer(layerItem.name);
-            if (!layer) {
-                layer = new layerItem.layerInfo.factory(layerItem.layerInfo.url, layerItem.layerInfo);
-
-                var index = 0;
-                if (layerItem.layerType !== 'base-layer') {
-                    array.forEach(Object.keys(managedLayers), function findMatch(key, i) {
-                        if (managedLayers[key] === 'base-layer') {
-                            index = i + 1;
-                        }
-                    });
-                }
-                this.map.addLayer(layer, index);
+            if (!managedLayers[layerItem.name].layer) {
+                managedLayers[layerItem.name].layer = new layerItem.layerInfo.factory(layerItem.layerInfo.url, layerItem.layerInfo);
             }
+
+            var index = layerItem.layerType === 'base-layer' ? 0 : 1;
+
             if (layerItem.get('selected') === true) {
-                layer.resume();
+                this.map.addLayer(managedLayers[layerItem.name].layer, index);
             } else {
-                layer.suspend();
+                this.map.removeLayer(managedLayers[layerItem.name].layer);
             }
 
             if (layerItem.layerType === 'base-layer') {
@@ -276,7 +271,7 @@ define([
             });
 
             // toggle overlays based on linked only if there is a baselayer with a linked property
-            if (this.hasLinked) {
+            if (this._hasLinkedLayers) {
                 var linked = baseWidget.layerInfo.linked || [];
                 array.forEach(this.overlayWidgets, function updateSelected(item) {
                     item.set('selected', linked.indexOf(item.name) > -1);

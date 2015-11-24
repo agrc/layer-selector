@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "Select layers",
   "main": "GruntFile.js",
+  "dojoBuild": "layer-selector.profile.js",
   "scripts": {
     "test": "echo \"`grunt` will open a browser and show a jasmine test page\" && exit 1"
   },

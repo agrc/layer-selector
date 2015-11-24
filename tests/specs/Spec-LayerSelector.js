@@ -26,23 +26,22 @@ require([
         };
 
         var visible = function (layer) {
-            return !domClass.contains(layer.parentNode, 'layer-selector-hidden');
+            return !domClass.contains(layer.parentNode.parentNode, 'layer-selector-hidden');
         };
 
         var checked = function (input) {
             return input.checked;
         };
 
+        var noop = function () {
+
+        };
+
         beforeEach(function () {
             map = {
                 root: domConstruct.create('div', null, document.body),
-                getLayer: function () {
-                    return {
-                        suspend: function () {},
-                        resume: function () {}
-                    };
-                },
-                addLayer: function () {}
+                getLayer: noop,
+                addLayer: noop
             };
         });
 
@@ -62,7 +61,7 @@ require([
         });
 
         describe('constructor', function () {
-            it('sets hasLinked appropriately', function () {
+            it('sets _hasLinkedLayers appropriately', function () {
                 widget = new WidgetUnderTest({
                     map: map,
                     baseLayers: [{
@@ -73,7 +72,7 @@ require([
                     }]
                 });
 
-                expect(widget.hasLinked).toBe(true, 'linked layers');
+                expect(widget._hasLinkedLayers).toBe(true, 'linked layers');
 
                 destroy(widget);
 
@@ -86,7 +85,7 @@ require([
                     }]
                 });
 
-                expect(widget.hasLinked).toBe(false, 'no linked layers');
+                expect(widget._hasLinkedLayers).toBe(false, 'no linked layers');
             });
         });
         describe('UI', function () {
@@ -219,20 +218,20 @@ require([
                         map: map,
                         baseLayers: [{
                             name: 'i am checked',
-                            factory: function () {},
+                            factory: noop,
                             selected: true
                         }, {
                             name: 'i am not checked',
-                            factory: function () {},
+                            factory: noop,
                             linked: ['i was checked']
                         }],
                         overlays: [{
                             name: 'i was checked',
-                            factory: function () {},
+                            factory: noop,
                             selected: true
                         }, {
                             name: 'i was also checked',
-                            factory: function () {},
+                            factory: noop,
                             selected: true
                         }]
                     });
@@ -248,15 +247,18 @@ require([
                         map: map,
                         baseLayers: [{
                             name: 'i am checked',
+                            factory: noop,
                             linked: ['i am checked']
                         }, {
                             name: 'i am not checked'
                         }],
                         overlays: [{
                             name: 'i am checked',
+                            factory: noop,
                             selected: true
                         }, {
                             name: 'i was also checked',
+                            factory: noop,
                             selected: true
                         }]
                     });
