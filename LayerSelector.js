@@ -215,44 +215,39 @@ define([
         _updateMap: function (layerItem) {
             console.log('layer-selector:_updateMap', arguments);
 
-            if (layerItem.get('selected') === false && layerItem.layerType === 'base-layer') {
-                return;
-            }
             var managedLayers = this.get('managedLayers') || {};
 
-            var keys = Object.keys(managedLayers);
-            if (keys.length > 0 && layerItem.layerType === 'base-layer') {
-                array.forEach(keys, function suspendBaseMaps(id) {
-                    if (managedLayers[id] === 'base-layer') {
-                        this.map.getLayer(id).suspend();
-                    }
-                }, this);
+            if (layerItem.get('selected') === false) {
+                var managedLayer = managedLayers[layerItem.name] || {};
+                if (!managedLayer.layer) {
+                    managedLayer.layer = this.map.getLayer(layerItem.name);
+                }
+
+                if (managedLayer.layer) {
+                    this.map.removeLayer(managedLayer.layer);
+                }
+
+                return;
             }
 
-            if (keys.indexOf(layerItem.name) < 0) {
-                managedLayers[layerItem.name] = layerItem.layerType;
+            if (Object.keys(managedLayers).indexOf(layerItem.name) < 0) {
+                managedLayers[layerItem.name] = {
+                    layerType: layerItem.layerType
+                };
             }
 
             this.set('managedLayers', managedLayers);
 
-            var layer = this.map.getLayer(layerItem.name);
-            if (!layer) {
-                layer = new layerItem.layerInfo.factory(layerItem.layerInfo.url, layerItem.layerInfo);
-
-                var index = 0;
-                if (layerItem.layerType !== 'base-layer') {
-                    array.forEach(Object.keys(managedLayers), function findMatch(key, i) {
-                        if (managedLayers[key] === 'base-layer') {
-                            index = i + 1;
-                        }
-                    });
-                }
-                this.map.addLayer(layer, index);
+            if (!managedLayers[layerItem.name].layer) {
+                managedLayers[layerItem.name].layer = new layerItem.layerInfo.factory(layerItem.layerInfo.url, layerItem.layerInfo);
             }
+
+            var index = layerItem.layerType === 'base-layer' ? 0 : 1;
+
             if (layerItem.get('selected') === true) {
-                layer.resume();
+                this.map.addLayer(managedLayers[layerItem.name].layer, index);
             } else {
-                layer.suspend();
+                this.map.removeLayer(managedLayers[layerItem.name].layer);
             }
 
             if (layerItem.layerType === 'base-layer') {

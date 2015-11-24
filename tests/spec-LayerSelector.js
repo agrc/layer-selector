@@ -33,16 +33,20 @@ require([
             return input.checked;
         };
 
+        var noop = function () {
+
+        };
+
         beforeEach(function () {
             map = {
                 root: domConstruct.create('div', null, document.body),
                 getLayer: function () {
                     return {
-                        suspend: function () {},
-                        resume: function () {}
+                        suspend: noop,
+                        resume: noop
                     };
                 },
-                addLayer: function () {}
+                addLayer: noop
             };
         });
 
@@ -219,20 +223,20 @@ require([
                         map: map,
                         baseLayers: [{
                             name: 'i am checked',
-                            factory: function () {},
+                            factory: noop,
                             selected: true
                         }, {
                             name: 'i am not checked',
-                            factory: function () {},
+                            factory: noop,
                             linked: ['i was checked']
                         }],
                         overlays: [{
                             name: 'i was checked',
-                            factory: function () {},
+                            factory: noop,
                             selected: true
                         }, {
                             name: 'i was also checked',
-                            factory: function () {},
+                            factory: noop,
                             selected: true
                         }]
                     });
@@ -248,15 +252,18 @@ require([
                         map: map,
                         baseLayers: [{
                             name: 'i am checked',
+                            factory: noop,
                             linked: ['i am checked']
                         }, {
                             name: 'i am not checked'
                         }],
                         overlays: [{
                             name: 'i am checked',
+                            factory: noop,
                             selected: true
                         }, {
                             name: 'i was also checked',
+                            factory: noop,
                             selected: true
                         }]
                     });
