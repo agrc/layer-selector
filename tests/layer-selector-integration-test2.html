@@ -4,11 +4,11 @@
     <title>layer-selector Tests</title>
 
     <!-- META TAGS -->
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="../resources/LayerSelector.css">
-    <link rel="stylesheet" href="../bower_components/esri/css/esri.css">
+    <link rel='stylesheet' href='../resources/LayerSelector.css'>
+    <link rel='stylesheet' href='../bower_components/esri/css/esri.css'>
     <style type='text/css'>
         body, html, #map {
             width: 100%;
@@ -20,10 +20,10 @@
     </style>
 
     <!-- JAVASCRIPT -->
-    <script type='text/javascript' src="dojoConfig.js"></script>
-    <script type='text/javascript' src="../bower_components/dojo/dojo.js"></script>
+    <script type='text/javascript' src='dojoConfig.js'></script>
+    <script type='text/javascript' src='../bower_components/dojo/dojo.js'></script>
 
-    <script type="text/javascript">
+    <script type='text/javascript'>
         var baseUrl = window.location.pathname.replace(/\/[^\/]+$/, '') + '/' + '../../';
         var widgetUnderTest;
 
@@ -31,13 +31,35 @@
             'layer-selector',
 
             'esri/map',
+            'esri/SpatialReference',
             'esri/geometry/Extent',
+            'esri/geometry/Point',
             'esri/layers/ArcGISTiledMapServiceLayer',
             'esri/layers/WebTiledLayer',
+            'esri/layers/TileInfo',
+
 
             'dojo/domReady!'
-        ], function(Module, Map, Extent, TiledLayer, WebTiledLayer) {
+        ], function(Module, Map, SpatialReference, Extent, Point, TiledLayer, WebTiledLayer, TileInfo) {
+            var tilesize = 256;
+            var earthCircumference = 40075016.685568;
+            var halfEarthCircumference = halfEarthCircumference * 0.5;
+            var inchesPerMeter =  39.37;
+            var initialResolution = earthCircumference / tilesize;
+
+            var lods = [];
+            for (var zoom = 0; zoom <= 20; zoom++) {
+                var resolution = initialResolution / Math.pow( 2, zoom );
+                var scale = resolution * 96 * inchesPerMeter;
+                lods.push({
+                    level: zoom,
+                    scale: scale,
+                    resolution: resolution
+                });
+            }
+
             var map = new Map('map', {
+                lods: lods,
                 extent: new Extent({
                     xmax: -12010849.397533866,
                     xmin: -12898741.918094235,
@@ -48,18 +70,85 @@
                     }})
             });
 
+            fiveNineteen = lods.slice(5, 20);
+            fiveSeventeen = lods.slice(5, 18);
+
             widgetUnderTest = new Module({
                 map: map,
                 baseLayers: [
                 {
                     factory: WebTiledLayer,
-                    url: 'https://storage.googleapis.com/state-of-utah-lite-tiles/Lite/${level}/${col}/${row}',
+                    url: 'https://discover.agrc.utah.gov/login/path/alabama-anvil-picnic-sunset/tiles/lite_basemap/${level}/${col}/${row}',
                     id: 'Lite',
-                    linked: ['Squiggles']
+                    tileInfo: new TileInfo({
+                        dpi: 96,
+                        rows: 256,
+                        cols: 256,
+                        width: 256,
+                        origin: {
+                            x: -20037508.342787,
+                            y: 20037508.342787
+                        },
+                        spatialReference: {
+                            wkid: 3857
+                        },
+                        lods: fiveNineteen
+                    })
                 }, {
-                    factory: TiledLayer,
-                    url: 'http://172.16.17.56/arcgis/rest/services/BaseMaps_WGS/Terrain/MapServer',
-                    id: 'Terrain'
+                    factory: WebTiledLayer,
+                    url: 'https://discover.agrc.utah.gov/login/path/alabama-anvil-picnic-sunset/tiles/utah/${level}/${col}/${row}',
+                    id: 'Imagery',
+                    selected: true,
+                    tileInfo: new TileInfo({
+                        dpi: 96,
+                        rows: 256,
+                        cols: 256,
+                        width: 256,
+                        origin: {
+                            x: -20037508.342787,
+                            y: 20037508.342787
+                        },
+                        spatialReference: {
+                            wkid: 3857
+                        },
+                        lods: lods
+                    })
+                }, {
+                    factory: WebTiledLayer,
+                    url: 'https://discover.agrc.utah.gov/login/path/alabama-anvil-picnic-sunset/tiles/topo_basemap/${level}/${col}/${row}',
+                    id: 'Topo',
+                    tileInfo: new TileInfo({
+                        dpi: 96,
+                        rows: 256,
+                        cols: 256,
+                        width: 256,
+                        origin: {
+                            x: -20037508.342787,
+                            y: 20037508.342787
+                        },
+                        spatialReference: {
+                            wkid: 3857
+                        },
+                        lods: fiveSeventeen
+                    })
+                }, {
+                    factory: WebTiledLayer,
+                    url: 'https://discover.agrc.utah.gov/login/path/alabama-anvil-picnic-sunset/tiles/naip_2011_nrg/${level}/${col}/${row}',
+                    id: 'Color IR',
+                    tileInfo: new TileInfo({
+                        dpi: 96,
+                        rows: 256,
+                        cols: 256,
+                        width: 256,
+                        origin: {
+                            x: -20037508.342787,
+                            y: 20037508.342787
+                        },
+                        spatialReference: {
+                            wkid: 3857
+                        },
+                        lods: lods.slice(0, 18)
+                    })
                 }],
                 overlays: [{
                     factory: TiledLayer,
@@ -73,10 +162,10 @@
 </script>
 </head>
 <body>
-    <div id="map"></div>
-    <div class="node" id="node"></div>
-    <div class="node" id="node2"></div>
-    <div class="node" id="node3"></div>
-    <div class="node" id="node4"></div>
+    <div id='map'></div>
+    <div class='node' id='node'></div>
+    <div class='node' id='node2'></div>
+    <div class='node' id='node3'></div>
+    <div class='node' id='node4'></div>
 </body>
 </html>
