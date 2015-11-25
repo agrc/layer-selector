@@ -15,6 +15,8 @@ define([
     'dojo/_base/declare',
     'dojo/_base/lang',
 
+    'esri/layers/WebTiledLayer',
+
     './LayerSelectorItem'
 ], function (
     _TemplatedMixin,
@@ -26,6 +28,8 @@ define([
     array,
     declare,
     lang,
+
+    WebTiledLayer,
 
     LayerSelectorItem
 ) {
@@ -40,6 +44,32 @@ define([
         top: true,
         /** @property {bool} - True if the widget should be in the right of the container. */
         right: true,
+        /** @property {string} - The four word authentication token acquired from the appliance. */
+        quadWord: null,
+        /** @property {array} - The layers linked to our default basemaps in the appliance. */
+        _applianceLayers: {
+            'Imagery': {
+                urlPattern: 'https://discover.agrc.utah.gov/login/path/{quad}/tiles/utah/${level}/${col}/${row}'
+            },
+            'Topo': {
+                urlPattern: 'https://discover.agrc.utah.gov/login/path/{quad}/tiles/topo_basemap/${level}/${col}/${row}'
+            },
+            'Lite': {
+                urlPattern: 'https://discover.agrc.utah.gov/login/path/{quad}/tiles/lite_basemap/${level}/${col}/${row}'
+            },
+            'Color IR': {
+                urlPattern: 'https://discover.agrc.utah.gov/login/path/{quad}/tiles/naip_2011_nrg/${level}/${col}/${row}'
+            },
+            'Hybrid': {
+                urlPattern: 'https://discover.agrc.utah.gov/login/path/{quad}/tiles/utah/${level}/${col}/${row}',
+                linked: ['Overlay']
+            },
+            'Overlay': {
+                urlPattern: 'https://discover.agrc.utah.gov/login/path/{quad}/tiles/overlay_basemap/${level}/${col}/${row}'
+            }
+        },
+        /** @property {esri/TileInfo} - The default TileInfo description for appliance layers. */
+        _defaultTileInfo: null,
         /** @property {bool} - True if any of the baseLayers have a linked property. */
         _hasLinkedLayers: false,
 
@@ -51,7 +81,7 @@ define([
 
             // check for map
             if (!params.map) {
-                throw new Error('Missing map in layer-selector. `new layer-selector({map: map});`');
+                throw new Error('layer-selector::Missing map in constructor args. `new LayerSelector({map: map});`');
             }
 
             this._hasLinkedLayers = params.baseLayers && params.baseLayers.some(function checkForLinked(layerInfo) {
@@ -60,8 +90,8 @@ define([
         },
         /** Overrides method of same name in dijit._Widget.
          * @param {esri/map|agrc/widgets/map/BaseMap} map - The map to control layer selection.
-         * @param {[esri/layers/layer]} baseLayers - mutually exclusive layers (only one can be visible on your map).
-         * @param {[esri/layers/layer]} overlays - layers you display over the `baseLayers`.
+         * @param {[{factory, url, id, tileInfo}]} baseLayers - mutually exclusive layers (only one can be visible on your map).
+         * @param {[{factory, url, id, tileInfo}]} overlays - layers you display over the `baseLayers`.
          */
         postCreate: function () {
             console.log('layer-selector::postCreate', arguments);
@@ -99,7 +129,8 @@ define([
         _buildUi: function (baseLayers, overlays) {
             console.log('layer-selector:_buildUi', arguments);
 
-            var numberOfElementsPerRow = 1;
+            baseLayers = this._resolveBasemapTokens(baseLayers, this.quadWord);
+            overlays = this._resolveBasemapTokens(overlays, this.quadWord);
 
             this.baseLayerWidgets = this._buildLayerItemWidgets(baseLayers, this.layerContainer, 'radio');
             this.overlayWidgets = this._buildLayerItemWidgets(overlays, this.layerContainer, 'checkbox');
@@ -123,7 +154,7 @@ define([
             this._selectLayerElements(baseLayers, this.baseLayerWidgets, true);
 
             if (visibleBaseLayers.length > 0 && this.overlayWidgets.length > 0) {
-                domConstruct.place(this.separator, this.layerContainer, this.baseLayerWidgets.length * numberOfElementsPerRow);
+                domConstruct.place(this.separator, this.layerContainer, this.baseLayerWidgets.length);
             }
         },
         /** Places the widget in the map container and in which corner using this.top and this.right.
@@ -145,6 +176,49 @@ define([
             }
 
             domConstruct.place(node, refNode);
+        },
+        /** Takes layer tokens from `_applianceLayers` keys and resolves them to `esri\WebTiledLayers`.
+         * @param {[string|{factory, url, id, tileInfo}]} - layerInfo - An array of layer tokens or layer monads.
+         * @returns {[{factory, url, id, tileInfo}]} - an array of resolved layer monads
+         */
+        _resolveBasemapTokens: function (layerInfos) {
+            console.log('layer-selector:_resolveBasemapTokens', arguments);
+
+            var resolvedInfos = [];
+            array.forEach(layerInfos, function resolveToken(li) {
+                if (typeof li === 'string' || li instanceof String || li.token &&
+                   (typeof li.token === 'string' || li.token instanceof String)) {
+
+                    var id = (id || li.token || li);
+
+                    if (!this.quadWord) {
+                        console.warn('layer-selector::You chose to use a layer token `' + (id || li.token || li) + '` without setting ' +
+                                     'your `quadWord` from the appliance. The requests for tiles will fail to ' +
+                                     ' authenticate. Pass `quadWord` in to the constructor of this widget.');
+                        return false;
+                    }
+
+                    var layer = this._applianceLayers[id];
+
+                    if (!layer) {
+                        console.warn('layer-selector::The layer token `' + (id || li.token || li) + '` was not found. Please use ' +
+                                     Object.keys(this._applianceLayers).join() + ' or pass in the information on how ' +
+                                    'to create your custom layer. `{factory, url, id}``');
+                        return false;
+                    }
+
+                    resolvedInfos.push({
+                        factory: WebTiledLayer,
+                        url: layer.urlPattern.replace('{quad}', this.quadWord),
+                        id: id,
+                        selected: li.selected || null
+                    });
+                } else {
+                    resolvedInfos.push(li);
+                }
+            }, this);
+
+            return resolvedInfos;
         },
         /** Takes the `baseLayers` or `overlays` and addes them to the `container`.
          * @param {[Object]} - layerInfos - layer infos as passed via `baseLayers` or `overlays`
@@ -246,7 +320,7 @@ define([
                 managedLayers[layerItem.name].layer = new layerItem.layerInfo.factory(layerItem.layerInfo.url, layerItem.layerInfo);
             }
 
-            var index = layerItem.layerType === 'base-layer' ? 0 : 1;
+            var index = layerItem.layerType === 'baselayer' ? 0 : 1;
 
             if (layerItem.get('selected') === true) {
                 this.map.addLayer(managedLayers[layerItem.name].layer, index);
@@ -254,7 +328,7 @@ define([
                 this.map.removeLayer(managedLayers[layerItem.name].layer);
             }
 
-            if (layerItem.layerType === 'base-layer') {
+            if (layerItem.layerType === 'baselayer') {
                 this._syncSelectedWithUi(layerItem.name);
             }
         },
