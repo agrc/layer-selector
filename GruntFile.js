@@ -4,7 +4,7 @@ module.exports = function (grunt) {
     var jasminePort = grunt.option('jasminePort') || 8001;
     var host = 'http://localhost:' + jasminePort;
     var jsFiles = ['!bower_components', '*.js'];
-    var otherFiles = ['templates/*.html', 'tests/*.html', 'tests/*.js'];
+    var otherFiles = ['templates/*.html', 'tests/*.html', 'resources/*.svg', 'tests/**/*.js'];
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -14,7 +14,7 @@ module.exports = function (grunt) {
                     removeUnusedDependencies: false
                 },
                 files: [{
-                    src: jsFiles
+                    src: 'Layer*.js'
                 }]
             }
         },
@@ -93,6 +93,10 @@ module.exports = function (grunt) {
         watch: {
             options: {
                 livereload: true
+            },
+            amdcheck: {
+                files: 'Layer*.js',
+                tasks: ['amdcheck']
             },
             jshint: {
                 files: jsFiles,
