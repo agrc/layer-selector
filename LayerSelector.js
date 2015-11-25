@@ -73,6 +73,8 @@ define([
 
             if (!this.baseLayers || this.baseLayers.length < 1) {
                 domClass.add(this.domNode, this.baseClass + '-hidden');
+                console.warn('layer-selector::`baseLayers` is null or empty. Make sure you have spelled it correctly ' +
+                             'and are passing it into the constructor of this widget.');
                 return;
             }
 
@@ -112,6 +114,8 @@ define([
 
             if (visibleBaseLayers.length === 0 && this.overlayWidgets.length === 0) {
                 domClass.add(this.domNode, this.baseClass + '-hidden');
+                console.warn('layer-selector::`baseLayers` has no visible layers and `overlays` is null or empty. ' +
+                             'This widget will be hidden since it will serve no purpose. Reconsider using it at all.');
                 return;
             }
 
