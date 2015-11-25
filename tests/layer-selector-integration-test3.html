@@ -47,12 +47,12 @@
 
             widgetUnderTest = new Module({
                 map: map,
-                quadWordAuth: 'alabama-anvil-picnic-sunset',
+                quadWord: 'alabama-anvil-picnic-sunset',
                 baseLayers: ['Imagery', {
                     token: 'Lite',
                     selected: true
                 }, 'Topo', 'Sauce'],
-                overlays: []
+                overlays: ['Overlay']
             });
 
             widgetUnderTest.startup();
