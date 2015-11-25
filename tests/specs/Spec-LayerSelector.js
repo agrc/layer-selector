@@ -41,7 +41,8 @@ require([
             map = {
                 root: domConstruct.create('div', null, document.body),
                 getLayer: noop,
-                addLayer: noop
+                addLayer: noop,
+                removeLayer: noop
             };
         });
 
@@ -65,10 +66,12 @@ require([
                 widget = new WidgetUnderTest({
                     map: map,
                     baseLayers: [{
-                        name: 'blah'
+                        name: 'blah',
+                        factory: noop
                     }, {
                         name: 'blah2',
-                        linked: ['blah3']
+                        linked: ['blah3'],
+                        factory: noop
                     }]
                 });
 
@@ -79,9 +82,11 @@ require([
                 widget = new WidgetUnderTest({
                     map: map,
                     baseLayers: [{
-                        name: 'blah'
+                        name: 'blah',
+                        factory: noop
                     }, {
-                        name: 'blah2'
+                        name: 'blah2',
+                        factory: noop
                     }]
                 });
 
@@ -93,21 +98,23 @@ require([
                 widget = new WidgetUnderTest({
                     map: map,
                     baseLayers: [{
-                        name: '1'
+                        name: '1',
+                        factory: noop
                     }],
                     overlays: [{
-                        name: 'graphics layer!'
+                        name: 'graphics layer!',
+                        factory: noop
                     }]
                 });
                 widget.startup();
 
-                var baseLayers = query('[name="base-layer"]', widget.layerContainer);
-                var overlays = query('[name="over-layer"]', widget.layerContainer);
+                var baseLayers = query('[name="baselayer"]', widget.layerContainer);
+                var overlays = query('[name="overlayer"]', widget.layerContainer);
 
                 var visibleBaseLayers = baseLayers.filter(visible);
                 var visibleOverlays = overlays.filter(visible);
 
-                expect(visibleBaseLayers.length).toEqual(0, 'should not be any visible base-layers');
+                expect(visibleBaseLayers.length).toEqual(0, 'should not be any visible baselayers');
 
                 expect(visibleOverlays.length).toEqual(1, 'all overlayers should be visible');
                 expect(query('hr', widget.layerContainer).length).toEqual(0, 'no separator should be visible');
@@ -116,18 +123,21 @@ require([
                 widget = new WidgetUnderTest({
                     map: map,
                     baseLayers: [{
-                        name: '1'
+                        name: '1',
+                        factory: noop
                     }, {
-                        name: '2'
+                        name: '2',
+                        factory: noop
                     }],
                     overlays: [{
-                        name: 'graphics layer!'
+                        name: 'graphics layer!',
+                        factory: noop
                     }]
                 });
                 widget.startup();
 
-                var baseLayers = query('[name="base-layer"]', widget.layerContainer);
-                var overlays = query('[name="over-layer"]', widget.layerContainer);
+                var baseLayers = query('[name="baselayer"]', widget.layerContainer);
+                var overlays = query('[name="overlayer"]', widget.layerContainer);
 
                 var visibleBaseLayers = baseLayers.filter(visible);
                 var visibleOverlays = overlays.filter(visible);
@@ -140,15 +150,17 @@ require([
                 widget = new WidgetUnderTest({
                     map: map,
                     baseLayers: [{
-                        name: '1'
+                        name: '1',
+                        factory: noop
                     }, {
-                        name: '2'
+                        name: '2',
+                        factory: noop
                     }]
                 });
                 widget.startup();
 
-                var baseLayers = query('[name="base-layer"]', widget.layerContainer);
-                var overlays = query('[name="over-layer"]', widget.layerContainer);
+                var baseLayers = query('[name="baselayer"]', widget.layerContainer);
+                var overlays = query('[name="overlayer"]', widget.layerContainer);
 
                 var visibleBaseLayers = baseLayers.filter(visible);
                 var visibleOverlays = overlays.filter(visible);
@@ -161,7 +173,8 @@ require([
                 widget = new WidgetUnderTest({
                     map: map,
                     baseLayers: [{
-                        name: 'only 1'
+                        name: 'only 1',
+                        factory: noop
                     }]
                 });
                 widget.startup();
@@ -181,9 +194,11 @@ require([
                     widget = new WidgetUnderTest({
                         map: map,
                         baseLayers: [{
-                            name: 'i am checked'
+                            name: 'i am checked',
+                            factory: noop
                         }, {
-                            name: 'i am not checked'
+                            name: 'i am not checked',
+                            factory: noop
                         }]
                     });
                     widget.startup();
@@ -196,15 +211,19 @@ require([
                     widget = new WidgetUnderTest({
                         map: map,
                         baseLayers: [{
-                            name: 'i am not checked'
+                            name: 'i am not checked',
+                            factory: noop
                         }, {
-                            name: 'i am also not checked'
+                            name: 'i am also not checked',
+                            factory: noop
                         }, {
                             name: 'i am checked',
-                            selected: true
+                            selected: true,
+                            factory: noop
                         }, {
                             name: 'i am also checked',
-                            selected: true
+                            selected: true,
+                            factory: noop
                         }]
                     });
                     widget.startup();
@@ -237,7 +256,7 @@ require([
                     });
                     widget.startup();
 
-                    var nodeList = query('input[name="over-layer"]', widget.domNode);
+                    var nodeList = query('input[name="overlayer"]', widget.domNode);
                     var checkedInputs = nodeList.filter(checked);
 
                     expect(checkedInputs.length).toEqual(0, 'base layers with no link should unselect overlays');
@@ -264,7 +283,7 @@ require([
                     });
                     widget.startup();
 
-                    var nodeList = query('input[name="over-layer"]', widget.domNode);
+                    var nodeList = query('input[name="overlayer"]', widget.domNode);
                     var checkedInputs = nodeList.filter(checked);
 
                     expect(checkedInputs.length).toEqual(1, 'linked should only be checked.');
@@ -275,23 +294,28 @@ require([
                     widget = new WidgetUnderTest({
                         map: map,
                         baseLayers: [{
-                            name: 'ignore me'
+                            name: 'ignore me',
+                            factory: noop
                         }],
                         overlays: [{
-                            name: 'i am not checked'
+                            name: 'i am not checked',
+                            factory: noop
                         }, {
-                            name: 'i am also not checked'
+                            name: 'i am also not checked',
+                            factory: noop
                         }, {
                             name: 'i am checked',
-                            selected: true
+                            selected: true,
+                            factory: noop
                         }, {
                             name: 'i am also checked',
-                            selected: true
+                            selected: true,
+                            factory: noop
                         }]
                     });
                     widget.startup();
 
-                    var nodeList = query('input[name="over-layer"]', widget.domNode);
+                    var nodeList = query('input[name="overlayer"]', widget.domNode);
                     var checkedInputs = nodeList.filter(checked);
 
                     expect(checkedInputs.length).toEqual(2);
@@ -300,21 +324,26 @@ require([
                     widget = new WidgetUnderTest({
                         map: map,
                         baseLayers: [{
-                            name: 'ignore me'
+                            name: 'ignore me',
+                            factory: noop
                         }],
                         overlays: [{
-                            name: 'i am not checked'
+                            name: 'i am not checked',
+                            factory: noop
                         }, {
-                            name: 'i am also not checked'
+                            name: 'i am also not checked',
+                            factory: noop
                         }, {
-                            name: 'i am checked'
+                            name: 'i am checked',
+                            factory: noop
                         }, {
-                            name: 'i am also checked'
+                            name: 'i am also checked',
+                            factory: noop
                         }]
                     });
                     widget.startup();
 
-                    var nodeList = query('input[name="over-layer"]', widget.domNode);
+                    var nodeList = query('input[name="overlayer"]', widget.domNode);
                     var checkedInputs = nodeList.filter(checked);
 
                     expect(checkedInputs.length).toEqual(0);

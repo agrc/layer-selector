@@ -43,26 +43,30 @@ define([
             this._set('hidden', hidden);
             domClass.toggle(this.domNode, 'layer-selector-hidden');
         },
-        // Properties to be sent into constructor
-
-
-        /** The initilizer for the class.
-         * @param {{Object}} - params - The params passed into the constructor.
+        /** @property {function} - _WidgetBase custom setter for setting the the alt text and label name.
+         * We do not always have the name at build rendering time (layer tokens). Therefore the templateString
+         * has been modified and the values are updated with this function.
          */
-        constructor: function (params) {
-            console.log('layer-selector-item:constructor', arguments);
+        _setLayerInfoAttr: function (layerInfo) {
+            this.name = (layerInfo.id || layerInfo.name || 'unknown');
 
-            if (!params) {
-                params = {
-                    layerInfo: {
-                        name: 'unknown'
-                    }
-                };
-            }
-
-            this.name = params.layerInfo.id || params.layerInfo.name;
-            this.inputType = params.inputType || 'radio';
+            domAttr.set(this.label, 'alt', this.name);
+            domAttr.set(this.label, 'title', this.name);
+            domAttr.set(this.input, 'value', this.name);
+            this.label.appendChild(document.createTextNode(this.name));
         },
+
+        /** @property {function} - _WidgetBase custom setter for applying the input type attribute. */
+        _setInputTypeAttr: function (inputType) {
+            var type = inputType || 'radio';
+            this.layerType = type === 'radio' ? 'baselayer' : 'overlayer';
+
+            domAttr.set(this.input, 'type', type);
+            domAttr.set(this.input, 'name', this.layerType);
+
+            this._set('inputType', type);
+        },
+
         /** Overrides method of same name in dijit._Widget.
          * @param {[esri/layers/layer]} layerInfo - name, selected, linked ...
          * @param {string} inputType - `radio` or `checkbox` depending on the type of input.
@@ -70,8 +74,6 @@ define([
         postCreate: function () {
             console.log('layer-selector-item::postCreate', arguments);
 
-            this.layerType = this.inputType === 'radio' ? 'base-layer' : 'over-layer';
-            domAttr.set(this.input, 'name', this.layerType);
             domClass.add(this.domNode, ['radio', 'checkbox', 'layer-selector-input']);
 
             this._setupConnections();
