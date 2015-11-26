@@ -320,7 +320,7 @@ define([
                 managedLayers[layerItem.name].layer = new layerItem.layerInfo.factory(layerItem.layerInfo.url, layerItem.layerInfo);
             }
 
-            var index = layerItem.layerType === 'baselayer' ? 0 : 1;
+            var index = this._determineLayerIndex(layerItem, this.get('managedLayers'), this.map.layerIds, this.map.graphicsLayerIds);
 
             if (layerItem.get('selected') === true) {
                 this.map.addLayer(managedLayers[layerItem.name].layer, index);
@@ -331,6 +331,39 @@ define([
             if (layerItem.layerType === 'baselayer') {
                 this._syncSelectedWithUi(layerItem.name);
             }
+        },
+        /** Takes the layer and determines the index to add to the map.
+         * @param {layerInfoClass} - layerInfo - contains the layer and layer type
+         * @returns {number} - The index to put the map.
+         */
+        _determineLayerIndex: function (layerItem, managedLayers, layerIds, graphicLayerIds) {
+            console.log('layer-selector:_determineLayerIndex', arguments);
+
+            if (layerItem.layerType === 'baselayer') {
+                return 0;
+            }
+
+            var layerType = managedLayers[layerItem.name].layer.declaredClass;
+
+            if (layerType === 'esri.layers.FeatureLayer') {
+                if (!graphicLayerIds || graphicLayerIds.length === 0) {
+                    return 0;
+                }
+
+                return array.filter(Object.keys(managedLayers), function countVisibleGraphicOverlayers(key) {
+                    return graphicLayerIds.indexOf(key) > -1;
+                }).length;
+            } else {
+                if (!layerIds || layerIds.length === 0) {
+                    return 0;
+                }
+
+                return array.filter(Object.keys(managedLayers), function countVisibleBaselayers(key) {
+                    return layerIds.indexOf(key) > -1;
+                }).length;
+            }
+
+            return 0;
         },
         /** Keep the selected button consistent across layer Items.
          * @param {string} - id - The id of the layer added to the map.

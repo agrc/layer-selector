@@ -93,6 +93,119 @@ require([
                 expect(widget._hasLinkedLayers).toBe(false, 'no linked layers');
             });
         });
+        describe('_determineLayerIndex', function () {
+            it('returns 0 for baselayers always.', function () {
+                widget = new WidgetUnderTest({map: map});
+                var layerItem = {
+                    layerType: 'baselayer',
+                    name: '1'
+                };
+                var managedLayers = {
+                    '1': '',
+                    '2': ''
+                };
+
+                var index = widget._determineLayerIndex(layerItem, managedLayers, [], []);
+                expect(index).toEqual(0, 'Index should be 0 for any baselayer');
+            });
+            it('returns 0 for baselayers always, even if there are exiting layers.', function () {
+                widget = new WidgetUnderTest({map: map});
+                var layerItem = {
+                    layerType: 'baselayer',
+                    name: '1'
+                };
+                var managedLayers = {
+                    '1': '',
+                    '2': ''
+                };
+                var existingLayerIdsInMap = ['2', '3'];
+
+                var index = widget._determineLayerIndex(layerItem, managedLayers, existingLayerIdsInMap, []);
+                expect(index).toEqual(0, 'Index should be 0 for any baselayer');
+            });
+            it('returns 0 when adding first "GraphicsLayer" overlay.', function () {
+                widget = new WidgetUnderTest({map: map});
+                var layerItem = {
+                    layerType: 'overlayer',
+                    name: '2'
+                };
+                var managedLayers = {
+                    '1': 'some baselayer',
+                    '2': {
+                        layer: {
+                            declaredClass: 'esri.layers.FeatureLayer'
+                        }
+                    }
+                };
+                var existingLayerIdsInMap = ['1'];
+                var graphicsLayerIds = [];
+
+                var index = widget._determineLayerIndex(layerItem, managedLayers, existingLayerIdsInMap, graphicsLayerIds);
+                expect(index).toEqual(0, 'if graphicsLayerIds is empty, the index should be 0');
+            });
+            it('returns 0 when adding a first managed "Graphics" overlay with existing "Graphics" layer.', function () {
+                widget = new WidgetUnderTest({map: map});
+                var layerItem = {
+                    layerType: 'overlay',
+                    name: '2'
+                };
+                var managedLayers = {
+                    '1': 'some baselayer',
+                    '2': {
+                        layer: {
+                            declaredClass: 'esri.layers.FeatureLayer'
+                        }
+                    }
+                };
+                var existingLayerIdsInMap = ['1'];
+                var graphicsLayerIds = ['3'];
+
+                var index = widget._determineLayerIndex(layerItem, managedLayers, existingLayerIdsInMap, graphicsLayerIds);
+                expect(index).toEqual(0, 'If there is already a graphics layer. Insert below it.');
+            });
+            it('returns 1 when adding a second managed "Graphics" overlay.', function () {
+                widget = new WidgetUnderTest({map: map});
+                var layerItem = {
+                    layerType: 'overlay',
+                    name: '2'
+                };
+                var managedLayers = {
+                    '1': 'some baselayer',
+                    '2': {
+                        layer: {
+                            declaredClass: 'esri.layers.FeatureLayer'
+                        }
+                    },
+                    '3': 'some overlay'
+                };
+                var existingLayerIdsInMap = ['1'];
+                var graphicsLayerIds = ['3', '4', '5'];
+
+                var index = widget._determineLayerIndex(layerItem, managedLayers, existingLayerIdsInMap, graphicsLayerIds);
+                expect(index).toEqual(1, 'If there is already a managed overlay. Add on top of it.');
+            });
+            it('returns 1 when adding a second managed "non-Graphic" overlay.', function () {
+                widget = new WidgetUnderTest({map: map});
+                var layerItem = {
+                    layerType: 'overlay',
+                    name: '2'
+                };
+                var managedLayers = {
+                    '1': 'some baselayer',
+                    '2': {
+                        layer: {
+                            declaredClass: 'not.a.esri.layers.FeatureLayer'
+                        }
+                    },
+                    '3': 'some overlay'
+                };
+                var existingLayerIdsInMap = ['1', '4', '5'];
+                var graphicsLayerIds = ['3', '6', '7'];
+
+                var index = widget._determineLayerIndex(layerItem, managedLayers, existingLayerIdsInMap, graphicsLayerIds);
+                expect(index).toEqual(1, 'If there is already a baselayer, add on top of it.');
+            });
+        });
         describe('UI', function () {
             it('It should not display separator if there are 1 base layer and > 0 overlays', function () {
                 widget = new WidgetUnderTest({
