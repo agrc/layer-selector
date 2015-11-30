@@ -26,15 +26,15 @@
         var widgetUnderTest;
 
         require([
-            'layer-selector/layer-selector-item',
+            'layer-selector/LayerSelectorItem',
 
             'dojo/domReady!'
         ], function(Module) {
             widgetUnderTest = new Module({
-                layer: {
+                layerInfo: {
                     name: 'test'
                 },
-                type: 'radio'
+                inputType: 'radio'
             }, 'node');
 
             widgetUnderTest.startup();
