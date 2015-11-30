@@ -63,6 +63,8 @@
             }, 'node2');
 
             widgetUnderTest2.startup();
+            widgetUnderTest2._expand();
+
             var widgetUnderTest3 = new Module({
                 map: {
                     root: document.body
@@ -81,6 +83,7 @@
             }, 'node3');
 
             widgetUnderTest3.startup();
+
             var widgetUnderTest4 = new Module({
                 map: {
                     root: document.body
