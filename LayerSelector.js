@@ -189,21 +189,22 @@ define([
                 if (typeof li === 'string' || li instanceof String || li.token &&
                    (typeof li.token === 'string' || li.token instanceof String)) {
 
-                    var id = (id || li.token || li);
+                    var id = (li.token || li);
 
                     if (!this.quadWord) {
-                        console.warn('layer-selector::You chose to use a layer token `' + (id || li.token || li) + '` without setting ' +
+                        console.warn('layer-selector::You chose to use a layer token `' + id + '` without setting ' +
                                      'your `quadWord` from the appliance. The requests for tiles will fail to ' +
-                                     ' authenticate. Pass `quadWord` in to the constructor of this widget.');
+                                     ' authenticate. Pass `quadWord` into the constructor of this widget.');
                         return false;
                     }
 
                     var layer = this._applianceLayers[id];
 
                     if (!layer) {
-                        console.warn('layer-selector::The layer token `' + (id || li.token || li) + '` was not found. Please use ' +
-                                     Object.keys(this._applianceLayers).join() + ' or pass in the information on how ' +
-                                    'to create your custom layer. `{factory, url, id}``');
+                        console.warn('layer-selector::The layer token `' + id + '` was not found. Please use one of ' +
+                                     'the supported tokens (' + Object.keys(this._applianceLayers).join(', ') +
+                                     ') or pass in the information on how to create your custom layer ' +
+                                     '(`{factory, url, id}`).');
                         return false;
                     }
 
@@ -333,7 +334,10 @@ define([
             }
         },
         /** Takes the layer and determines the index to add to the map.
-         * @param {layerInfoClass} - layerInfo - contains the layer and layer type
+         * @param {Object} - layerItem - The item containing the name and type of the layer
+         * @param {Object} - managedLayers - An object containing a reference to the layers managed by this widget
+         * @param {String[]} - layerIds - An array of the layer ids for the map
+         * @param {String[]} - graphiclayerIds - An array of the graphics layer ids for the map
          * @returns {number} - The index to put the map.
          */
         _determineLayerIndex: function (layerItem, managedLayers, layerIds, graphicLayerIds) {
