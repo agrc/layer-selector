@@ -18,11 +18,20 @@ module.exports = function (grunt) {
                 }]
             }
         },
+        clean: {
+            docs: ['doc']
+        },
         connect: {
             options: {
                 livereload: true,
                 port: jasminePort,
                 base: '.'
+            },
+            docs: {
+                options: {
+                    port: 8000,
+                    open: host + '/doc'
+                }
             },
             open: {
                 options: {
@@ -46,6 +55,14 @@ module.exports = function (grunt) {
                         '../tests/jasmineAMDErrorChecking.js'
                     ],
                     host: host
+                }
+            }
+        },
+        jsdoc : {
+            dist : {
+                src: 'Layer*.js',
+                options: {
+                    destination: 'doc'
                 }
             }
         },
@@ -100,7 +117,7 @@ module.exports = function (grunt) {
             },
             jshint: {
                 files: jsFiles,
-                tasks: ['newer:jshint:main', 'newer:jscs:main', 'jasmine:main:build']
+                tasks: ['newer:jshint:main', 'newer:jscs:main', 'jasmine:main:build', 'clean', 'jsdoc']
             },
             src: {
                 files: jsFiles.concat(otherFiles)
@@ -117,6 +134,7 @@ module.exports = function (grunt) {
         'jshint:force',
         'jscs:force',
         'amdcheck:main',
+        'jsdoc:dist',
         'connect:jasmine',
         'stylus',
         'watch'
@@ -127,7 +145,10 @@ module.exports = function (grunt) {
         'jshint:force',
         'jscs:force',
         'amdcheck:main',
+        'clean:docs',
+        'jsdoc:dist',
         'connect:open',
+        'connect:docs',
         'stylus',
         'watch'
     ]);

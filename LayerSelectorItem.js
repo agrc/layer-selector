@@ -1,9 +1,4 @@
-/**
- * A module representing a layer-selector.
- * @param {_WidgetBase} _WidgetBase - The base class for all widgets.
- * @param {_TemplatedMixin} _TemplatedMixin - Mixin for widgets that are instantiated from a template.
- * @module layer-selector/layer-selector-item
-*/
+/** @class */
 define([
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
@@ -25,20 +20,36 @@ define([
     declare,
     lang
 ) {
-    return declare([_WidgetBase, _TemplatedMixin], {
-        /** @property {string} - The class' html `templateString`. */
+    return declare([_WidgetBase, _TemplatedMixin], /** @lends layer-selector/LayerSelectorItem# */ {
+        /**
+         * @const
+         * @property {string} - The class' html `templateString`.
+         */
         templateString: template,
-        /** @property {string} - The class' css `baseClass` property. */
+        /**
+         * @const
+         * @default layer-selector-item
+         * @property {string} - The class' css `baseClass` name.
+         */
         baseClass: 'layer-selector-item',
-        /** @property {object} - _WidgetBase custom setter for setting the checkbox on an input. */
+        /**
+         * @property {object} - _WidgetBase custom setter for setting the checkbox on an input.
+         * @example this.set('selected', true);
+         */
         _setSelectedAttr: {
             node: 'input',
             type: 'attribute',
             attribute: 'checked'
         },
-        /** @property {bool} - True if the widget is currently hidden. */
+        /**
+         * @default false
+         * @property {bool} - True if the widget is currently hidden.
+         */
         hidden: false,
-        /** @property {function} - _WidgetBase custom setter for setting the css class on the widget domNode. */
+        /**
+         * @property {function} - _WidgetBase custom setter for setting the css class on the widget domNode.
+         * @example this.set('hidden', true);
+         */
         _setHiddenAttr: function (hidden) {
             this._set('hidden', hidden);
             domClass.toggle(this.domNode, 'layer-selector-hidden');
@@ -46,9 +57,10 @@ define([
         /** @property {function} - _WidgetBase custom setter for setting the the alt text and label name.
          * We do not always have the name at build rendering time (layer tokens). Therefore the templateString
          * has been modified and the values are updated with this function.
+         * @example this.set('layerFactory', {});
          */
-        _setLayerInfoAttr: function (layerInfo) {
-            this.name = (layerInfo.id || layerInfo.name || 'unknown');
+        _setLayerFactoryAttr: function (layerFactory) {
+            this.name = (layerFactory.id || layerFactory.name || 'unknown');
 
             domAttr.set(this.label, 'alt', this.name);
             domAttr.set(this.label, 'title', this.name);
@@ -56,7 +68,11 @@ define([
             this.label.appendChild(document.createTextNode(this.name));
         },
 
-        /** @property {function} - _WidgetBase custom setter for applying the input type attribute. */
+        /**
+         * @property {function} - _WidgetBase custom setter for applying the input type attribute.
+         * @default radio
+         * @example this.set('inputType', 'radio');
+         */
         _setInputTypeAttr: function (inputType) {
             var type = inputType || 'radio';
             this.layerType = type === 'radio' ? 'baselayer' : 'overlayer';
@@ -67,8 +83,10 @@ define([
             this._set('inputType', type);
         },
 
-        /** Overrides method of same name in dijit._Widget.
-         * @param {[esri/layers/layer]} layerInfo - name, selected, linked ...
+        /**
+         * A module representing an item inside a LayerSelector.
+         * @constructs
+         * @param {layerFactory[]} layerFactory - The factory object representing a layer.
          * @param {string} inputType - `radio` or `checkbox` depending on the type of input.
          */
         postCreate: function () {
