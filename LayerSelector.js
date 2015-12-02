@@ -101,7 +101,8 @@ define([
          * @param {layerFactory[]} params.baseLayers - mutually exclusive layers (only one can be visible on your map).
          * @param {layerFactory[]} [params.overlays] - layers you display over the `baseLayers`.
          * @param {string} [params.quadWord] - The four word authentication token acquired from the appliance.
-         * @param {string} [params.separator=<hr class="layer-selector-separator" />] - An HTML fragment used to separate baselayers from overlays.
+         * @param {string} [params.separator=<hr class="layer-selector-separator" />] - An HTML fragment used to
+         * separate baselayers from overlays.
          * @param {boolean} [params.top=true] - True if the widget should be placed in the top of the container.
          * @param {boolean} [params.right=true] - True if the widget should be placed in the right of the container.
          */
@@ -136,14 +137,17 @@ define([
                 return;
             }
 
+            var top = this.top != null ? this.top : true;
+            var right = this.right != null ? this.top : true;
+
             var locations = {
-                top: this.top,
-                right: this.right
+                top: top,
+                right: right
             };
 
             this._placeWidget(locations, this.domNode, this.map.root, this.baseClass);
 
-            this._buildUi(this.baseLayers || [], this.overlays || [], this.quadWord);
+            this._buildUi(this.baseLayers || [], this.overlays || [], this.quadWord, this.separator || '<hr class="layer-selector-separator" />');
         },
         /**
          * wire events, and such
@@ -158,9 +162,10 @@ define([
          * @private
          * @param {layerFactory[]} baseLayers - mutually exclusive layers (only one can be visible on your map).
          * @param {layerFactory[]} overlays - layers you display over the `baseLayers`.
-         * @param {string} quadWord - The four word authentication token acquired from the appliance.
+         * @param {string} [quadWord] - The four word authentication token acquired from the appliance.
+         * @param {string} separator - An HTML fragment used to separate baselayers from overlays.
          */
-        _buildUi: function (baseLayers, overlays, quadWord) {
+        _buildUi: function (baseLayers, overlays, quadWord, separator) {
             console.log('layer-selector:_buildUi', arguments);
 
             baseLayers = this._resolveBasemapTokens(baseLayers, quadWord);
@@ -185,14 +190,13 @@ define([
                 domClass.add(this.domNode, this.baseClass + '-hidden');
                 console.warn('layer-selector::`baseLayers` has no visible layers and `overlays` is null or empty. ' +
                              'This widget will be hidden since it will serve no purpose. Reconsider using it at all.');
-                return;
             }
 
             this._selectLayerElements(overlays, this.overlayWidgets, false);
             this._selectLayerElements(baseLayers, this.baseLayerWidgets, true);
 
             if (visibleBaseLayers.length > 0 && this.overlayWidgets.length > 0) {
-                domConstruct.place(this.separator, this.layerContainer, this.baseLayerWidgets.length);
+                domConstruct.place(separator, this.layerContainer, this.baseLayerWidgets.length);
             }
         },
         /**
