@@ -1,4 +1,3 @@
-/** @class */
 define([
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
@@ -30,39 +29,34 @@ define([
 
     LayerSelectorItem
 ) {
-    return declare([_WidgetBase, _TemplatedMixin], /** @lends layer-selector/LayerSelector# */ {
+    return declare([_WidgetBase, _TemplatedMixin], {
         /**
+         * @private
          * @const
-         * @property {string} - The class' html `templateString`.
+         * @property {string} templateString - The class' html `templateString`.
          */
         templateString: template,
         /**
          * @const
+         * @private
          * @default layer-selector
-         * @property {string} - The class' css `baseClass` name.
+         * @property {string} baseClass - The class' css `baseClass` name.
          */
         baseClass: 'layer-selector',
         /**
-         * @default <hr class="layer-selector-separator" />
-         * @property {string} - An HTML fragment used to separate baselayers from overlays.
+         * @memberof LayerSelector
+         * @prop {LayerSelectorItem[]} baseLayerWidgets - The constructed `LayerSelectorItem` widgets.
          */
-        separator: '<hr class="layer-selector-separator" />',
+        baseLayerWidgets: null,
         /**
-         * @default true
-         * @property {bool} - True if the widget should be placed in the top of the container.
+         * @memberof LayerSelector
+         * @prop {LayerSelectorItem[]} overlayWidgets - The constructed `LayerSelectorItem` widgets.
          */
-        top: true,
-        /**
-         * @default true
-         * @property {bool} - True if the widget should be placed in the right of the container.
-         */
-        right: true,
-        /**  @property {string} - The four word authentication token acquired from the appliance. */
-        quadWord: null,
+        overlayWidgets: null,
         /**
          * @const
          * @private
-         * @property {object} - The layers linked to our default basemaps in the appliance.
+         * @property {object} _applianceLayers - The default layers hosted in the appliance.
          */
         _applianceLayers: {
             'Imagery': {
@@ -87,23 +81,29 @@ define([
         },
         /**
          * @private
-         * @property {object} - The default constructor parameter object to create a TileInfo for appliance layers.
+         * @property {object} _defaultTileInfo  - The default constructor parameter object to create
+         *  an `esri/layer/TileInfo` for appliance layers.
          */
         _defaultTileInfo: null,
         /**
          * @private
-         * @property {bool} - True if any of the baseLayers have linked overlays.
+         * @property {boolean} _hasLinkedLayers - True if any of the `baseLayers` have linked `overlays`.
          */
         _hasLinkedLayers: false,
 
         /**
-         * A class for creating a layer selector that is added to a map. It allows for changing of basemap type layers.
-         * @constructs
+         * A class for creating a layer selector that changes layers for a given map.
+         * @name LayerSelector
+         * @param {HTMLElement|string} [node] - The domNode or string id of a domNode to create this widget on. If null
+         * a new div will be created but not placed in the dom. You will need to place it programmatically.
          * @param params {object}
          * @param {esri/map | agrc/widgets/map/BaseMap} params.map - The map to control layer selection within.
          * @param {layerFactory[]} params.baseLayers - mutually exclusive layers (only one can be visible on your map).
-         * @param {layerFactory[]} params.overlays - layers you display over the `baseLayers`.
-         * @param {string} params.quadWord - see {@link layer-selector/LayerSelector#quadWord}.
+         * @param {layerFactory[]} [params.overlays] - layers you display over the `baseLayers`.
+         * @param {string} [params.quadWord] - The four word authentication token acquired from the appliance.
+         * @param {string} [params.separator=<hr class="layer-selector-separator" />] - An HTML fragment used to separate baselayers from overlays.
+         * @param {boolean} [params.top=true] - True if the widget should be placed in the top of the container.
+         * @param {boolean} [params.right=true] - True if the widget should be placed in the right of the container.
          */
         constructor: function (params) {
             console.log('layer-selector::constructor', arguments);
@@ -143,7 +143,7 @@ define([
 
             this._placeWidget(locations, this.domNode, this.map.root, this.baseClass);
 
-            this._buildUi(this.baseLayers || [], this.overlays || []);
+            this._buildUi(this.baseLayers || [], this.overlays || [], this.quadWord);
         },
         /**
          * wire events, and such
@@ -158,12 +158,13 @@ define([
          * @private
          * @param {layerFactory[]} baseLayers - mutually exclusive layers (only one can be visible on your map).
          * @param {layerFactory[]} overlays - layers you display over the `baseLayers`.
+         * @param {string} quadWord - The four word authentication token acquired from the appliance.
          */
-        _buildUi: function (baseLayers, overlays) {
+        _buildUi: function (baseLayers, overlays, quadWord) {
             console.log('layer-selector:_buildUi', arguments);
 
-            baseLayers = this._resolveBasemapTokens(baseLayers, this.quadWord);
-            overlays = this._resolveBasemapTokens(overlays, this.quadWord);
+            baseLayers = this._resolveBasemapTokens(baseLayers, quadWord);
+            overlays = this._resolveBasemapTokens(overlays, quadWord);
 
             this._hasLinkedLayers = baseLayers && baseLayers.some(function checkForLinked(layerFactory) {
                 return layerFactory.linked;
@@ -195,12 +196,13 @@ define([
             }
         },
         /**
-         * Places the widget in the map container and in which corner using this.top and this.right.
+         * Places the `node` inside the `refNode`, applying CSS classes to align itself using constructor parameters
+         * `top` and `right`.
          * @private
          * @param {object} locations - contains a  boolean `top` and `right` property for determining
          * which corner to place the widget.
-         * @param {domNode} node - the root node of the widget.
-         * @param {domNode} refNode - the reference node for placing the widget.
+         * @param {HTMLElement} node - the root node of the widget.
+         * @param {HTMLElement} refNode - the reference node for placing the widget.
          * @param {string} baseClass - the base css class for suffixing the placement css classes.
          */
         _placeWidget: function (locations, node, refNode, baseClass) {
@@ -217,7 +219,8 @@ define([
             domConstruct.place(node, refNode);
         },
         /**
-         * Takes layer tokens from `_applianceLayers` keys and resolves them to `layerFactory` objects with `esri\layer\WebTiledLayer` factories.
+         * Takes layer tokens from `_applianceLayers` keys and resolves them to `layerFactory` objects with
+         * `esri/layer/WebTiledLayer` factories.
          * @private
          * @param {string[]|layerFactory[]} layerFactories - An array of layer tokens or layer factories.
          * @returns {layerFactory[]} an array of resolved layer factory objects.
@@ -270,12 +273,12 @@ define([
             return resolvedInfos;
         },
         /**
-         * Takes the layerFactory, creates new layer-selector/LayerSelectorItems, and places them in the `container`.
+         * Takes the `layerFactory`, creates new `LayerSelectorItems`, and places them in the `container`.
          * @private
          * @param {layerFactory[]} layerFactory - layer infos as passed via `baseLayers` or `overlays`
-         * @param {domNode} container - the dom node to hold the created elements.
-         * @param {string} type - radio or checkbox.
-         * @returns {layer-selector/LayerSelectorItem[]} - The widgets created from the layerFactory.
+         * @param {HTMLElement} container - the dom node to hold the created elements.
+         * @param {string} type - `radio` or `checkbox`.
+         * @returns {LayerSelectorItem[]} - The widgets created from the `layerFactory`.
          */
         _buildLayerItemWidgets: function (layerFactory, container, type) {
             console.log('layer-selector:_buildLayerItemWidgets', arguments);
@@ -302,11 +305,11 @@ define([
             return widgets;
         },
         /**
-         * selects the radio box or checkbox for layers.
+         * Checks the radio box or checkbox for the created `LayerSelectorItem`'s.
          * @private
          * @param {layerFactory[]} layerFactories - layers to be added to the selector.
-         * @param {layer-selector/LayerSelectorItem[]} widgets - the html representation of the layer.
-         * @param {bool} firstOnly - only select the first item. Or select them all.
+         * @param {LayerSelectorItem[]} widgets - the html representation of the layer.
+         * @param {boolean} firstOnly - only select the first item. Or select them all.
          */
         _selectLayerElements: function (layerFactories, widgets, firstOnly) {
             console.log('layer-selector:_selectLayerElements', arguments);
@@ -340,9 +343,9 @@ define([
             });
         },
         /**
-         * Takes a layer-selector/LayerSelectorItem and makes it visible in the map.
+         * Takes a `LayerSelectorItem` and makes it visible in the `map`.
          * @private
-         * @param {layer-selector/LayerSelectorItem} layerItem - item that was changed
+         * @param {LayerSelectorItem} layerItem - item that was changed
          */
         _updateMap: function (layerItem) {
             console.log('layer-selector:_updateMap', arguments);
@@ -406,9 +409,9 @@ define([
             }
         },
         /**
-         * Takes the layer and determines the index to add to the map.
+         * Takes the layer and determines the index of which to insert into the map.
          * @private
-         * @param {layer-selector/LayerSelectorItem} layerItem - The item containing the name and type of the layer
+         * @param {LayerSelectorItem} layerItem - The item containing the name and type of the layer
          * @param {object} managedLayers - An object containing a reference to the layers managed by this widget
          * @param {string[]} layerIds - An array of the layer ids for the map
          * @param {string[]} graphicLayerIds - An array of the graphics layer ids for the map
@@ -444,7 +447,7 @@ define([
             return 0;
         },
         /**
-         * Keep the selected radio buttons and checkboxes synchonized with the dom across layer Items.
+         * Keep the selected radio buttons and checkboxes synchonized with the dom across `LayerSelectorItems`.
          * @private
          * @param {string} id - The id of the layer added to the map.
          */
@@ -587,8 +590,9 @@ define([
             };
         },
         /** Sets the TileInfo for each of the appliance layers since they all use different levels.
+         * @private
          * @param {applianceLayer} layers - The applicance layers object `{ 'id': { urlPattern: ''}}`
-         * @returns {applianceLayer} - returns the appliance layers object with a new tileInfo property.
+         * @returns {applianceLayer} - returns the appliance layers object with a new `tileInfo` property.
          */
         _setTileInfosForApplianceLayers: function (layers) {
              console.log('layer-selector:_setTileInfosForApplianceLayers', arguments);
@@ -640,8 +644,8 @@ define([
             domClass.remove(this.toggler, this.baseClass + '-hidden');
         },
         /**
-         * Override startup to call startup on child widgets. You should always call startup on this widget after it
-         * has been placed in the dom.
+         * We have overriden startup on `_WidgetBase` to call startup on all `LayerSelectorItem` child widgets.
+         * You should always call startup on this widget after it has been placed in the dom.
          */
         startup: function () {
             console.log('layer-selector:startup', arguments);
@@ -657,11 +661,11 @@ define([
     });
 });
 /**
-* The info about a layer to create it and show it on a map successfullly.
+* The info about a layer needed to create it and show it on a map and in the layer selector successfully.
 * @typedef {object} layerFactory
-* @property factory {function} - the constructor function for creating a layer.
-* @property url {string} - The url to the map service.
-* @property id {string} - The id of the layer. This is shown in the LayerSelectorItem.
-* @property tileInfo {object} - The esri/TileInfo object if the layer has custom levels.
-* @property linked {string[]} - The id of overlays to automatically enable when selected.
+* @property {function} factory - the constructor function for creating a layer.
+* @property {string} url - The url to the map service.
+* @property {string} id - The id of the layer. This is shown in the LayerSelectorItem.
+* @property {object} tileInfo - The `esri/TileInfo` object if the layer has custom levels.
+* @property {string[]} linked - The id of overlays to automatically enable when selected.
 */

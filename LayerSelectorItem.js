@@ -1,4 +1,3 @@
-/** @class */
 define([
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
@@ -20,21 +19,28 @@ define([
     declare,
     lang
 ) {
-    return declare([_WidgetBase, _TemplatedMixin], /** @lends layer-selector/LayerSelectorItem# */ {
+    return declare([_WidgetBase, _TemplatedMixin], {
         /**
          * @const
-         * @property {string} - The class' html `templateString`.
+         * @private
+         * @prop {string} templateString - The class' html `templateString`.
          */
         templateString: template,
         /**
          * @const
+         * @private
          * @default layer-selector-item
-         * @property {string} - The class' css `baseClass` name.
+         * @prop {string} baseClass - The class' css `baseClass` name.
          */
         baseClass: 'layer-selector-item',
         /**
-         * @property {object} - _WidgetBase custom setter for setting the checkbox on an input.
-         * @example this.set('selected', true);
+         * @name selected
+         * @memberof LayerSelectorItem
+         * @prop {function} - `_WidgetBase` custom setter for setting the checkbox on an input.
+         * @param {boolean} checked - `true` if the widgets input should be checked.
+         * @example
+         * this.set('selected', true);
+         * this.get('selected');
          */
         _setSelectedAttr: {
             node: 'input',
@@ -42,22 +48,28 @@ define([
             attribute: 'checked'
         },
         /**
-         * @default false
-         * @property {bool} - True if the widget is currently hidden.
+         * @name hidden
+         * @memberof LayerSelectorItem
+         * @prop {function} - `_WidgetBase` custom setter for setting the css class on the widget domNode.
+         * @param {boolean} hide - `true` if the widget should add a CSS class to hide itself.
+         * @example
+         * this.set('hidden', true);
+         * this.get('hidden');
          */
-        hidden: false,
-        /**
-         * @property {function} - _WidgetBase custom setter for setting the css class on the widget domNode.
-         * @example this.set('hidden', true);
-         */
-        _setHiddenAttr: function (hidden) {
-            this._set('hidden', hidden);
+        _setHiddenAttr: function (hide) {
+            this._set('hidden', hide);
             domClass.toggle(this.domNode, 'layer-selector-hidden');
         },
-        /** @property {function} - _WidgetBase custom setter for setting the the alt text and label name.
+        /**
+         * @name layerFactory
+         * @memberof LayerSelectorItem
+         * @prop {function} - `_WidgetBase` custom setter for setting the the alt text and label name.
          * We do not always have the name at build rendering time (layer tokens). Therefore the templateString
          * has been modified and the values are updated with this function.
-         * @example this.set('layerFactory', {});
+         * @param {layerFactory} layerFactory - The `layerFactory` to build the UI markup from.
+         * @example
+         * this.set('layerFactory', {});
+         * this.get('layerFactory');
          */
         _setLayerFactoryAttr: function (layerFactory) {
             this.name = (layerFactory.id || layerFactory.name || 'unknown');
@@ -69,9 +81,13 @@ define([
         },
 
         /**
-         * @property {function} - _WidgetBase custom setter for applying the input type attribute.
-         * @default radio
-         * @example this.set('inputType', 'radio');
+         * @name inputType
+         * @memberof LayerSelectorItem
+         * @prop {function} - `_WidgetBase` custom setter for applying the input type attribute.
+         * @param {string} [inputType=radio]
+         * @example
+         * this.set('inputType', 'radio');
+         * this.get('inputType');
          */
         _setInputTypeAttr: function (inputType) {
             var type = inputType || 'radio';
@@ -84,10 +100,20 @@ define([
         },
 
         /**
-         * A module representing an item inside a LayerSelector.
-         * @constructs
-         * @param {layerFactory[]} layerFactory - The factory object representing a layer.
-         * @param {string} inputType - `radio` or `checkbox` depending on the type of input.
+        * @memberof LayerSelectorItem
+        * @prop {string} layerType- The type of `LayerSelectorItem`. `baselayer` (radio) or `overlayer` (checkbox).
+        */
+        layerType: null,
+
+        /**
+         * The UI element wrapping a radio or checkbox and label representing a `esri/layer/Layer` that can be turned
+         * on and off in a map.
+         * @name LayerSelectorItem
+         * @param {HTMLElement|string} [node] - The domNode or string id of a domNode to create this widget on. If null
+         * a new div will be created but not placed in the dom. You will need to place it programmatically.
+         * @param {object} params
+         * @param {layerFactory} params.layerFactory - The factory object representing a layer.
+         * @param {string} [params.inputType=radio] - `radio` or `checkbox` depending on the type of input.
          */
         postCreate: function () {
             console.log('layer-selector-item::postCreate', arguments);
@@ -98,7 +124,10 @@ define([
 
             this.inherited(arguments);
         },
-        /** wire events, and such */
+        /**
+         * @private
+         * wire events, and such
+         */
         _setupConnections: function () {
             console.log('layer-selector-item::setupConnections', arguments);
 
@@ -114,3 +143,12 @@ define([
         }
     });
 });
+/**
+* The info about a layer needed to create it and show it on a map and in the layer selector successfully.
+* @typedef {object} layerFactory
+* @prop {function} factory - the constructor function for creating a layer.
+* @prop {string} url - The url to the map service.
+* @prop {string} id - The id of the layer. This is shown in the LayerSelectorItem.
+* @prop {object} tileInfo - The `esri/TileInfo` object if the layer has custom levels.
+* @prop {string[]} linked - The id of overlays to automatically enable when selected.
+*/

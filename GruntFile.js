@@ -20,9 +20,6 @@ module.exports = function (grunt) {
                 }]
             }
         },
-        clean: {
-            docs: ['doc']
-        },
         connect: {
             options: {
                 livereload: true,
@@ -60,12 +57,15 @@ module.exports = function (grunt) {
                 }
             }
         },
-        jsdoc : {
-            dist : {
-                src: 'Layer*.js',
-                options: {
-                    destination: 'doc'
-                }
+        shell : {
+            options: {
+                stdout: true
+            },
+            doc: {
+                command: 'documentation .\\LayerSelector.js -t documentation-theme-default -o .\\doc\\LayerSelector.md -g'
+            },
+            docItem: {
+                command: 'documentation .\\LayerSelectorItem.js -t documentation-theme-default -o .\\doc\\LayerSelectorItem.md -g'
             }
         },
         jscs: {
@@ -119,7 +119,7 @@ module.exports = function (grunt) {
             },
             jshint: {
                 files: jsFiles,
-                tasks: ['newer:jshint:main', 'newer:jscs:main', 'jasmine:main:build', 'clean', 'jsdoc']
+                tasks: ['newer:jshint:main', 'newer:jscs:main', 'jasmine:main:build', 'shell']
             },
             src: {
                 files: jsFiles.concat(otherFiles)
@@ -136,7 +136,7 @@ module.exports = function (grunt) {
         'jshint:force',
         'jscs:force',
         'amdcheck:main',
-        'jsdoc:dist',
+        'shell',
         'connect:jasmine',
         'stylus',
         'watch'
@@ -147,8 +147,7 @@ module.exports = function (grunt) {
         'jshint:force',
         'jscs:force',
         'amdcheck:main',
-        'clean:docs',
-        'jsdoc:dist',
+        'shell',
         'connect:open',
         'connect:docs',
         'stylus',
