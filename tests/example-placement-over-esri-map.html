@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>layer-selector Tests</title>
+
+    <!-- META TAGS -->
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../resources/LayerSelector.css">
+    <link rel="stylesheet" href="../bower_components/esri/css/esri.css">
+    <style type='text/css'>
+        body, html, #map {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+    </style>
+
+    <!-- JAVASCRIPT -->
+    <script type='text/javascript' src="dojoConfig.js"></script>
+    <script type='text/javascript' src="../bower_components/dojo/dojo.js"></script>
+    <script type="text/javascript">
+        var baseUrl = window.location.pathname.replace(/\/[^\/]+$/, '') + '/' + '../../';
+        var widgetUnderTest;
+
+        require([
+            'layer-selector',
+
+            'esri/map',
+
+            'dojo/domReady!'
+        ], function(Module, Map) {
+            Module.prototype._updateMap = function () {};
+
+            var map = new Map('map', {
+                basemap: 'hybrid',
+                center: [-122.45, 37.75], // longitude, latitude
+                zoom: 13
+            });
+
+            widgetUnderTest = new Module({
+                map: map,
+                right: false,
+                baseLayers: [{
+                    id: 'Layer1'
+                }],
+                overlays: [{
+                    id: 'Overlay1'
+                }]
+            });
+
+            widgetUnderTest.startup();
+
+            var widgetUnderTest2 = new Module({
+                map: map,
+                baseLayers: [{
+                    id: 'Layer1'
+                }, {
+                    id: 'Layer2'
+                }],
+                overlays: [{
+                    id: 'Overlay1'
+                }, {
+                    id: 'Overlay2'
+                }]
+            });
+
+            widgetUnderTest2.startup();
+            var widgetUnderTest3 = new Module({
+                map: map,
+                top: false,
+                baseLayers: [{
+                    id: 'Layer1'
+                }, {
+                    id: 'Layer2'
+                }],
+                overlays: [{
+                    id: 'Overlay1'
+                }, {
+                    id: 'Overlay2'
+                }]
+            });
+
+            widgetUnderTest3.startup();
+            var widgetUnderTest4 = new Module({
+                map: map,
+                top: false,
+                right: false,
+                baseLayers: [{
+                    id: 'Long layer name here'
+                }, {
+                    id: 'Another long layer name'
+                }],
+                overlays: [{
+                    id: 'Overlay1'
+                }, {
+                    id: 'Overlay2'
+                }]
+            });
+
+            widgetUnderTest4.startup();
+        });
+</script>
+</head>
+<body>
+    <div id="map"></div>
+    <div class="node" id="node"></div>
+    <div class="node" id="node2"></div>
+    <div class="node" id="node3"></div>
+    <div class="node" id="node4"></div>
+</body>
+</html>

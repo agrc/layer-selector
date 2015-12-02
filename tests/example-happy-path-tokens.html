@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>layer-selector Tests</title>
+
+    <!-- META TAGS -->
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../resources/LayerSelector.css">
+    <link rel="stylesheet" href="../bower_components/esri/css/esri.css">
+    <style type='text/css'>
+        body, html, #map {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+    </style>
+
+    <!-- JAVASCRIPT -->
+    <script type='text/javascript' src="dojoConfig.js"></script>
+    <script type='text/javascript' src="../bower_components/dojo/dojo.js"></script>
+    <script type="text/javascript">
+        var widgetUnderTest;
+
+        require([
+            'layer-selector',
+
+            'esri/map',
+            'esri/geometry/Extent',
+
+            'dojo/domReady!'
+        ], function(Module, Map, Extent) {
+            var map = new Map('map', {
+                extent: new Extent({
+                    xmax: -12010849.397533866,
+                    xmin: -12898741.918094235,
+                    ymax: 5224652.298632992,
+                    ymin: 4422369.249751998,
+                    spatialReference: {
+                        wkid: 3857
+                    }})
+            });
+
+            widgetUnderTest = new Module({
+                map: map,
+                quadWord: '',
+                baseLayers: [
+                    'Imagery',
+                    {
+                        token: 'Lite',
+                        selected: true
+                    },
+                    'Topo',
+                    'Bad Token'
+                ],
+                overlays: ['Overlay']
+            });
+
+            widgetUnderTest.startup();
+        });
+</script>
+</head>
+<body>
+    <div id="map">Fill out the quadword for this test</div>
+    <div class="node" id="node"></div>
+    <div class="node" id="node2"></div>
+    <div class="node" id="node3"></div>
+    <div class="node" id="node4"></div>
+</body>
+</html>
