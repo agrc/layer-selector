@@ -62,10 +62,10 @@ module.exports = function (grunt) {
                 stdout: true
             },
             doc: {
-                command: 'documentation .\\LayerSelector.js -t documentation-theme-default -o .\\doc\\LayerSelector.md -g'
+                command: 'documentation .\\LayerSelector.js -t documentation-theme-default -o .\\doc\\LayerSelector.md -g -f md'
             },
             docItem: {
-                command: 'documentation .\\LayerSelectorItem.js -t documentation-theme-default -o .\\doc\\LayerSelectorItem.md -g'
+                command: 'documentation .\\LayerSelectorItem.js -t documentation-theme-default -o .\\doc\\LayerSelectorItem.md -g -f md'
             }
         },
         jscs: {
