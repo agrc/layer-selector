@@ -44,7 +44,7 @@ define([
         baseClass: 'layer-selector',
         /**
          * @default <hr class="layer-selector-separator" />
-         * @property {string} - HTML fragment used to separate baselayers from overlays.
+         * @property {string} - An HTML fragment used to separate baselayers from overlays.
          */
         separator: '<hr class="layer-selector-separator" />',
         /**
@@ -87,7 +87,7 @@ define([
         },
         /**
          * @private
-         * @property {esri/TileInfo} - The default TileInfo description for appliance layers.
+         * @property {object} - The default constructor parameter object to create a TileInfo for appliance layers.
          */
         _defaultTileInfo: null,
         /**
@@ -472,6 +472,7 @@ define([
          */
         _polyfill: function () {
             console.log('layer-selector:_polyfill', arguments);
+
             if (!Array.prototype.find) {
                 /* jshint -W121 */
                 Array.prototype.find = function (predicate) {
@@ -498,9 +499,52 @@ define([
                     return undefined;
                 };
             }
+
+            if (!Object.keys) {
+                Object.keys = (function () {
+                    'use strict';
+                    var hasOwnProperty = Object.prototype.hasOwnProperty;
+                    var hasDontEnumBug = !({ toString: null }).propertyIsEnumerable('toString');
+                    var dontEnums = [
+                          'toString',
+                          'toLocaleString',
+                          'valueOf',
+                          'hasOwnProperty',
+                          'isPrototypeOf',
+                          'propertyIsEnumerable',
+                          'constructor'
+                      ];
+                    var dontEnumsLength = dontEnums.length;
+
+                    return function (obj) {
+                        if (typeof obj !== 'object' && (typeof obj !== 'function' || obj === null)) {
+                            throw new TypeError('Object.keys called on non-object');
+                        }
+
+                        var result = [];
+                        var prop;
+                        var i;
+
+                        for (prop in obj) {
+                            if (hasOwnProperty.call(obj, prop)) {
+                                result.push(prop);
+                            }
+                        }
+
+                        if (hasDontEnumBug) {
+                            for (i = 0; i < dontEnumsLength; i++) {
+                                if (hasOwnProperty.call(obj, dontEnums[i])) {
+                                    result.push(dontEnums[i]);
+                                }
+                            }
+                        }
+                        return result;
+                    };
+                }());
+            }
         },
         /**
-         * Create default TileInfo constructor object for applicance levels.
+         * Creates the default TileInfo constructor object for applicance layers.
          * @private
          * @returns {object} The least common denominator contructor object for appliance layers.
          */
