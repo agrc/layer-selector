@@ -2,7 +2,9 @@ module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
 
     var jasminePort = grunt.option('jasminePort') || 8001;
-    var host = 'http://localhost:' + jasminePort;
+    var docPort = grunt.option('docPort') || jasminePort - 1;
+    var testHost = 'http://localhost:' + jasminePort;
+    var docHost = 'http:/localhost:' + docPort;
     var jsFiles = ['!bower_components', '*.js'];
     var otherFiles = ['templates/*.html', 'tests/*.html', 'resources/*.svg', 'tests/**/*.js'];
 
@@ -29,13 +31,13 @@ module.exports = function (grunt) {
             },
             docs: {
                 options: {
-                    port: 8000,
-                    open: host + '/doc'
+                    port: docPort,
+                    open: docHost + '/doc'
                 }
             },
             open: {
                 options: {
-                    open: host + '/tests/_specRunner.html'
+                    open: testHost + '/tests/_specRunner.html'
                 }
             },
             jasmine: { }
@@ -54,7 +56,7 @@ module.exports = function (grunt) {
                         'bower_components/dojo/dojo.js',
                         '../tests/jasmineAMDErrorChecking.js'
                     ],
-                    host: host
+                    host: testHost
                 }
             }
         },
