@@ -42,7 +42,10 @@ require([
                 root: domConstruct.create('div', null, document.body),
                 getLayer: noop,
                 addLayer: noop,
-                removeLayer: noop
+                removeLayer: noop,
+                getLevel: function () {
+                    return -1;
+                }
             };
         });
 
