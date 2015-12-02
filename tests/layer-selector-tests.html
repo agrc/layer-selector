@@ -30,16 +30,18 @@
 
             'dojo/domReady!'
         ], function(Module) {
+            Module.prototype._updateMap = function () {};
+
             widgetUnderTest = new Module({
                 map: {
                     root: document.body
                 },
                 right: false,
                 baseLayers: [{
-                    name: 'Layer1'
+                    id: 'Layer1'
                 }],
                 overlays: [{
-                    name: 'Overlay1'
+                    id: 'Overlay1'
                 }]
             }, 'node');
 
@@ -50,15 +52,15 @@
                     root: document.body
                 },
                 baseLayers: [{
-                    name: 'Layer1',
+                    id: 'Layer1',
                     linked: ['Overlay1']
                 }, {
-                    name: 'Layer2'
+                    id: 'Layer2'
                 }],
                 overlays: [{
-                    name: 'Overlay1'
+                    id: 'Overlay1'
                 }, {
-                    name: 'Overlay2'
+                    id: 'Overlay2'
                 }]
             }, 'node2');
 
@@ -71,14 +73,14 @@
                 },
                 top: false,
                 baseLayers: [{
-                    name: 'Layer1'
+                    id: 'Layer1'
                 }, {
-                    name: 'Layer2'
+                    id: 'Layer2'
                 }],
                 overlays: [{
-                    name: 'Overlay1'
+                    id: 'Overlay1'
                 }, {
-                    name: 'Overlay2'
+                    id: 'Overlay2'
                 }]
             }, 'node3');
 
@@ -91,14 +93,14 @@
                 top: false,
                 right: false,
                 baseLayers: [{
-                    name: 'Long layer name here'
+                    id: 'Long layer name here'
                 }, {
-                    name: 'Another long layer name'
+                    id: 'Another long layer name'
                 }],
                 overlays: [{
-                    name: 'Overlay1'
+                    id: 'Overlay1'
                 }, {
-                    name: 'Overlay2'
+                    id: 'Overlay2'
                 }]
             }, 'node4');
 
