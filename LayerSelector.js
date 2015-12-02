@@ -117,7 +117,10 @@ define([
             // params.map.lods = this._defaultTileInfo.lods;
             this._applianceLayers = this._setTileInfosForApplianceLayers(this._applianceLayers);
         },
-        /** @private */
+        /**
+         * This is fired after all properties of a widget are defined, and the document fragment representing the
+         * widget is created—but before the fragment itself is added to the main document.
+         * @private */
         postCreate: function () {
             console.log('layer-selector::postCreate', arguments);
 
@@ -214,9 +217,9 @@ define([
             domConstruct.place(node, refNode);
         },
         /**
-         * Takes layer tokens from `_applianceLayers` keys and resolves them to `esri\WebTiledLayers`.
+         * Takes layer tokens from `_applianceLayers` keys and resolves them to `layerFactory` objects with `esri\layer\WebTiledLayer` factories.
          * @private
-         * @param {string|layerFactory[]} layerFactories - An array of layer tokens or layer factories.
+         * @param {string[]|layerFactory[]} layerFactories - An array of layer tokens or layer factories.
          * @returns {layerFactory[]} an array of resolved layer factory objects.
          */
         _resolveBasemapTokens: function (layerFactories) {
@@ -337,7 +340,7 @@ define([
             });
         },
         /**
-         * Recieves the old, new, and property from the selected watcher.
+         * Takes a layer-selector/LayerSelectorItem and makes it visible in the map.
          * @private
          * @param {layer-selector/LayerSelectorItem} layerItem - item that was changed
          */
@@ -441,7 +444,7 @@ define([
             return 0;
         },
         /**
-         * Keep the selected radio buttons and checkboxex synchonized with the dom across layer Items.
+         * Keep the selected radio buttons and checkboxes synchonized with the dom across layer Items.
          * @private
          * @param {string} id - The id of the layer added to the map.
          */
@@ -467,7 +470,7 @@ define([
             }
         },
         /**
-         * polyfill older browsers with array.find from MDN.
+         * polyfill older browsers with array.find and object.keys from MDN.
          * @private
          */
         _polyfill: function () {
@@ -583,7 +586,7 @@ define([
                 lods: lods
             };
         },
-        /** Sets the TileInfor for each of the appliance layers since they all use different levels.
+        /** Sets the TileInfo for each of the appliance layers since they all use different levels.
          * @param {applianceLayer} layers - The applicance layers object `{ 'id': { urlPattern: ''}}`
          * @returns {applianceLayer} - returns the appliance layers object with a new tileInfo property.
          */
