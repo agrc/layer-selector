@@ -10,6 +10,7 @@ define([
     'dojo/_base/declare',
     'dojo/_base/lang',
 
+    'esri/layers/TileInfo',
     'esri/layers/WebTiledLayer',
 
     './LayerSelectorItem'
@@ -24,6 +25,7 @@ define([
     declare,
     lang,
 
+    TileInfo,
     WebTiledLayer,
 
     LayerSelectorItem
@@ -101,6 +103,7 @@ define([
          * @param {esri/map | agrc/widgets/map/BaseMap} params.map - The map to control layer selection within.
          * @param {layerFactory[]} params.baseLayers - mutually exclusive layers (only one can be visible on your map).
          * @param {layerFactory[]} params.overlays - layers you display over the `baseLayers`.
+         * @param {string} params.quadWord - see {@link layer-selector/LayerSelector#quadWord}.
          */
         constructor: function (params) {
             console.log('layer-selector::constructor', arguments);
@@ -110,9 +113,9 @@ define([
                 throw new Error('layer-selector::Missing map in constructor args. `new LayerSelector({map: map});`');
             }
 
-            this._hasLinkedLayers = params.baseLayers && params.baseLayers.some(function checkForLinked(layerFactory) {
-                return layerFactory.linked;
-            });
+            this._defaultTileInfo = this._createDefaultTileInfo();
+            // params.map.lods = this._defaultTileInfo.lods;
+            this._applianceLayers = this._setTileInfosForApplianceLayers(this._applianceLayers);
         },
         /** @private */
         postCreate: function () {
@@ -158,6 +161,10 @@ define([
 
             baseLayers = this._resolveBasemapTokens(baseLayers, this.quadWord);
             overlays = this._resolveBasemapTokens(overlays, this.quadWord);
+
+            this._hasLinkedLayers = baseLayers && baseLayers.some(function checkForLinked(layerFactory) {
+                return layerFactory.linked;
+            });
 
             this.baseLayerWidgets = this._buildLayerItemWidgets(baseLayers, this.layerContainer, 'radio');
             this.overlayWidgets = this._buildLayerItemWidgets(overlays, this.layerContainer, 'checkbox');
@@ -239,11 +246,18 @@ define([
                         return false;
                     }
 
+                    var tileInfo = null;
+                    if (layer.tileInfo) {
+                        tileInfo = new TileInfo(layer.tileInfo);
+                    }
+
                     resolvedInfos.push({
                         factory: WebTiledLayer,
                         url: layer.urlPattern.replace('{quad}', this.quadWord),
+                        linked: layer.linked,
                         id: id,
-                        selected: li.selected || null
+                        tileInfo: tileInfo,
+                        selected: li.selected
                     });
                 } else {
                     resolvedInfos.push(li);
@@ -360,7 +374,26 @@ define([
             var index = this._determineLayerIndex(layerItem, this.get('managedLayers'), this.map.layerIds, this.map.graphicsLayerIds);
 
             if (layerItem.get('selected') === true) {
+                var tileInfo = managedLayers[layerItem.name].layer.tileInfo;
+                var level = this.map.getLevel();
+
+                if (tileInfo) {
+                    this.map.__tileInfo = tileInfo;
+                    this.map._params.minZoom = this.map.__tileInfo.lods[0].level;
+                    this.map._params.maxZoom = this.map.__tileInfo.lods[this.map.__tileInfo.lods.length - 1].level;
+                    this.map._params.minScale = this.map.__tileInfo.lods[0].scale;
+                    this.map._params.maxScale = this.map.__tileInfo.lods[this.map.__tileInfo.lods.length - 1].scale;
+
+                    if (this.map._params.maxZoom < level) {
+                        this.map.setLevel(this.map._params.maxZoom);
+                    }
+                }
+
                 this.map.addLayer(managedLayers[layerItem.name].layer, index);
+
+                if (level > -1) {
+                    this.map._simpleSliderZoomHandler(null, null, null, level);
+                }
             } else {
                 this.map.removeLayer(managedLayers[layerItem.name].layer);
             }
@@ -466,6 +499,79 @@ define([
                 };
             }
         },
+        /**
+         * Create default TileInfo constructor object for applicance levels.
+         * @private
+         * @returns {object} The least common denominator contructor object for appliance layers.
+         */
+        _createDefaultTileInfo: function () {
+            console.log('layer-selector:_createDefaultTileInfo', arguments);
+
+            var tilesize = 256;
+            var earthCircumference = 40075016.685568;
+            var halfEarthCircumference = halfEarthCircumference * 0.5;
+            var inchesPerMeter =  39.37;
+            var initialResolution = earthCircumference / tilesize;
+
+            var lods = [];
+            for (var level = 0; level <= 20; level++) {
+                var resolution = initialResolution / Math.pow(2, level);
+                var scale = resolution * 96 * inchesPerMeter;
+                lods.push({
+                    level: level,
+                    scale: scale,
+                    resolution: resolution
+                });
+            }
+
+            return {
+                dpi: 96,
+                rows: 256,
+                cols: 256,
+                width: 256,
+                origin: {
+                    x: -20037508.342787,
+                    y: 20037508.342787
+                },
+                spatialReference: {
+                    wkid: 3857
+                },
+                lods: lods
+            };
+        },
+        /** Sets the TileInfor for each of the appliance layers since they all use different levels.
+         * @param {applianceLayer} layers - The applicance layers object `{ 'id': { urlPattern: ''}}`
+         * @returns {applianceLayer} - returns the appliance layers object with a new tileInfo property.
+         */
+        _setTileInfosForApplianceLayers: function (layers) {
+             console.log('layer-selector:_setTileInfosForApplianceLayers', arguments);
+
+             var lods = this._defaultTileInfo.lods;
+             var fiveToNineteen = lods.slice(0, 20);
+             var fiveToSeventeen = lods.slice(0, 18);
+             var zeroToEighteen = lods.slice(0, 19);
+
+             layers.Imagery.tileInfo = new TileInfo(this._defaultTileInfo);
+             layers.Hybrid.tileInfo = new TileInfo(this._defaultTileInfo);
+
+             var tileInfo = lang.clone(this._defaultTileInfo);
+             tileInfo.lods = zeroToEighteen;
+
+             layers['Color IR'].tileInfo = new TileInfo(tileInfo);
+
+             tileInfo = lang.clone(this._defaultTileInfo);
+             tileInfo.lods = fiveToSeventeen;
+
+             layers.Topo.tileInfo = new TileInfo(tileInfo);
+
+             tileInfo = lang.clone(this._defaultTileInfo);
+             tileInfo.lods = fiveToNineteen;
+
+             layers.Lite.tileInfo = new TileInfo(tileInfo);
+             layers.Overlay.tileInfo = new TileInfo(tileInfo);
+
+             return layers;
+         },
         /**
          * Shows the form containing the layer list.
          * @private
