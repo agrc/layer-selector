@@ -119,7 +119,7 @@ module.exports = function (grunt) {
             },
             jshint: {
                 files: jsFiles,
-                tasks: ['newer:jshint:main', 'newer:jscs:main', 'jasmine:main:build', 'shell']
+                tasks: ['newer:jshint:main', 'newer:jscs:main', 'jasmine:main:build']
             },
             src: {
                 files: jsFiles.concat(otherFiles)
@@ -136,7 +136,6 @@ module.exports = function (grunt) {
         'jshint:force',
         'jscs:force',
         'amdcheck:main',
-        'shell',
         'connect:jasmine',
         'stylus',
         'watch'
@@ -147,10 +146,13 @@ module.exports = function (grunt) {
         'jshint:force',
         'jscs:force',
         'amdcheck:main',
-        'shell',
         'connect:open',
         'connect:docs',
         'stylus',
         'watch'
+    ]);
+
+    grunt.registerTask('docs', [
+        'shell'
     ]);
 };

@@ -44,6 +44,84 @@ define([
          */
         baseClass: 'layer-selector',
         /**
+         * @name baseLayerLayers
+         * @memberof LayerSelector
+         * @since 0.2.0
+         * @prop {esri/layer[]} baselayerLayers - A list of basemap layers that have been created.
+         * There is no guarantee that this list will match what was passed into `baselayers` in
+         * the constructor. It is a list of baselayers that have been created and added to the `map`
+         * at one point or another.
+         * @example
+         * this.get('baseLayerLayers');
+         */
+        _getBaselayerLayersAttr: function baseLayers() {
+            var layers = this.get('managedLayers');
+            return Object.keys(layers).filter(function filterOutBaseLayers(layer) {
+                return layers[layer].layerType === 'baselayer';
+            });
+        },
+        /**
+         * @name visibleLayers
+         * @memberof LayerSelector
+         * @since 0.2.0
+         * @prop {visibleLayers} visibleLayers - An object containting array's of visible `LayerSelectorItems` widgets
+         * and `esri/layer` layers that are currently visible in the map.
+         * @example
+         * this.get('baseLayerLayers');
+         */
+        _getVisibleLayersAttr: function baseLayers() {
+            var layers = this.get('managedLayers');
+
+            var visibleLayerWidgets = this.baseLayerWidgets.filter(function findVisibleBaseLayers(widget) {
+                return widget.get('selected');
+            });
+
+            if (this._hasLinkedLayers) {
+                var linked = [];
+                array.forEach(visibleLayerWidgets, function mergeArrays(item) {
+                    linked = linked.concat(item.layerFactory.linked);
+                });
+
+                if (linked.length < 1) {
+                    return {
+                        widgets: visibleLayerWidgets,
+                        layers: array.map(visibleLayerWidgets, function findLayer(widget) {
+                            return layers[widget.name].layer;
+                        })
+                    };
+                }
+
+                linked = array.filter(this.overlayWidgets, function filterWidgets(widget) {
+                    return linked.indexOf(widget.name) > -1 && widget.get('selected');
+                });
+
+                visibleLayerWidgets = visibleLayerWidgets.concat(linked);
+            }
+
+            return {
+                widgets: visibleLayerWidgets,
+                layers: array.map(visibleLayerWidgets, function findLayer(widget) {
+                    return layers[widget.name].layer;
+                })
+            };
+        },
+        /**
+         * @name overlayLayers
+         * @memberof LayerSelector
+         * @since 0.2.0
+         * @prop {esri/layer[]} overlayLayers - A list of overlay layers that have been created.
+         * There is no guarantee that this list will match what was passed into `overlayers` in
+         * the constructor. It is a list of overlayers that have been created and added to the `map`
+         * at one point or another.
+         * this.get('overlayLayers');
+         */
+        _getOverlayLayersAttr: function overlayers() {
+            var layers = this.get('managedLayers');
+            return Object.keys(layers).filter(function filterOutOverLayers(layer) {
+                return layers[layer].layerType === 'overlayer';
+            });
+        },
+        /**
          * @memberof LayerSelector
          * @prop {LayerSelectorItem[]} baseLayerWidgets - The constructed `LayerSelectorItem` widgets.
          */
@@ -665,11 +743,17 @@ define([
     });
 });
 /**
-* The info about a layer needed to create it and show it on a map and in the layer selector successfully.
-* @typedef {object} layerFactory
-* @property {function} factory - the constructor function for creating a layer.
-* @property {string} url - The url to the map service.
-* @property {string} id - The id of the layer. This is shown in the LayerSelectorItem.
-* @property {object} tileInfo - The `esri/TileInfo` object if the layer has custom levels.
-* @property {string[]} linked - The id of overlays to automatically enable when selected.
-*/
+ * The info about a layer needed to create it and show it on a map and in the layer selector successfully.
+ * @typedef {object} layerFactory
+ * @property {function} factory - the constructor function for creating a layer.
+ * @property {string} url - The url to the map service.
+ * @property {string} id - The id of the layer. This is shown in the LayerSelectorItem.
+ * @property {object} tileInfo - The `esri/TileInfo` object if the layer has custom levels.
+ * @property {string[]} linked - The id of overlays to automatically enable when selected.
+ */
+/**
+ * The return value of the `visibleLayers` property.
+ * @typedef {object} visibleLayers
+ * @property {LayerSelectorItem[]} widgets - The visible `LayerSelectorItems`.
+ * @property {esri/layer[]} layers - The visible `esri/layer/*`.
+ */

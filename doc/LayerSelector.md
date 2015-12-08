@@ -1,6 +1,6 @@
 # LayerSelector
 
-[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:109-120](https://github.com/agrc-widgets/layer-selector/blob/de03326ed621a007d7851435742c56e4a703ef68/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L109-L120 "Source code on GitHub")
+[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:187-198](https://github.com/agrc-widgets/layer-selector/blob/380a3162f4de473230737475b1192213eed17f59/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L187-L198 "Source code on GitHub")
 
 A class for creating a layer selector that changes layers for a given map.
 
@@ -18,25 +18,69 @@ A class for creating a layer selector that changes layers for a given map.
     -   `params.top` **[boolean]** True if the widget should be placed in the top of the container. (optional, default `true`)
     -   `params.right` **[boolean]** True if the widget should be placed in the right of the container. (optional, default `true`)
 
+## baseLayerLayers
+
+[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:57-62](https://github.com/agrc-widgets/layer-selector/blob/380a3162f4de473230737475b1192213eed17f59/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L57-L62 "Source code on GitHub")
+
+**Properties**
+
+-   `baselayerLayers` **Array&lt;esri/layer&gt;** A list of basemap layers that have been created.
+    There is no guarantee that this list will match what was passed into `baselayers` in
+    the constructor. It is a list of baselayers that have been created and added to the `map`
+    at one point or another.
+
+**Examples**
+
+```javascript
+this.get('baseLayerLayers');
+```
+
 ## baseLayerWidgets
 
-[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:50-50](https://github.com/agrc-widgets/layer-selector/blob/de03326ed621a007d7851435742c56e4a703ef68/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L50-L50 "Source code on GitHub")
+[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:128-128](https://github.com/agrc-widgets/layer-selector/blob/380a3162f4de473230737475b1192213eed17f59/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L128-L128 "Source code on GitHub")
 
 **Properties**
 
 -   `baseLayerWidgets` **Array&lt;LayerSelectorItem&gt;** The constructed `LayerSelectorItem` widgets.
 
+## overlayLayers
+
+[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:118-123](https://github.com/agrc-widgets/layer-selector/blob/380a3162f4de473230737475b1192213eed17f59/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L118-L123 "Source code on GitHub")
+
+**Properties**
+
+-   `overlayLayers` **Array&lt;esri/layer&gt;** A list of overlay layers that have been created.
+    There is no guarantee that this list will match what was passed into `overlayers` in
+    the constructor. It is a list of overlayers that have been created and added to the `map`
+    at one point or another.
+    this.get('overlayLayers');
+
 ## overlayWidgets
 
-[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:55-55](https://github.com/agrc-widgets/layer-selector/blob/de03326ed621a007d7851435742c56e4a703ef68/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L55-L55 "Source code on GitHub")
+[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:133-133](https://github.com/agrc-widgets/layer-selector/blob/380a3162f4de473230737475b1192213eed17f59/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L133-L133 "Source code on GitHub")
 
 **Properties**
 
 -   `overlayWidgets` **Array&lt;LayerSelectorItem&gt;** The constructed `LayerSelectorItem` widgets.
 
+## visibleLayers
+
+[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:72-107](https://github.com/agrc-widgets/layer-selector/blob/380a3162f4de473230737475b1192213eed17f59/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L72-L107 "Source code on GitHub")
+
+**Properties**
+
+-   `visibleLayers` **visibleLayers** An object containting array's of visible `LayerSelectorItems` widgets
+    and `esri/layer` layers that are currently visible in the map.
+
+**Examples**
+
+```javascript
+this.get('baseLayerLayers');
+```
+
 # layerFactory
 
-[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:1-666](https://github.com/agrc-widgets/layer-selector/blob/de03326ed621a007d7851435742c56e4a703ef68/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L1-L666 "Source code on GitHub")
+[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:1-744](https://github.com/agrc-widgets/layer-selector/blob/380a3162f4de473230737475b1192213eed17f59/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L1-L744 "Source code on GitHub")
 
 The info about a layer needed to create it and show it on a map and in the layer selector successfully.
 
@@ -50,7 +94,18 @@ The info about a layer needed to create it and show it on a map and in the layer
 
 # startup
 
-[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:654-664](https://github.com/agrc-widgets/layer-selector/blob/de03326ed621a007d7851435742c56e4a703ef68/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L654-L664 "Source code on GitHub")
+[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:732-742](https://github.com/agrc-widgets/layer-selector/blob/380a3162f4de473230737475b1192213eed17f59/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L732-L742 "Source code on GitHub")
 
 We have overriden startup on `_WidgetBase` to call startup on all `LayerSelectorItem` child widgets.
 You should always call startup on this widget after it has been placed in the dom.
+
+# visibleLayers
+
+[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:1-744](https://github.com/agrc-widgets/layer-selector/blob/380a3162f4de473230737475b1192213eed17f59/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L1-L744 "Source code on GitHub")
+
+The return value of the `visibleLayers` property.
+
+**Properties**
+
+-   `widgets` **Array&lt;LayerSelectorItem&gt;** The visible `LayerSelectorItems`.
+-   `layers` **Array&lt;esri/layer&gt;** The visible `esri/layer/*`.
