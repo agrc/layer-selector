@@ -79,7 +79,6 @@ define([
             domAttr.set(this.input, 'value', this.name);
             this.label.appendChild(document.createTextNode(this.name));
         },
-
         /**
          * @name inputType
          * @memberof LayerSelectorItem
@@ -98,13 +97,11 @@ define([
 
             this._set('inputType', type);
         },
-
         /**
         * @memberof LayerSelectorItem
         * @prop {string} layerType- The type of `LayerSelectorItem`. `baselayer` (radio) or `overlayer` (checkbox).
         */
         layerType: null,
-
         /**
          * The UI element wrapping a radio or checkbox and label representing a `esri/layer/Layer` that can be turned
          * on and off in a map.

@@ -96,6 +96,90 @@ require([
                 expect(widget._hasLinkedLayers).toBe(false, 'no linked layers');
             });
         });
+
+        describe('getters', function () {
+            it('baselayerLayers gets only baselayers', function () {
+                widget = new WidgetUnderTest({map: map});
+
+                widget.set('managedLayers', {
+                    'base1': {
+                        layerType: 'baselayer'
+                    },
+                    'base2': {
+                        layerType: 'baselayer'
+                    },
+                    'base3': {
+                        layerType: 'baselayer'
+                    },
+                    'over3': {
+                        layerType: 'overlayer'
+                    }
+                });
+
+                expect(widget.get('baselayerLayers').length).toEqual(3);
+            });
+            it('overlayLayers gets only overlayers', function () {
+                widget = new WidgetUnderTest({map: map});
+
+                widget.set('managedLayers', {
+                    'base1': {
+                        layerType: 'baselayer'
+                    },
+                    'base2': {
+                        layerType: 'baselayer'
+                    },
+                    'base3': {
+                        layerType: 'baselayer'
+                    },
+                    'over3': {
+                        layerType: 'overlayer'
+                    }
+                });
+
+                expect(widget.get('overlayLayers').length).toEqual(1);
+            });
+
+            it('visibleLayers gets only visible layers', function () {
+                widget = new WidgetUnderTest({
+                    map: map,
+                    baseLayers: [{
+                        name: '1',
+                        factory: noop
+                    }, {
+                        name: '2',
+                        factory: noop
+                    }]
+                });
+
+                expect(widget.get('visibleLayers').widgets.length).toEqual(1, 'one visible layer');
+                expect(widget.get('visibleLayers').widgets[0].name).toEqual('1');
+            });
+
+            it('visibleLayers gets linked layers', function () {
+                widget = new WidgetUnderTest({
+                    map: map,
+                    baseLayers: [{
+                        name: '1',
+                        factory: noop,
+                        linked: ['3', '4']
+                    }, {
+                        name: '2',
+                        factory: noop
+                    }],
+                    overlays: [{
+                        name: '3'
+                    },{
+                        name: '4'
+                    }]
+                });
+
+                expect(widget.get('visibleLayers').widgets.length).toEqual(3, 'one visible baselayer and 2 overlays');
+                expect(widget.get('visibleLayers').widgets[0].name).toEqual('1');
+                expect(widget.get('visibleLayers').widgets[1].name).toEqual('3');
+                expect(widget.get('visibleLayers').widgets[2].name).toEqual('4');
+            });
+        });
+
         describe('_determineLayerIndex', function () {
             it('returns 0 for baselayers always.', function () {
                 widget = new WidgetUnderTest({map: map});

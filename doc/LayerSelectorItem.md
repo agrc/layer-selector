@@ -1,6 +1,6 @@
 # LayerSelectorItem
 
-[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js:118-126](https://github.com/agrc-widgets/layer-selector/blob/de03326ed621a007d7851435742c56e4a703ef68/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js#L118-L126 "Source code on GitHub")
+[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js:115-123](https://github.com/agrc-widgets/layer-selector/blob/0cd8174c371f65a562eb0bdfd7d92a52fed4f08c/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js#L115-L123 "Source code on GitHub")
 
 The UI element wrapping a radio or checkbox and label representing a `esri/layer/Layer` that can be turned
 on and off in a map.
@@ -15,7 +15,7 @@ on and off in a map.
 
 ## hidden
 
-[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js:59-62](https://github.com/agrc-widgets/layer-selector/blob/de03326ed621a007d7851435742c56e4a703ef68/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js#L59-L62 "Source code on GitHub")
+[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js:59-62](https://github.com/agrc-widgets/layer-selector/blob/0cd8174c371f65a562eb0bdfd7d92a52fed4f08c/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js#L59-L62 "Source code on GitHub")
 
 **Parameters**
 
@@ -30,7 +30,7 @@ this.get('hidden');
 
 ## inputType
 
-[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js:92-100](https://github.com/agrc-widgets/layer-selector/blob/de03326ed621a007d7851435742c56e4a703ef68/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js#L92-L100 "Source code on GitHub")
+[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js:91-99](https://github.com/agrc-widgets/layer-selector/blob/0cd8174c371f65a562eb0bdfd7d92a52fed4f08c/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js#L91-L99 "Source code on GitHub")
 
 **Parameters**
 
@@ -45,7 +45,7 @@ this.get('inputType');
 
 ## layerFactory
 
-[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js:74-81](https://github.com/agrc-widgets/layer-selector/blob/de03326ed621a007d7851435742c56e4a703ef68/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js#L74-L81 "Source code on GitHub")
+[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js:74-81](https://github.com/agrc-widgets/layer-selector/blob/0cd8174c371f65a562eb0bdfd7d92a52fed4f08c/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js#L74-L81 "Source code on GitHub")
 
 **Parameters**
 
@@ -60,7 +60,7 @@ this.get('layerFactory');
 
 ## layerType
 
-[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js:106-106](https://github.com/agrc-widgets/layer-selector/blob/de03326ed621a007d7851435742c56e4a703ef68/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js#L106-L106 "Source code on GitHub")
+[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js:104-104](https://github.com/agrc-widgets/layer-selector/blob/0cd8174c371f65a562eb0bdfd7d92a52fed4f08c/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js#L104-L104 "Source code on GitHub")
 
 **Properties**
 
@@ -68,7 +68,7 @@ this.get('layerFactory');
 
 ## selected
 
-[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js:45-49](https://github.com/agrc-widgets/layer-selector/blob/de03326ed621a007d7851435742c56e4a703ef68/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js#L45-L49 "Source code on GitHub")
+[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js:45-49](https://github.com/agrc-widgets/layer-selector/blob/0cd8174c371f65a562eb0bdfd7d92a52fed4f08c/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js#L45-L49 "Source code on GitHub")
 
 **Parameters**
 
@@ -83,7 +83,7 @@ this.get('selected');
 
 # layerFactory
 
-[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js:1-145](https://github.com/agrc-widgets/layer-selector/blob/de03326ed621a007d7851435742c56e4a703ef68/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js#L1-L145 "Source code on GitHub")
+[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js:1-142](https://github.com/agrc-widgets/layer-selector/blob/0cd8174c371f65a562eb0bdfd7d92a52fed4f08c/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js#L1-L142 "Source code on GitHub")
 
 The info about a layer needed to create it and show it on a map and in the layer selector successfully.
 
