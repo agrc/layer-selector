@@ -46,6 +46,7 @@ define([
         /**
          * @name baseLayerLayers
          * @memberof LayerSelector
+         * @since 0.2.0
          * @prop {esri/layer[]} baselayerLayers - A list of basemap layers that have been created.
          * There is no guarantee that this list will match what was passed into `baselayers` in
          * the constructor. It is a list of baselayers that have been created and added to the `map`
@@ -62,6 +63,7 @@ define([
         /**
          * @name visibleLayers
          * @memberof LayerSelector
+         * @since 0.2.0
          * @prop {visibleLayers} visibleLayers - An object containting array's of visible `LayerSelectorItems` widgets
          * and `esri/layer` layers that are currently visible in the map.
          * @example
@@ -106,6 +108,7 @@ define([
         /**
          * @name overlayLayers
          * @memberof LayerSelector
+         * @since 0.2.0
          * @prop {esri/layer[]} overlayLayers - A list of overlay layers that have been created.
          * There is no guarantee that this list will match what was passed into `overlayers` in
          * the constructor. It is a list of overlayers that have been created and added to the `map`
