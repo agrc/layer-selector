@@ -7,6 +7,10 @@
   ],
   "description": "select layers",
   "main": "main.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/agrc-widgets/layer-selector.git"
+  },
   "moduleType": [
     "amd"
   ],
