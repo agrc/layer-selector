@@ -2,6 +2,10 @@
   "name": "layer-selector",
   "version": "0.1.0",
   "description": "Select layers",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/agrc-widgets/layer-selector.git"
+  },
   "main": "GruntFile.js",
   "dojoBuild": "layer-selector.profile.js",
   "scripts": {
@@ -25,11 +29,11 @@
     "grunt-contrib-jshint": "^0.11.3",
     "grunt-contrib-stylus": "^0.22.0",
     "grunt-contrib-watch": "^0.6.1",
-    "grunt-jscs": "^2.3.0",
+    "grunt-jscs": "^2.4.0",
     "grunt-newer": "^1.1.1",
     "grunt-shell": "^1.1.2",
     "jscs-stylish": "^0.3.1",
-    "jshint-stylish": "^2.0.1",
+    "jshint-stylish": "^2.1.0",
     "load-grunt-tasks": "^3.3.0"
   }
 }
