@@ -50,7 +50,7 @@ define([
          * @prop {visibleLayers} visibleLayers - An object containting array's of visible `LayerSelectorItems` widgets
          * and `esri/layer` layers that are currently visible in the map.
          * @example
-         * this.get('baseLayerLayers');
+         * this.get('visibleLayers');
          */
         _getVisibleLayersAttr: function baseLayers() {
             var layers = this.get('managedLayers');

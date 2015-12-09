@@ -1,6 +1,6 @@
 # LayerSelector
 
-[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:154-165](https://github.com/agrc-widgets/layer-selector/blob/ac8339c9071fb9f89adb73d05ea095af6cf3dad5/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L154-L165 "Source code on GitHub")
+[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:154-165](https://github.com/agrc-widgets/layer-selector/blob/bae74305a8ba5cf6914fc71e4d3862d6b48ebaea/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L154-L165 "Source code on GitHub")
 
 A class for creating a layer selector that changes layers for a given map.
 
@@ -20,7 +20,7 @@ A class for creating a layer selector that changes layers for a given map.
 
 ## baseLayerWidgets
 
-[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:95-95](https://github.com/agrc-widgets/layer-selector/blob/ac8339c9071fb9f89adb73d05ea095af6cf3dad5/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L95-L95 "Source code on GitHub")
+[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:95-95](https://github.com/agrc-widgets/layer-selector/blob/bae74305a8ba5cf6914fc71e4d3862d6b48ebaea/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L95-L95 "Source code on GitHub")
 
 **Properties**
 
@@ -28,7 +28,7 @@ A class for creating a layer selector that changes layers for a given map.
 
 ## overlayWidgets
 
-[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:100-100](https://github.com/agrc-widgets/layer-selector/blob/ac8339c9071fb9f89adb73d05ea095af6cf3dad5/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L100-L100 "Source code on GitHub")
+[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:100-100](https://github.com/agrc-widgets/layer-selector/blob/bae74305a8ba5cf6914fc71e4d3862d6b48ebaea/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L100-L100 "Source code on GitHub")
 
 **Properties**
 
@@ -36,7 +36,7 @@ A class for creating a layer selector that changes layers for a given map.
 
 ## visibleLayers
 
-[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:55-90](https://github.com/agrc-widgets/layer-selector/blob/ac8339c9071fb9f89adb73d05ea095af6cf3dad5/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L55-L90 "Source code on GitHub")
+[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:55-90](https://github.com/agrc-widgets/layer-selector/blob/bae74305a8ba5cf6914fc71e4d3862d6b48ebaea/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L55-L90 "Source code on GitHub")
 
 **Properties**
 
@@ -46,12 +46,12 @@ A class for creating a layer selector that changes layers for a given map.
 **Examples**
 
 ```javascript
-this.get('baseLayerLayers');
+this.get('visibleLayers');
 ```
 
 # layerFactory
 
-[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:1-711](https://github.com/agrc-widgets/layer-selector/blob/ac8339c9071fb9f89adb73d05ea095af6cf3dad5/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L1-L711 "Source code on GitHub")
+[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:1-711](https://github.com/agrc-widgets/layer-selector/blob/bae74305a8ba5cf6914fc71e4d3862d6b48ebaea/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L1-L711 "Source code on GitHub")
 
 The info about a layer needed to create it and show it on a map and in the layer selector successfully.
 
@@ -65,14 +65,14 @@ The info about a layer needed to create it and show it on a map and in the layer
 
 # startup
 
-[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:699-709](https://github.com/agrc-widgets/layer-selector/blob/ac8339c9071fb9f89adb73d05ea095af6cf3dad5/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L699-L709 "Source code on GitHub")
+[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:699-709](https://github.com/agrc-widgets/layer-selector/blob/bae74305a8ba5cf6914fc71e4d3862d6b48ebaea/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L699-L709 "Source code on GitHub")
 
 We have overriden startup on `_WidgetBase` to call startup on all `LayerSelectorItem` child widgets.
 You should always call startup on this widget after it has been placed in the dom.
 
 # visibleLayers
 
-[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:1-711](https://github.com/agrc-widgets/layer-selector/blob/ac8339c9071fb9f89adb73d05ea095af6cf3dad5/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L1-L711 "Source code on GitHub")
+[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:1-711](https://github.com/agrc-widgets/layer-selector/blob/bae74305a8ba5cf6914fc71e4d3862d6b48ebaea/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L1-L711 "Source code on GitHub")
 
 The return value of the `visibleLayers` property.
 
