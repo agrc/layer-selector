@@ -4,3 +4,5 @@ node_modules/
 bower_components/
 resources/vars.css
 resources/LayerSelectorItem.css
+doc/assets/
+doc/index.html

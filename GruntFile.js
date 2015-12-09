@@ -5,7 +5,7 @@ module.exports = function (grunt) {
     var docPort = grunt.option('docPort') || jasminePort - 1;
     var testHost = 'http://localhost:' + jasminePort;
     var docHost = 'http:/localhost:' + docPort;
-    var jsFiles = ['!bower_components', '*.js'];
+    var jsFiles = ['!bower_components', '!node_modules', '!.git', '!.grunt', '*.js'];
     var otherFiles = ['templates/*.html', 'tests/*.html', 'resources/*.svg', 'tests/**/*.js'];
 
     grunt.initConfig({
@@ -57,15 +57,44 @@ module.exports = function (grunt) {
                 }
             }
         },
-        shell : {
-            options: {
-                stdout: true
+        documentation: {
+            LayerSelector: {
+                files: [{
+                    src: 'LayerSelector.js'
+                }],
+                options: {
+                    github: true,
+                    format: 'md',
+                    filename: './doc/LayerSelector.md'
+                }
             },
-            doc: {
-                command: 'documentation .\\LayerSelector.js -t documentation-theme-default -o .\\doc\\LayerSelector.md -g -f md'
+            LayerSelectorItem: {
+                files: [{
+                    src: 'LayerSelectorItem.js'
+                }],
+                options: {
+                    github: true,
+                    format: 'md',
+                    filename: './doc/LayerSelectorItem.md'
+                }
             },
-            docItem: {
-                command: 'documentation .\\LayerSelectorItem.js -t documentation-theme-default -o .\\doc\\LayerSelectorItem.md -g -f md'
+            LayerSelectorHtml: {
+                files: [{
+                    src: 'LayerSelector.js'
+                }],
+                options: {
+                    github: true,
+                    destination: './doc'
+                }
+            },
+            LayerSelectorItemHtml: {
+                files: [{
+                    src: 'LayerSelectorItem.js'
+                }],
+                options: {
+                    github: true,
+                    destination: './doc'
+                }
             }
         },
         jscs: {
@@ -117,6 +146,10 @@ module.exports = function (grunt) {
                 files: 'Layer*.js',
                 tasks: ['amdcheck']
             },
+            docs: {
+                files: 'Layer*.js',
+                tasks: ['documentation:LayerSelector', 'documentation:LayerSelectorItem']
+            },
             jshint: {
                 files: jsFiles,
                 tasks: ['newer:jshint:main', 'newer:jscs:main', 'jasmine:main:build']
@@ -138,7 +171,10 @@ module.exports = function (grunt) {
         'amdcheck:main',
         'connect:jasmine',
         'stylus',
-        'watch'
+        'watch:amdcheck',
+        'watch:jshint',
+        'watch:src',
+        'watch:stylus'
     ]);
 
     grunt.registerTask('launch', [
@@ -149,10 +185,28 @@ module.exports = function (grunt) {
         'connect:open',
         'connect:docs',
         'stylus',
-        'watch'
+        'watch:amdcheck',
+        'watch:jshint',
+        'watch:src',
+        'watch:stylus'
     ]);
 
     grunt.registerTask('docs', [
-        'shell'
+        'documentation:LayerSelector',
+        'documentation:LayerSelectorItem',
+        'connect:docs',
+        'watch:docs'
+    ]);
+
+    grunt.registerTask('doc-selector', [
+        'documentation:LayerSelectorHtml',
+        'connect:docs',
+        'watch:docs'
+    ]);
+
+    grunt.registerTask('doc-selector-item', [
+        'documentation:LayerSelectorItemHtml',
+        'connect:docs',
+        'watch:docs'
     ]);
 };
