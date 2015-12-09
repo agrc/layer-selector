@@ -22,21 +22,6 @@ var browsers = [{
     platform: 'Windows 7',
     version: '9'
 }];
-var sauceConfig = {
-    urls: ['http://127.0.0.1:8000/_SpecRunner.html'],
-    tunnelTimeout: 120,
-    build: process.env.TRAVIS_JOB_ID,
-    browsers: browsers,
-    testname: 'atlas',
-    maxRetries: 10,
-    maxPollRetries: 10,
-    'public': 'public',
-    throttled: 3,
-    sauceConfig: {
-        'max-duration': 1800
-    },
-    statusCheckAttempts: 500
-};
 
 module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
@@ -51,10 +36,26 @@ module.exports = function (grunt) {
         'package.json',
         'bower.json'
     ];
+    var sauceConfig;
     try {
         var secrets = grunt.file.readJSON('secrets.json');
-        sauceConfig.username = secrets.sauce_name;
-        sauceConfig.key = secrets.sauce_key;
+        sauceConfig = {
+            username: secrets.sauce_name,
+            key: secrets.sauce_key,
+            urls: ['http://127.0.0.1:8000/_SpecRunner.html'],
+            tunnelTimeout: 120,
+            build: process.env.TRAVIS_JOB_ID,
+            browsers: browsers,
+            testname: 'layer-selector',
+            maxRetries: 10,
+            maxPollRetries: 10,
+            'public': 'public',
+            throttled: 3,
+            sauceConfig: {
+                'max-duration': 1800
+            },
+            statusCheckAttempts: 500
+        };
     } catch (e) {
         // swallow for build server
     }
