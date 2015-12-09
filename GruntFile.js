@@ -41,7 +41,7 @@ module.exports = function (grunt) {
         tunnelTimeout: 120,
         build: process.env.TRAVIS_JOB_ID,
         browsers: browsers,
-        testname: process.env.TRAVIS_JOB_ID,
+        testname: 'travis_' + process.env.TRAVIS_JOB_ID,
         maxRetries: 10,
         maxPollRetries: 10,
         'public': 'public',
@@ -55,6 +55,7 @@ module.exports = function (grunt) {
         var secrets = grunt.file.readJSON('secrets.json');
         sauceConfig.username = secrets.sauce_name;
         sauceConfig.key = secrets.sauce_key;
+        sauceConfig.testname = 'local';
     } catch (e) {
         // swallow for build server
     }
