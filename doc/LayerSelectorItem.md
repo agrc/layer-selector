@@ -1,6 +1,6 @@
 # LayerSelectorItem
 
-[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js:115-123](https://github.com/agrc-widgets/layer-selector/blob/bae74305a8ba5cf6914fc71e4d3862d6b48ebaea/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js#L115-L123 "Source code on GitHub")
+[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js:115-123](https://github.com/agrc-widgets/layer-selector/blob/8d7a5cfcb15dce8578f5782fa4767d1e714a5b18/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js#L115-L123 "Source code on GitHub")
 
 The UI element wrapping a radio or checkbox and label representing a `esri/layer/Layer` that can be turned
 on and off in a map.
@@ -10,12 +10,12 @@ on and off in a map.
 -   `node` **[HTMLElement or string]** The domNode or string id of a domNode to create this widget on. If null
     a new div will be created but not placed in the dom. You will need to place it programmatically.
 -   `params` **object** 
-    -   `params.layerFactory` **layerFactory** The factory object representing a layer.
+    -   `params.layerFactory` **layerFactory** The Factory object representing a layer.
     -   `params.inputType` **[string]** `radio` or `checkbox` depending on the type of input. (optional, default `radio`)
 
 ## hidden
 
-[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js:59-62](https://github.com/agrc-widgets/layer-selector/blob/bae74305a8ba5cf6914fc71e4d3862d6b48ebaea/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js#L59-L62 "Source code on GitHub")
+[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js:59-62](https://github.com/agrc-widgets/layer-selector/blob/8d7a5cfcb15dce8578f5782fa4767d1e714a5b18/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js#L59-L62 "Source code on GitHub")
 
 **Parameters**
 
@@ -30,7 +30,7 @@ this.get('hidden');
 
 ## inputType
 
-[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js:91-99](https://github.com/agrc-widgets/layer-selector/blob/bae74305a8ba5cf6914fc71e4d3862d6b48ebaea/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js#L91-L99 "Source code on GitHub")
+[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js:91-99](https://github.com/agrc-widgets/layer-selector/blob/8d7a5cfcb15dce8578f5782fa4767d1e714a5b18/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js#L91-L99 "Source code on GitHub")
 
 **Parameters**
 
@@ -45,7 +45,7 @@ this.get('inputType');
 
 ## layerFactory
 
-[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js:74-81](https://github.com/agrc-widgets/layer-selector/blob/bae74305a8ba5cf6914fc71e4d3862d6b48ebaea/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js#L74-L81 "Source code on GitHub")
+[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js:74-81](https://github.com/agrc-widgets/layer-selector/blob/8d7a5cfcb15dce8578f5782fa4767d1e714a5b18/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js#L74-L81 "Source code on GitHub")
 
 **Parameters**
 
@@ -60,7 +60,7 @@ this.get('layerFactory');
 
 ## layerType
 
-[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js:104-104](https://github.com/agrc-widgets/layer-selector/blob/bae74305a8ba5cf6914fc71e4d3862d6b48ebaea/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js#L104-L104 "Source code on GitHub")
+[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js:104-104](https://github.com/agrc-widgets/layer-selector/blob/8d7a5cfcb15dce8578f5782fa4767d1e714a5b18/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js#L104-L104 "Source code on GitHub")
 
 **Properties**
 
@@ -68,7 +68,7 @@ this.get('layerFactory');
 
 ## selected
 
-[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js:45-49](https://github.com/agrc-widgets/layer-selector/blob/bae74305a8ba5cf6914fc71e4d3862d6b48ebaea/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js#L45-L49 "Source code on GitHub")
+[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js:45-49](https://github.com/agrc-widgets/layer-selector/blob/8d7a5cfcb15dce8578f5782fa4767d1e714a5b18/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js#L45-L49 "Source code on GitHub")
 
 **Parameters**
 
@@ -83,13 +83,13 @@ this.get('selected');
 
 # layerFactory
 
-[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js:1-142](https://github.com/agrc-widgets/layer-selector/blob/bae74305a8ba5cf6914fc71e4d3862d6b48ebaea/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js#L1-L142 "Source code on GitHub")
+[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js:1-142](https://github.com/agrc-widgets/layer-selector/blob/8d7a5cfcb15dce8578f5782fa4767d1e714a5b18/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelectorItem.js#L1-L142 "Source code on GitHub")
 
 The info about a layer needed to create it and show it on a map and in the layer selector successfully.
 
 **Properties**
 
--   `factory` **function** the constructor function for creating a layer.
+-   `Factory` **function** the constructor function for creating a layer.
 -   `url` **string** The url to the map service.
 -   `id` **string** The id of the layer. This is shown in the LayerSelectorItem.
 -   `tileInfo` **object** The `esri/TileInfo` object if the layer has custom levels.

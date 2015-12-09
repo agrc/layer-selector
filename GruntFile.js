@@ -234,9 +234,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('docs', [
         'documentation:LayerSelector',
-        'documentation:LayerSelectorItem',
-        'connect:docs',
-        'watch:docs'
+        'documentation:LayerSelectorItem'
     ]);
 
     grunt.registerTask('doc-selector', [
