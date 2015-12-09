@@ -94,6 +94,7 @@ define([
 
             domAttr.set(this.input, 'type', type);
             domAttr.set(this.input, 'name', this.layerType);
+            domAttr.set(this.input, 'value', this.name);
 
             this._set('inputType', type);
         },
