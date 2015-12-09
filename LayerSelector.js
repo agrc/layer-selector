@@ -55,7 +55,7 @@ define([
         _getVisibleLayersAttr: function baseLayers() {
             var layers = this.get('managedLayers');
 
-            var visibleLayerWidgets = this.baseLayerWidgets.filter(function findVisibleBaseLayers(widget) {
+            var visibleLayerWidgets = array.filter(this.baseLayerWidgets, function findVisibleBaseLayers(widget) {
                 return widget.get('selected');
             });
 
@@ -216,7 +216,7 @@ define([
             baseLayers = this._resolveBasemapTokens(baseLayers, quadWord);
             overlays = this._resolveBasemapTokens(overlays, quadWord);
 
-            this._hasLinkedLayers = baseLayers && baseLayers.some(function checkForLinked(layerFactory) {
+            this._hasLinkedLayers = baseLayers && array.some(baseLayers, function checkForLinked(layerFactory) {
                 return layerFactory.linked;
             });
 
@@ -337,7 +337,7 @@ define([
             }
 
             var widgets = [];
-            layerFactory.forEach(function addToContainer(li) {
+            array.forEach(layerFactory, function addToContainer(li) {
                 var item = new LayerSelectorItem({
                     layerFactory: li,
                     inputType: type
