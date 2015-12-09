@@ -44,23 +44,6 @@ define([
          */
         baseClass: 'layer-selector',
         /**
-         * @name baseLayerLayers
-         * @memberof LayerSelector
-         * @since 0.2.0
-         * @prop {esri/layer[]} baselayerLayers - A list of basemap layers that have been created.
-         * There is no guarantee that this list will match what was passed into `baselayers` in
-         * the constructor. It is a list of baselayers that have been created and added to the `map`
-         * at one point or another.
-         * @example
-         * this.get('baseLayerLayers');
-         */
-        _getBaselayerLayersAttr: function baseLayers() {
-            var layers = this.get('managedLayers');
-            return Object.keys(layers).filter(function filterOutBaseLayers(layer) {
-                return layers[layer].layerType === 'baselayer';
-            });
-        },
-        /**
          * @name visibleLayers
          * @memberof LayerSelector
          * @since 0.2.0
@@ -104,22 +87,6 @@ define([
                     return layers[widget.name].layer;
                 })
             };
-        },
-        /**
-         * @name overlayLayers
-         * @memberof LayerSelector
-         * @since 0.2.0
-         * @prop {esri/layer[]} overlayLayers - A list of overlay layers that have been created.
-         * There is no guarantee that this list will match what was passed into `overlayers` in
-         * the constructor. It is a list of overlayers that have been created and added to the `map`
-         * at one point or another.
-         * this.get('overlayLayers');
-         */
-        _getOverlayLayersAttr: function overlayers() {
-            var layers = this.get('managedLayers');
-            return Object.keys(layers).filter(function filterOutOverLayers(layer) {
-                return layers[layer].layerType === 'overlayer';
-            });
         },
         /**
          * @memberof LayerSelector

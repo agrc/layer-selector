@@ -98,47 +98,6 @@ require([
         });
 
         describe('getters', function () {
-            it('baselayerLayers gets only baselayers', function () {
-                widget = new WidgetUnderTest({map: map});
-
-                widget.set('managedLayers', {
-                    'base1': {
-                        layerType: 'baselayer'
-                    },
-                    'base2': {
-                        layerType: 'baselayer'
-                    },
-                    'base3': {
-                        layerType: 'baselayer'
-                    },
-                    'over3': {
-                        layerType: 'overlayer'
-                    }
-                });
-
-                expect(widget.get('baselayerLayers').length).toEqual(3);
-            });
-            it('overlayLayers gets only overlayers', function () {
-                widget = new WidgetUnderTest({map: map});
-
-                widget.set('managedLayers', {
-                    'base1': {
-                        layerType: 'baselayer'
-                    },
-                    'base2': {
-                        layerType: 'baselayer'
-                    },
-                    'base3': {
-                        layerType: 'baselayer'
-                    },
-                    'over3': {
-                        layerType: 'overlayer'
-                    }
-                });
-
-                expect(widget.get('overlayLayers').length).toEqual(1);
-            });
-
             it('visibleLayers gets only visible layers', function () {
                 widget = new WidgetUnderTest({
                     map: map,
@@ -154,7 +113,6 @@ require([
                 expect(widget.get('visibleLayers').widgets.length).toEqual(1, 'one visible layer');
                 expect(widget.get('visibleLayers').widgets[0].name).toEqual('1');
             });
-
             it('visibleLayers gets linked layers', function () {
                 widget = new WidgetUnderTest({
                     map: map,
