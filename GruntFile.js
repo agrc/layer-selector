@@ -7,7 +7,10 @@ module.exports = function (grunt) {
     var docHost = 'http:/localhost:' + docPort;
     var jsFiles = ['!bower_components', '!node_modules', '!.git', '!.grunt', '*.js'];
     var otherFiles = ['templates/*.html', 'tests/*.html', 'resources/*.svg', 'tests/**/*.js'];
-
+    var bumpFiles = [
+        'package.json',
+        'bower.json'
+    ];
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         amdcheck: {
@@ -18,6 +21,12 @@ module.exports = function (grunt) {
                 files: [{
                     src: 'Layer*.js'
                 }]
+            }
+        },
+        bump: {
+            options: {
+                files: bumpFiles,
+                push: false
             }
         },
         connect: {
