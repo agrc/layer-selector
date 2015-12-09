@@ -102,12 +102,6 @@ module.exports = function (grunt) {
             },
             main: {
                 src: jsFiles
-            },
-            force: {
-                src: jsFiles,
-                options: {
-                    force: true
-                }
             }
         },
         jasmine: {
@@ -210,7 +204,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('default', [
         'jasmine:main:build',
-        'eslint:force',
+        'eslint:main',
         'amdcheck:main',
         'connect:jasmine',
         'stylus',
@@ -222,7 +216,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('launch', [
         'jasmine:main:build',
-        'eslint:force',
+        'eslint:main',
         'amdcheck:main',
         'connect:open',
         'stylus',
