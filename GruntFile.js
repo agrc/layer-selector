@@ -42,7 +42,7 @@ module.exports = function (grunt) {
         sauceConfig = {
             username: secrets.sauce_name,
             key: secrets.sauce_key,
-            urls: ['http://127.0.0.1:8000/tests/_specRunner.html'],
+            urls: ['http://127.0.0.1:8001/tests/_specRunner.html'],
             tunnelTimeout: 120,
             build: process.env.TRAVIS_JOB_ID,
             browsers: browsers,
@@ -50,7 +50,7 @@ module.exports = function (grunt) {
             maxRetries: 10,
             maxPollRetries: 10,
             'public': 'public',
-            throttled: 3,
+            throttled: 5,
             sauceConfig: {
                 'max-duration': 1800
             },
@@ -96,25 +96,6 @@ module.exports = function (grunt) {
             },
             jasmine: { }
         },
-        jasmine: {
-            main: {
-                src: [],
-                options: {
-                    outfile: 'tests/_specRunner.html',
-                    specs: ['tests/**/Spec*.js'],
-                    vendor: [
-                        'bower_components/jasmine-favicon-reporter/vendor/favico.js',
-                        'bower_components/jasmine-favicon-reporter/jasmine-favicon-reporter.js',
-                        'bower_components/jasmine-jsreporter/jasmine-jsreporter.js',
-                        '../tests/dojoConfig.js',
-                        'bower_components/dojo/dojo.js',
-                        '../tests/jasmineAMDErrorChecking.js',
-                        '../tests/jsReporterSanitizer.js'
-                    ],
-                    host: testHost
-                }
-            }
-        },
         documentation: {
             LayerSelector: {
                 files: [{
@@ -152,6 +133,25 @@ module.exports = function (grunt) {
                 options: {
                     github: true,
                     destination: './doc'
+                }
+            }
+        },
+        jasmine: {
+            main: {
+                src: [],
+                options: {
+                    outfile: 'tests/_specRunner.html',
+                    specs: ['tests/**/Spec*.js'],
+                    vendor: [
+                        'bower_components/jasmine-favicon-reporter/vendor/favico.js',
+                        'bower_components/jasmine-favicon-reporter/jasmine-favicon-reporter.js',
+                        'bower_components/jasmine-jsreporter/jasmine-jsreporter.js',
+                        '../tests/dojoConfig.js',
+                        'bower_components/dojo/dojo.js',
+                        '../tests/jasmineAMDErrorChecking.js',
+                        '../tests/jsReporterSanitizer.js'
+                    ],
+                    host: testHost
                 }
             }
         },
