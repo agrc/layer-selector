@@ -42,7 +42,7 @@ module.exports = function (grunt) {
         sauceConfig = {
             username: secrets.sauce_name,
             key: secrets.sauce_key,
-            urls: ['http://127.0.0.1:8000/_SpecRunner.html'],
+            urls: ['http://127.0.0.1:8000/tests/_specRunner.html'],
             tunnelTimeout: 120,
             build: process.env.TRAVIS_JOB_ID,
             browsers: browsers,
