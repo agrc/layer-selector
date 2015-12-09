@@ -218,4 +218,11 @@ module.exports = function (grunt) {
         'connect:docs',
         'watch:docs'
     ]);
+
+    grunt.registerTask('travis', [
+        'jshint:main',
+        'jscs:main',
+        'connect:jasmine',
+        'jasmine:main'
+    ]);
 };
