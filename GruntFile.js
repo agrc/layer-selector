@@ -246,7 +246,6 @@ module.exports = function (grunt) {
         'jscs:force',
         'amdcheck:main',
         'connect:open',
-        'connect:docs',
         'stylus',
         'watch:amdcheck',
         'watch:jshint',
