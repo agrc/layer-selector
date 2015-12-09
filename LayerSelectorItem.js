@@ -110,7 +110,7 @@ define([
          * @param {HTMLElement|string} [node] - The domNode or string id of a domNode to create this widget on. If null
          * a new div will be created but not placed in the dom. You will need to place it programmatically.
          * @param {object} params
-         * @param {layerFactory} params.layerFactory - The factory object representing a layer.
+         * @param {layerFactory} params.layerFactory - The Factory object representing a layer.
          * @param {string} [params.inputType=radio] - `radio` or `checkbox` depending on the type of input.
          */
         postCreate: function () {
@@ -144,7 +144,7 @@ define([
 /**
 * The info about a layer needed to create it and show it on a map and in the layer selector successfully.
 * @typedef {object} layerFactory
-* @prop {function} factory - the constructor function for creating a layer.
+* @prop {function} Factory - the constructor function for creating a layer.
 * @prop {string} url - The url to the map service.
 * @prop {string} id - The id of the layer. This is shown in the LayerSelectorItem.
 * @prop {object} tileInfo - The `esri/TileInfo` object if the layer has custom levels.

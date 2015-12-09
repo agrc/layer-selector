@@ -29,8 +29,7 @@
     "tests",
     ".gitattributes",
     ".gitignore",
-    ".jscsrc",
-    ".jshintrc",
+    ".eslintrc",
     "GruntFile.js"
   ],
   "dependencies": {

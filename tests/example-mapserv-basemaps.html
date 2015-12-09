@@ -38,13 +38,13 @@
             widgetUnderTest = new Module({
                 map: map,
                 baseLayers: [{
-                    factory: TiledLayer,
+                    Factory: TiledLayer,
                     url: 'http://basemaps.utah.gov/ArcGIS/rest/services/BaseMaps/Terrain/MapServer',
                     tileServers: ['http://basemaps.utah.gov/ArcGIS/rest/services/BaseMaps/Terrain/MapServer',
                                   'http://mapserv.utah.gov/ArcGIS/rest/services/BaseMaps/Terrain/MapServer'],
                     id: 'Terrain'
                 },{
-                    factory: TiledLayer,
+                    Factory: TiledLayer,
                     url: 'http://basemaps.utah.gov/ArcGIS/rest/services/BaseMaps/Lite/MapServer',
                     tileServers: ['http://basemaps.utah.gov/ArcGIS/rest/services/BaseMaps/Lite/MapServer',
                                   'http://mapserv.utah.gov/ArcGIS/rest/services/BaseMaps/Lite/MapServer'],

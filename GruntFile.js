@@ -30,8 +30,8 @@ module.exports = function (grunt) {
     var docPort = grunt.option('docPort') || jasminePort - 1;
     var testHost = 'http://localhost:' + jasminePort;
     var docHost = 'http:/localhost:' + docPort;
-    var jsFiles = ['!bower_components', '!node_modules', '!.git', '!.grunt', '*.js'];
-    var otherFiles = ['templates/*.html', 'tests/*.html', 'resources/*.svg', 'tests/**/*.js'];
+    var jsFiles = ['!bower_components', '!node_modules', '!.git', '!.grunt', '*.js', 'tests/**/*.js'];
+    var otherFiles = ['templates/*.html', 'tests/*.html', 'resources/*.svg'];
     var bumpFiles = [
         'package.json',
         'bower.json'
@@ -96,6 +96,38 @@ module.exports = function (grunt) {
             },
             jasmine: { }
         },
+        eslint: {
+            options: {
+                configFile: '.eslintrc'
+            },
+            main: {
+                src: jsFiles
+            },
+            force: {
+                src: jsFiles,
+                options: {
+                    force: true
+                }
+            }
+        },
+        jasmine: {
+            main: {
+                src: [],
+                options: {
+                    outfile: 'tests/_specRunner.html',
+                    specs: ['tests/**/Spec*.js'],
+                    vendor: [
+                        'bower_components/jasmine-favicon-reporter/vendor/favico.js',
+                        'bower_components/jasmine-favicon-reporter/jasmine-favicon-reporter.js',
+                        'bower_components/jasmine-jsreporter/jasmine-jsreporter.js',
+                        '../tests/dojoConfig.js',
+                        'bower_components/dojo/dojo.js',
+                        '../tests/jasmineAMDErrorChecking.js'
+                    ],
+                    host: testHost
+                }
+            }
+        },
         documentation: {
             LayerSelector: {
                 files: [{
@@ -136,57 +168,6 @@ module.exports = function (grunt) {
                 }
             }
         },
-        jasmine: {
-            main: {
-                src: [],
-                options: {
-                    outfile: 'tests/_specRunner.html',
-                    specs: ['tests/**/Spec*.js'],
-                    vendor: [
-                        'bower_components/jasmine-favicon-reporter/vendor/favico.js',
-                        'bower_components/jasmine-favicon-reporter/jasmine-favicon-reporter.js',
-                        'bower_components/jasmine-jsreporter/jasmine-jsreporter.js',
-                        '../tests/dojoConfig.js',
-                        'bower_components/dojo/dojo.js',
-                        '../tests/jasmineAMDErrorChecking.js',
-                        '../tests/jsReporterSanitizer.js'
-                    ],
-                    host: testHost
-                }
-            }
-        },
-        jscs: {
-            main: {
-                src: jsFiles
-            },
-            force: {
-                src: jsFiles,
-                options: {
-                    force: true
-                }
-            }
-        },
-        jshint: {
-            main: {
-                src: jsFiles
-            },
-            force: {
-                // must use src for newer to work
-                src: jsFiles,
-                options: {
-                    force: true
-                }
-            },
-            options: {
-                reporter: require('jshint-stylish'),
-                jshintrc: '.jshintrc'
-            }
-        },
-        'saucelabs-jasmine': {
-            all: {
-                options: sauceConfig
-            }
-        },
         stylus: {
             main: {
                 options: {
@@ -213,9 +194,9 @@ module.exports = function (grunt) {
                 files: 'Layer*.js',
                 tasks: ['documentation:LayerSelector', 'documentation:LayerSelectorItem']
             },
-            jshint: {
+            eslint: {
                 files: jsFiles,
-                tasks: ['newer:jshint:main', 'newer:jscs:main', 'jasmine:main:build']
+                tasks: ['newer:eslint:main', 'jasmine:main:build']
             },
             src: {
                 files: jsFiles.concat(otherFiles)
@@ -229,28 +210,26 @@ module.exports = function (grunt) {
 
     grunt.registerTask('default', [
         'jasmine:main:build',
-        'jshint:force',
-        'jscs:force',
+        'eslint:force',
         'amdcheck:main',
         'connect:jasmine',
         'stylus',
-        'watch:amdcheck',
-        'watch:jshint',
         'watch:src',
-        'watch:stylus'
+        'watch:eslint',
+        'watch:stylus',
+        'watch:amdcheck'
     ]);
 
     grunt.registerTask('launch', [
         'jasmine:main:build',
-        'jshint:force',
-        'jscs:force',
+        'eslint:force',
         'amdcheck:main',
         'connect:open',
         'stylus',
-        'watch:amdcheck',
-        'watch:jshint',
         'watch:src',
-        'watch:stylus'
+        'watch:eslint',
+        'watch:stylus',
+        'watch:amdcheck'
     ]);
 
     grunt.registerTask('docs', [
@@ -273,8 +252,7 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('travis', [
-        'jshint:main',
-        'jscs:main',
+        'eslint:main',
         'connect:jasmine',
         'jasmine:main:build',
         'saucelabs-jasmine'

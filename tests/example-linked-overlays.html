@@ -42,14 +42,14 @@
             widgetUnderTest = new Module({
                 map: map,
                 baseLayers: [{
-                    factory: TiledLayer,
+                    Factory: TiledLayer,
                     url: 'http://basemaps.utah.gov/ArcGIS/rest/services/BaseMaps/Lite/MapServer',
                     tileServers: ['http://basemaps.utah.gov/ArcGIS/rest/services/BaseMaps/Lite/MapServer',
                                   'http://mapserv.utah.gov/ArcGIS/rest/services/BaseMaps/Lite/MapServer'],
                     id: 'Lite',
                     linked: ['EMS Boundaries']
                 }, {
-                    factory: TiledLayer,
+                    Factory: TiledLayer,
                     url: 'http://basemaps.utah.gov/ArcGIS/rest/services/BaseMaps/Terrain/MapServer',
                     tileServers: ['http://basemaps.utah.gov/ArcGIS/rest/services/BaseMaps/Terrain/MapServer',
                                   'http://mapserv.utah.gov/ArcGIS/rest/services/BaseMaps/Terrain/MapServer'],
@@ -57,11 +57,11 @@
                     linked: ['Counties']
                 }],
                 overlays: [{
-                    factory: DynamicLayer,
+                    Factory: DynamicLayer,
                     url: 'http://mapserv.utah.gov/arcgis/rest/services/BEMS/Boundaries/MapServer',
                     id: 'EMS Boundaries'
                 }, {
-                    factory: FeatureLayer,
+                    Factory: FeatureLayer,
                     url: 'http://mapserv.utah.gov/arcgis/rest/services/OilGasMining/MapServer/3',
                     id: 'Counties'
                 }]

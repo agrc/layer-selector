@@ -22,5 +22,5 @@ try {
     jasmine.getEnv().addReporter(new JasmineFaviconReporter());
     jasmine.getEnv().addReporter(new jasmineRequire.JSReporter2());
 } catch (e) {
-
+    // do nothing
 }

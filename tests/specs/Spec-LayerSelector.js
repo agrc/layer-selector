@@ -21,7 +21,7 @@ require([
             try {
                 document.body.removeChild(map.root);
             } catch (e) {
-
+                // do nothing
             }
         };
 
@@ -70,11 +70,11 @@ require([
                     map: map,
                     baseLayers: [{
                         name: 'blah',
-                        factory: noop
+                        Factory: noop
                     }, {
                         name: 'blah2',
                         linked: ['blah3'],
-                        factory: noop
+                        Factory: noop
                     }]
                 });
 
@@ -86,10 +86,10 @@ require([
                     map: map,
                     baseLayers: [{
                         name: 'blah',
-                        factory: noop
+                        Factory: noop
                     }, {
                         name: 'blah2',
-                        factory: noop
+                        Factory: noop
                     }]
                 });
 
@@ -103,10 +103,10 @@ require([
                     map: map,
                     baseLayers: [{
                         name: '1',
-                        factory: noop
+                        Factory: noop
                     }, {
                         name: '2',
-                        factory: noop
+                        Factory: noop
                     }]
                 });
 
@@ -118,11 +118,11 @@ require([
                     map: map,
                     baseLayers: [{
                         name: '1',
-                        factory: noop,
+                        Factory: noop,
                         linked: ['3', '4']
                     }, {
                         name: '2',
-                        factory: noop
+                        Factory: noop
                     }],
                     overlays: [{
                         name: '3'
@@ -257,11 +257,11 @@ require([
                     map: map,
                     baseLayers: [{
                         name: '1',
-                        factory: noop
+                        Factory: noop
                     }],
                     overlays: [{
                         name: 'graphics layer!',
-                        factory: noop
+                        Factory: noop
                     }]
                 });
                 widget.startup();
@@ -282,14 +282,14 @@ require([
                     map: map,
                     baseLayers: [{
                         name: '1',
-                        factory: noop
+                        Factory: noop
                     }, {
                         name: '2',
-                        factory: noop
+                        Factory: noop
                     }],
                     overlays: [{
                         name: 'graphics layer!',
-                        factory: noop
+                        Factory: noop
                     }]
                 });
                 widget.startup();
@@ -309,10 +309,10 @@ require([
                     map: map,
                     baseLayers: [{
                         name: '1',
-                        factory: noop
+                        Factory: noop
                     }, {
                         name: '2',
-                        factory: noop
+                        Factory: noop
                     }]
                 });
                 widget.startup();
@@ -332,7 +332,7 @@ require([
                     map: map,
                     baseLayers: [{
                         name: 'only 1',
-                        factory: noop
+                        Factory: noop
                     }]
                 });
                 widget.startup();
@@ -353,10 +353,10 @@ require([
                         map: map,
                         baseLayers: [{
                             name: 'i am checked',
-                            factory: noop
+                            Factory: noop
                         }, {
                             name: 'i am not checked',
-                            factory: noop
+                            Factory: noop
                         }]
                     });
                     widget.startup();
@@ -370,18 +370,18 @@ require([
                         map: map,
                         baseLayers: [{
                             name: 'i am not checked',
-                            factory: noop
+                            Factory: noop
                         }, {
                             name: 'i am also not checked',
-                            factory: noop
+                            Factory: noop
                         }, {
                             name: 'i am checked',
                             selected: true,
-                            factory: noop
+                            Factory: noop
                         }, {
                             name: 'i am also checked',
                             selected: true,
-                            factory: noop
+                            Factory: noop
                         }]
                     });
                     widget.startup();
@@ -395,20 +395,20 @@ require([
                         map: map,
                         baseLayers: [{
                             name: 'i am checked',
-                            factory: noop,
+                            Factory: noop,
                             selected: true
                         }, {
                             name: 'i am not checked',
-                            factory: noop,
+                            Factory: noop,
                             linked: ['i was checked']
                         }],
                         overlays: [{
                             name: 'i was checked',
-                            factory: noop,
+                            Factory: noop,
                             selected: true
                         }, {
                             name: 'i was also checked',
-                            factory: noop,
+                            Factory: noop,
                             selected: true
                         }]
                     });
@@ -424,18 +424,18 @@ require([
                         map: map,
                         baseLayers: [{
                             name: 'i am checked',
-                            factory: noop,
+                            Factory: noop,
                             linked: ['i am checked']
                         }, {
                             name: 'i am not checked'
                         }],
                         overlays: [{
                             name: 'i am checked',
-                            factory: noop,
+                            Factory: noop,
                             selected: true
                         }, {
                             name: 'i was also checked',
-                            factory: noop,
+                            Factory: noop,
                             selected: true
                         }]
                     });
@@ -453,22 +453,22 @@ require([
                         map: map,
                         baseLayers: [{
                             name: 'ignore me',
-                            factory: noop
+                            Factory: noop
                         }],
                         overlays: [{
                             name: 'i am not checked',
-                            factory: noop
+                            Factory: noop
                         }, {
                             name: 'i am also not checked',
-                            factory: noop
+                            Factory: noop
                         }, {
                             name: 'i am checked',
                             selected: true,
-                            factory: noop
+                            Factory: noop
                         }, {
                             name: 'i am also checked',
                             selected: true,
-                            factory: noop
+                            Factory: noop
                         }]
                     });
                     widget.startup();
@@ -483,20 +483,20 @@ require([
                         map: map,
                         baseLayers: [{
                             name: 'ignore me',
-                            factory: noop
+                            Factory: noop
                         }],
                         overlays: [{
                             name: 'i am not checked',
-                            factory: noop
+                            Factory: noop
                         }, {
                             name: 'i am also not checked',
-                            factory: noop
+                            Factory: noop
                         }, {
                             name: 'i am checked',
-                            factory: noop
+                            Factory: noop
                         }, {
                             name: 'i am also checked',
-                            factory: noop
+                            Factory: noop
                         }]
                     });
                     widget.startup();

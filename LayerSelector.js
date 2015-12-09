@@ -182,8 +182,8 @@ define([
                 return;
             }
 
-            var top = this.top != null ? this.top : true;
-            var right = this.right != null ? this.top : true;
+            var top = this.top != null ? this.top : true; // eslint-disable-line no-eq-null, eqeqeq
+            var right = this.right != null ? this.top : true; // eslint-disable-line no-eq-null, eqeqeq
 
             var locations = {
                 top: top,
@@ -272,7 +272,7 @@ define([
          * `esri/layer/WebTiledLayer` factories.
          * @private
          * @param {string[]|layerFactory[]} layerFactories - An array of layer tokens or layer factories.
-         * @returns {layerFactory[]} an array of resolved layer factory objects.
+         * @returns {layerFactory[]} an array of resolved layer Factory objects.
          */
         _resolveBasemapTokens: function (layerFactories) {
             console.log('layer-selector:_resolveBasemapTokens', arguments);
@@ -297,7 +297,7 @@ define([
                         console.warn('layer-selector::The layer token `' + id + '` was not found. Please use one of ' +
                                      'the supported tokens (' + Object.keys(this._applianceLayers).join(', ') +
                                      ') or pass in the information on how to create your custom layer ' +
-                                     '(`{factory, url, id}`).');
+                                     '(`{Factory, url, id}`).');
                         return false;
                     }
 
@@ -307,7 +307,7 @@ define([
                     }
 
                     resolvedInfos.push({
-                        factory: WebTiledLayer,
+                        Factory: WebTiledLayer,
                         url: layer.urlPattern.replace('{quad}', this.quadWord),
                         linked: layer.linked,
                         id: id,
@@ -423,7 +423,7 @@ define([
             this.set('managedLayers', managedLayers);
 
             if (!managedLayers[layerItem.name].layer) {
-                managedLayers[layerItem.name].layer = new layerItem.layerFactory.factory(layerItem.layerFactory.url, layerItem.layerFactory);
+                managedLayers[layerItem.name].layer = new layerItem.layerFactory.Factory(layerItem.layerFactory.url, layerItem.layerFactory);
             }
 
             var index = this._determineLayerIndex(layerItem, this.get('managedLayers'), this.map.layerIds, this.map.graphicsLayerIds);
@@ -529,9 +529,7 @@ define([
             console.log('layer-selector:_polyfill', arguments);
 
             if (!Array.prototype.find) {
-                /* jshint -W121 */
-                Array.prototype.find = function (predicate) {
-                    /* jshint +W121 */
+                Array.prototype.find = function (predicate) { // eslint-disable-line no-extend-native
                     if (this === null) {
                         throw new TypeError('Array.prototype.find called on null or undefined');
                     }
@@ -539,9 +537,7 @@ define([
                         throw new TypeError('predicate must be a function');
                     }
                     var list = Object(this);
-                    /* jshint -W016 */
-                    var length = list.length >>> 0;
-                    /* jshint +W016 */
+                    var length = list.length >>> 0; // eslint-disable-line no-bitwise
                     var thisArg = arguments[1];
                     var value;
 
@@ -561,14 +557,14 @@ define([
                     var hasOwnProperty = Object.prototype.hasOwnProperty;
                     var hasDontEnumBug = !({ toString: null }).propertyIsEnumerable('toString');
                     var dontEnums = [
-                          'toString',
-                          'toLocaleString',
-                          'valueOf',
-                          'hasOwnProperty',
-                          'isPrototypeOf',
-                          'propertyIsEnumerable',
-                          'constructor'
-                      ];
+                        'toString',
+                        'toLocaleString',
+                        'valueOf',
+                        'hasOwnProperty',
+                        'isPrototypeOf',
+                        'propertyIsEnumerable',
+                        'constructor'
+                    ];
                     var dontEnumsLength = dontEnums.length;
 
                     return function (obj) {
@@ -644,34 +640,34 @@ define([
          * @returns {applianceLayer} - returns the appliance layers object with a new `tileInfo` property.
          */
         _setTileInfosForApplianceLayers: function (layers) {
-             console.log('layer-selector:_setTileInfosForApplianceLayers', arguments);
+            console.log('layer-selector:_setTileInfosForApplianceLayers', arguments);
 
-             var lods = this._defaultTileInfo.lods;
-             var fiveToNineteen = lods.slice(0, 20);
-             var fiveToSeventeen = lods.slice(0, 18);
-             var zeroToEighteen = lods.slice(0, 19);
+            var lods = this._defaultTileInfo.lods;
+            var fiveToNineteen = lods.slice(0, 20);
+            var fiveToSeventeen = lods.slice(0, 18);
+            var zeroToEighteen = lods.slice(0, 19);
 
-             layers.Imagery.tileInfo = new TileInfo(this._defaultTileInfo);
-             layers.Hybrid.tileInfo = new TileInfo(this._defaultTileInfo);
+            layers.Imagery.tileInfo = new TileInfo(this._defaultTileInfo);
+            layers.Hybrid.tileInfo = new TileInfo(this._defaultTileInfo);
 
-             var tileInfo = lang.clone(this._defaultTileInfo);
-             tileInfo.lods = zeroToEighteen;
+            var tileInfo = lang.clone(this._defaultTileInfo);
+            tileInfo.lods = zeroToEighteen;
 
-             layers['Color IR'].tileInfo = new TileInfo(tileInfo);
+            layers['Color IR'].tileInfo = new TileInfo(tileInfo);
 
-             tileInfo = lang.clone(this._defaultTileInfo);
-             tileInfo.lods = fiveToSeventeen;
+            tileInfo = lang.clone(this._defaultTileInfo);
+            tileInfo.lods = fiveToSeventeen;
 
-             layers.Topo.tileInfo = new TileInfo(tileInfo);
+            layers.Topo.tileInfo = new TileInfo(tileInfo);
 
-             tileInfo = lang.clone(this._defaultTileInfo);
-             tileInfo.lods = fiveToNineteen;
+            tileInfo = lang.clone(this._defaultTileInfo);
+            tileInfo.lods = fiveToNineteen;
 
-             layers.Lite.tileInfo = new TileInfo(tileInfo);
-             layers.Overlay.tileInfo = new TileInfo(tileInfo);
+            layers.Lite.tileInfo = new TileInfo(tileInfo);
+            layers.Overlay.tileInfo = new TileInfo(tileInfo);
 
-             return layers;
-         },
+            return layers;
+        },
         /**
          * Shows the form containing the layer list.
          * @private
@@ -712,7 +708,7 @@ define([
 /**
  * The info about a layer needed to create it and show it on a map and in the layer selector successfully.
  * @typedef {object} layerFactory
- * @property {function} factory - the constructor function for creating a layer.
+ * @property {function} Factory - the constructor function for creating a layer.
  * @property {string} url - The url to the map service.
  * @property {string} id - The id of the layer. This is shown in the LayerSelectorItem.
  * @property {object} tileInfo - The `esri/TileInfo` object if the layer has custom levels.
