@@ -9,7 +9,7 @@
   "main": "./main",
   "dojoBuild": "layer-selector.profile.js",
   "scripts": {
-    "test": "echo \"`grunt` will open a browser and show a jasmine test page\" && exit 1"
+    "test": "grunt travis --verbose"
   },
   "keywords": [
     "esri",
@@ -32,12 +32,10 @@
     "grunt-documentation": "^1.0.0",
     "grunt-jscs": "^2.5.0",
     "grunt-newer": "^1.1.1",
+    "grunt-saucelabs": "^8.6.2",
     "grunt-shell": "^1.1.2",
     "jscs-stylish": "^0.3.1",
     "jshint-stylish": "^2.1.0",
     "load-grunt-tasks": "^3.3.0"
-  },
-  "scripts": {
-    "test": "grunt travis --verbose"
   }
 }
