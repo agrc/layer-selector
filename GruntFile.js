@@ -36,26 +36,25 @@ module.exports = function (grunt) {
         'package.json',
         'bower.json'
     ];
-    var sauceConfig;
+    var sauceConfig = {
+        urls: ['http://127.0.0.1:8001/tests/_specRunner.html'],
+        tunnelTimeout: 120,
+        build: process.env.TRAVIS_JOB_ID,
+        browsers: browsers,
+        testname: process.env.TRAVIS_JOB_ID,
+        maxRetries: 10,
+        maxPollRetries: 10,
+        'public': 'public',
+        throttled: 5,
+        sauceConfig: {
+            'max-duration': 1800
+        },
+        statusCheckAttempts: 500
+    };
     try {
         var secrets = grunt.file.readJSON('secrets.json');
-        sauceConfig = {
-            username: secrets.sauce_name,
-            key: secrets.sauce_key,
-            urls: ['http://127.0.0.1:8001/tests/_specRunner.html'],
-            tunnelTimeout: 120,
-            build: process.env.TRAVIS_JOB_ID,
-            browsers: browsers,
-            testname: 'layerselector',
-            maxRetries: 10,
-            maxPollRetries: 10,
-            'public': 'public',
-            throttled: 5,
-            sauceConfig: {
-                'max-duration': 1800
-            },
-            statusCheckAttempts: 500
-        };
+        sauceConfig.username = secrets.sauce_name;
+        sauceConfig.key = secrets.sauce_key;
     } catch (e) {
         // swallow for build server
     }
