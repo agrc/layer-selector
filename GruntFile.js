@@ -46,7 +46,7 @@ module.exports = function (grunt) {
             tunnelTimeout: 120,
             build: process.env.TRAVIS_JOB_ID,
             browsers: browsers,
-            testname: 'layer-selector',
+            testname: 'layerselector',
             maxRetries: 10,
             maxPollRetries: 10,
             'public': 'public',
@@ -108,7 +108,8 @@ module.exports = function (grunt) {
                         'bower_components/jasmine-jsreporter/jasmine-jsreporter.js',
                         '../tests/dojoConfig.js',
                         'bower_components/dojo/dojo.js',
-                        '../tests/jasmineAMDErrorChecking.js'
+                        '../tests/jasmineAMDErrorChecking.js',
+                        '../tests/jsReporterSanitizer.js'
                     ],
                     host: testHost
                 }
