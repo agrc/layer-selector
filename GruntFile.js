@@ -241,7 +241,7 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('launch', [
-        'jasmine:main:build:build',
+        'jasmine:main:build',
         'jshint:force',
         'jscs:force',
         'amdcheck:main',
