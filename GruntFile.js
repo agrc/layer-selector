@@ -123,7 +123,6 @@ module.exports = function (grunt) {
                     src: 'LayerSelector.js'
                 }],
                 options: {
-                    github: true,
                     destination: './doc'
                 }
             },
@@ -132,7 +131,6 @@ module.exports = function (grunt) {
                     src: 'LayerSelectorItem.js'
                 }],
                 options: {
-                    github: true,
                     destination: './doc'
                 }
             }
@@ -195,6 +193,14 @@ module.exports = function (grunt) {
                 files: 'Layer*.js',
                 tasks: ['documentation:LayerSelector', 'documentation:LayerSelectorItem']
             },
+            docItem: {
+                files: 'LayerSelectorItem.js',
+                tasks: ['documentation:LayerSelectorItemHtml', 'documentation:LayerSelectorItem']
+            },
+            docSelector: {
+                files: 'LayerSelector.js',
+                tasks: ['documentation:LayerSelectorHtml', 'documentation:LayerSelector']
+            },
             eslint: {
                 files: jsFiles,
                 tasks: ['newer:eslint:main', 'jasmine:main:build']
@@ -241,13 +247,13 @@ module.exports = function (grunt) {
     grunt.registerTask('doc-selector', [
         'documentation:LayerSelectorHtml',
         'connect:docs',
-        'watch:docs'
+        'watch:docSelector'
     ]);
 
     grunt.registerTask('doc-selector-item', [
         'documentation:LayerSelectorItemHtml',
         'connect:docs',
-        'watch:docs'
+        'watch:docItem'
     ]);
 
     grunt.registerTask('travis', [

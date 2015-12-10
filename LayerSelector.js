@@ -146,8 +146,8 @@ define([
          * a new div will be created but not placed in the dom. You will need to place it programmatically.
          * @param params {object}
          * @param {esri/map | agrc/widgets/map/BaseMap} params.map - The map to control layer selection within.
-         * @param {layerFactory[]} params.baseLayers - mutually exclusive layers (only one can be visible on your map).
-         * @param {layerFactory[]} [params.overlays] - layers you display over the `baseLayers`.
+         * @param {layerFactory[]|applianceTokens[]} params.baseLayers - mutually exclusive layers (only one can be visible on your map).
+         * @param {layerFactory[]|applianceTokens[]} [params.overlays] - layers you display over the `baseLayers`.
          * @param {string} [params.quadWord] - The four word authentication token acquired from the appliance.
          * @param {string} [params.separator=<hr class="layer-selector-separator" />] - An HTML fragment used to
          * separate baselayers from overlays.
@@ -722,4 +722,30 @@ define([
  * @typedef {object} visibleLayers
  * @property {LayerSelectorItem[]} widgets - The visible `LayerSelectorItems`.
  * @property {esri/layer[]} layers - The visible `esri/layer/*`.
+ */
+ /**
+ * The happy path tokens for fast tracked basemap layers.
+ * @typedef {string} applianceTokens
+ * @prop {string} Terrain - Elevation with mountain peak elevations, contour lines, as well as many of the places of interest .
+ * @prop {string} Lite - Minimal base map with very muted in color to make your overlayed data stand out beautifully.
+ * @prop {string} Topo - USGS Quad Sheet.
+ * @prop {string} Imagery - Aerial Imagery.
+ * @prop {string} ColorIR - NAIP 2011 color infrared.
+ * @prop {string} Overlay - Roads and place names as a stand alone cache used to create our Hybrid cache.
+ * @prop {string} Hybrid - Automatic link of Imagery and Overlay. You must have `Overlay` present in `overlays` property
+ * @example
+ * {
+ *      baseLayers: [
+ *         'Imagery',
+ *         'Hybrid',
+ *         {
+ *             token: 'Lite',
+ *             selected: true
+ *         },
+ *         'Topo',
+ *         'Terrain',
+ *         'Color IR'
+ *         ],
+ *      overlays: ['Overlay']
+ * }
  */
