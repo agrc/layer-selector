@@ -162,6 +162,11 @@ module.exports = function (grunt) {
                 }
             }
         },
+        'saucelabs-jasmine': {
+            all: {
+                options: sauceConfig
+            }
+        },
         stylus: {
             main: {
                 options: {
