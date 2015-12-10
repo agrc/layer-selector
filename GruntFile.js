@@ -74,6 +74,7 @@ module.exports = function (grunt) {
         bump: {
             options: {
                 files: bumpFiles,
+                commitFiles: bumpFiles,
                 push: false
             }
         },
