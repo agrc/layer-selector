@@ -1,6 +1,6 @@
 # LayerSelector
 
-[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:154-165](https://github.com/agrc-widgets/layer-selector/blob/8d7a5cfcb15dce8578f5782fa4767d1e714a5b18/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L154-L165 "Source code on GitHub")
+[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:157-168](https://github.com/agrc-widgets/layer-selector/blob/8328f4889f78a60a92ff663a1d02df09d13f95a6/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L157-L168 "Source code on GitHub")
 
 A class for creating a layer selector that changes layers for a given map.
 
@@ -10,8 +10,8 @@ A class for creating a layer selector that changes layers for a given map.
     a new div will be created but not placed in the dom. You will need to place it programmatically.
 -   `params`  {object}
     -   `params.map` **esri/map or agrc/widgets/map/BaseMap** The map to control layer selection within.
-    -   `params.baseLayers` **Array&lt;layerFactory&gt;** mutually exclusive layers (only one can be visible on your map).
-    -   `params.overlays` **[Array&lt;layerFactory&gt;]** layers you display over the `baseLayers`.
+    -   `params.baseLayers` **Array&lt;layerFactory&gt; or Array&lt;applianceTokens&gt;** mutually exclusive layers (only one can be visible on your map).
+    -   `params.overlays` **[Array&lt;layerFactory&gt; or Array&lt;applianceTokens&gt;]** layers you display over the `baseLayers`.
     -   `params.quadWord` **[string]** The four word authentication token acquired from the appliance.
     -   `params.separator` **[string]** An HTML fragment used to
         separate baselayers from overlays. (optional, default `<hr class`)
@@ -20,7 +20,7 @@ A class for creating a layer selector that changes layers for a given map.
 
 ## baseLayerWidgets
 
-[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:95-95](https://github.com/agrc-widgets/layer-selector/blob/8d7a5cfcb15dce8578f5782fa4767d1e714a5b18/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L95-L95 "Source code on GitHub")
+[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:95-95](https://github.com/agrc-widgets/layer-selector/blob/8328f4889f78a60a92ff663a1d02df09d13f95a6/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L95-L95 "Source code on GitHub")
 
 **Properties**
 
@@ -28,7 +28,7 @@ A class for creating a layer selector that changes layers for a given map.
 
 ## overlayWidgets
 
-[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:100-100](https://github.com/agrc-widgets/layer-selector/blob/8d7a5cfcb15dce8578f5782fa4767d1e714a5b18/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L100-L100 "Source code on GitHub")
+[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:100-100](https://github.com/agrc-widgets/layer-selector/blob/8328f4889f78a60a92ff663a1d02df09d13f95a6/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L100-L100 "Source code on GitHub")
 
 **Properties**
 
@@ -36,7 +36,7 @@ A class for creating a layer selector that changes layers for a given map.
 
 ## visibleLayers
 
-[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:55-90](https://github.com/agrc-widgets/layer-selector/blob/8d7a5cfcb15dce8578f5782fa4767d1e714a5b18/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L55-L90 "Source code on GitHub")
+[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:55-90](https://github.com/agrc-widgets/layer-selector/blob/8328f4889f78a60a92ff663a1d02df09d13f95a6/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L55-L90 "Source code on GitHub")
 
 **Properties**
 
@@ -49,9 +49,44 @@ A class for creating a layer selector that changes layers for a given map.
 this.get('visibleLayers');
 ```
 
+# applianceTokens
+
+[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:1-710](https://github.com/agrc-widgets/layer-selector/blob/8328f4889f78a60a92ff663a1d02df09d13f95a6/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L1-L710 "Source code on GitHub")
+
+The happy path tokens for fast tracked basemap layers.
+
+**Properties**
+
+-   `Terrain` **string** Elevation with mountain peak elevations, contour lines, as well as many of the places of interest .
+-   `Lite` **string** Minimal base map with very muted in color to make your overlayed data stand out beautifully.
+-   `Topo` **string** USGS Quad Sheet.
+-   `Imagery` **string** Aerial Imagery.
+-   `ColorIR` **string** NAIP 2011 color infrared.
+-   `Overlay` **string** Roads and place names as a stand alone cache used to create our Hybrid cache.
+-   `Hybrid` **string** Automatic link of Imagery and Overlay. You must have `Overlay` present in `overlays` property
+
+**Examples**
+
+```javascript
+{
+     baseLayers: [
+        'Imagery',
+        'Hybrid',
+        {
+            token: 'Lite',
+            selected: true
+        },
+        'Topo',
+        'Terrain',
+        'Color IR'
+        ],
+     overlays: ['Overlay']
+}
+```
+
 # layerFactory
 
-[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:1-707](https://github.com/agrc-widgets/layer-selector/blob/8d7a5cfcb15dce8578f5782fa4767d1e714a5b18/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L1-L707 "Source code on GitHub")
+[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:1-710](https://github.com/agrc-widgets/layer-selector/blob/8328f4889f78a60a92ff663a1d02df09d13f95a6/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L1-L710 "Source code on GitHub")
 
 The info about a layer needed to create it and show it on a map and in the layer selector successfully.
 
@@ -65,14 +100,14 @@ The info about a layer needed to create it and show it on a map and in the layer
 
 # startup
 
-[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:695-705](https://github.com/agrc-widgets/layer-selector/blob/8d7a5cfcb15dce8578f5782fa4767d1e714a5b18/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L695-L705 "Source code on GitHub")
+[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:698-708](https://github.com/agrc-widgets/layer-selector/blob/8328f4889f78a60a92ff663a1d02df09d13f95a6/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L698-L708 "Source code on GitHub")
 
 We have overriden startup on `_WidgetBase` to call startup on all `LayerSelectorItem` child widgets.
 You should always call startup on this widget after it has been placed in the dom.
 
 # visibleLayers
 
-[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:1-707](https://github.com/agrc-widgets/layer-selector/blob/8d7a5cfcb15dce8578f5782fa4767d1e714a5b18/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L1-L707 "Source code on GitHub")
+[c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js:1-710](https://github.com/agrc-widgets/layer-selector/blob/8328f4889f78a60a92ff663a1d02df09d13f95a6/c:\Projects\GitHub\agrc-widgets\layer-selector\LayerSelector.js#L1-L710 "Source code on GitHub")
 
 The return value of the `visibleLayers` property.
 
