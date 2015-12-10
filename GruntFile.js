@@ -96,32 +96,6 @@ module.exports = function (grunt) {
             },
             jasmine: { }
         },
-        eslint: {
-            options: {
-                configFile: '.eslintrc'
-            },
-            main: {
-                src: jsFiles
-            }
-        },
-        jasmine: {
-            main: {
-                src: [],
-                options: {
-                    outfile: 'tests/_specRunner.html',
-                    specs: ['tests/**/Spec*.js'],
-                    vendor: [
-                        'bower_components/jasmine-favicon-reporter/vendor/favico.js',
-                        'bower_components/jasmine-favicon-reporter/jasmine-favicon-reporter.js',
-                        'bower_components/jasmine-jsreporter/jasmine-jsreporter.js',
-                        '../tests/dojoConfig.js',
-                        'bower_components/dojo/dojo.js',
-                        '../tests/jasmineAMDErrorChecking.js'
-                    ],
-                    host: testHost
-                }
-            }
-        },
         documentation: {
             LayerSelector: {
                 files: [{
@@ -159,6 +133,32 @@ module.exports = function (grunt) {
                 options: {
                     github: true,
                     destination: './doc'
+                }
+            }
+        },
+        eslint: {
+            options: {
+                configFile: '.eslintrc'
+            },
+            main: {
+                src: jsFiles
+            }
+        },
+        jasmine: {
+            main: {
+                src: [],
+                options: {
+                    outfile: 'tests/_specRunner.html',
+                    specs: ['tests/**/Spec*.js'],
+                    vendor: [
+                        'bower_components/jasmine-favicon-reporter/vendor/favico.js',
+                        'bower_components/jasmine-favicon-reporter/jasmine-favicon-reporter.js',
+                        'bower_components/jasmine-jsreporter/jasmine-jsreporter.js',
+                        '../tests/dojoConfig.js',
+                        'bower_components/dojo/dojo.js',
+                        '../tests/jasmineAMDErrorChecking.js'
+                    ],
+                    host: testHost
                 }
             }
         },
