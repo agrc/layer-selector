@@ -110,6 +110,9 @@ define([
             'Topo': {
                 urlPattern: 'https://discover.agrc.utah.gov/login/path/{quad}/tiles/topo_basemap/${level}/${col}/${row}'
             },
+            'Terrain': {
+                urlPattern: 'https://discover.agrc.utah.gov/login/path/{quad}/tiles/terrain_basemap/${level}/${col}/${row}'
+            },
             'Lite': {
                 urlPattern: 'https://discover.agrc.utah.gov/login/path/{quad}/tiles/lite_basemap/${level}/${col}/${row}'
             },
