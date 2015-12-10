@@ -156,7 +156,8 @@ module.exports = function (grunt) {
                         'bower_components/jasmine-jsreporter/jasmine-jsreporter.js',
                         '../tests/dojoConfig.js',
                         'bower_components/dojo/dojo.js',
-                        '../tests/jasmineAMDErrorChecking.js'
+                        '../tests/jasmineAMDErrorChecking.js',
+                        '../tests/jsReporterSanitizer.js'
                     ],
                     host: testHost
                 }
