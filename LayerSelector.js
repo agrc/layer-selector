@@ -435,7 +435,7 @@ define([
                 var tileInfo = managedLayers[layerItem.name].layer.tileInfo;
                 var level = this.map.getLevel();
 
-                if (tileInfo) {
+                if (tileInfo && layerItem.layerType === 'baselayer') {
                     this.map.__tileInfo = tileInfo;
                     this.map._params.minZoom = this.map.__tileInfo.lods[0].level;
                     this.map._params.maxZoom = this.map.__tileInfo.lods[this.map.__tileInfo.lods.length - 1].level;
