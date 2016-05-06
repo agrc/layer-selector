@@ -216,7 +216,25 @@ define([
         _buildUi: function (baseLayers, overlays, quadWord, separator) {
             console.log('layer-selector:_buildUi', arguments);
 
+            var addOverlay = false;
+            if (array.some(baseLayers, function hasHybrid(layer) {
+                return layer === 'Hybrid' || layer.token === 'Hybrid';
+            }) && overlays.indexOf('Overlay') === -1) {
+                addOverlay = true;
+            }
+
             baseLayers = this._resolveBasemapTokens(baseLayers, quadWord);
+
+            if (addOverlay) {
+                var hybrid = array.filter(baseLayers, function findHybrid(layer) {
+                    return layer.id === 'Hybrid';
+                });
+
+                if (hybrid && hybrid.length === 1) {
+                    overlays.push(hybrid[0].linked[0]);
+                }
+            }
+
             overlays = this._resolveBasemapTokens(overlays, quadWord);
 
             this._hasLinkedLayers = baseLayers && array.some(baseLayers, function checkForLinked(layerFactory) {
@@ -435,7 +453,7 @@ define([
                 var tileInfo = managedLayers[layerItem.name].layer.tileInfo;
                 var level = this.map.getLevel();
 
-                if (tileInfo) {
+                if (tileInfo && layerItem.layerType === 'baselayer') {
                     this.map.__tileInfo = tileInfo;
                     this.map._params.minZoom = this.map.__tileInfo.lods[0].level;
                     this.map._params.maxZoom = this.map.__tileInfo.lods[this.map.__tileInfo.lods.length - 1].level;
@@ -607,7 +625,6 @@ define([
 
             var tilesize = 256;
             var earthCircumference = 40075016.685568;
-            var halfEarthCircumference = halfEarthCircumference * 0.5;
             var inchesPerMeter =  39.37;
             var initialResolution = earthCircumference / tilesize;
 
