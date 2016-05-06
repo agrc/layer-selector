@@ -34,12 +34,14 @@
   ],
   "dependencies": {
     "esri": "arcgis-js-api#~3.14.0",
-    "jasmine-favicon-reporter": "*",
-    "agrc-jasmine-matchers": "~0.1.0",
-    "jasmine-jsreporter": "~0.1.2",
     "bootstrap": "~3.3.5"
   },
   "resolutions": {
     "dojo": "v1.10.4/esri-3.14.0"
+  },
+  "devDependencies": {
+    "agrc-jasmine-matchers": "~0.1.0",
+    "jasmine-jsreporter": "~0.1.2",
+    "jasmine-favicon-reporter": "*"
   }
 }
