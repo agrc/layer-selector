@@ -625,7 +625,6 @@ define([
 
             var tilesize = 256;
             var earthCircumference = 40075016.685568;
-            var halfEarthCircumference = halfEarthCircumference * 0.5;
             var inchesPerMeter =  39.37;
             var initialResolution = earthCircumference / tilesize;
 
