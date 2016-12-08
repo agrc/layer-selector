@@ -125,6 +125,9 @@ define([
             },
             'Overlay': {
                 urlPattern: 'https://discover.agrc.utah.gov/login/path/{quad}/tiles/overlay_basemap/${level}/${col}/${row}'
+            },
+            'Address Points': {
+                urlPattern: 'https://discover.agrc.utah.gov/login/path/{quad}/tiles/address_points_basemap/${level}/${col}/${row}'
             }
         },
         /**
