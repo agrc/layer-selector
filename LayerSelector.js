@@ -732,15 +732,15 @@ define([
         destroy: function () {
             console.log('layer-selector:destroy', arguments);
 
-            var managedLayers = this.get('managedLayers');
-            for (var layerName in managedLayers) {
+            var managedLayers = this.get('managedLayers') || {};
+            Object.keys(managedLayers).forEach(function removeLayer(layerName) {
                 if (managedLayers.hasOwnProperty(layerName)) {
                     var layer = this.map.getLayer(layerName);
                     if (layer) {
                         this.map.removeLayer(layer);
                     }
                 }
-            }
+            }, this);
 
             this.inherited(arguments);
         }
