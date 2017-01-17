@@ -725,6 +725,24 @@ define([
             array.forEach(this.overlayWidgets, startup);
 
             this.inherited(arguments);
+        },
+        /**
+         * Remove layers from the map before destroying the widget.
+         */
+        destroy: function () {
+            console.log('layer-selector:destroy', arguments);
+
+            var managedLayers = this.get('managedLayers');
+            for (var layerName in managedLayers) {
+                if (managedLayers.hasOwnProperty(layerName)) {
+                    var layer = this.map.getLayer(layerName);
+                    if (layer) {
+                        this.map.removeLayer(layer);
+                    }
+                }
+            }
+
+            this.inherited(arguments);
         }
     });
 });
