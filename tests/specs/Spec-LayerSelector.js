@@ -508,5 +508,25 @@ require([
                 });
             });
         });
+
+        describe('destroy', function () {
+            it('removes all layers from the map', function () {
+                spyOn(map, 'getLayer').and.returnValue('layer');
+                spyOn(map, 'removeLayer');
+                var widget = new WidgetUnderTest({
+                    map: map
+                });
+                widget.startup();
+                widget.set('managedLayers', {
+                    'one': {},
+                    'two': {},
+                    'three': {}
+                });
+
+                widget.destroy();
+
+                expect(map.removeLayer.calls.count()).toBe(3);
+            });
+        });
     });
 });
