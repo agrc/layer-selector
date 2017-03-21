@@ -804,7 +804,7 @@ define([
  * @prop {string} ColorIR - NAIP 2011 color infrared.
  * @prop {string} Overlay - Roads and place names as a stand alone cache used to create our Hybrid cache.
  * @prop {string} Hybrid - Automatic link of Imagery and Overlay. You must have `Overlay` present in `overlays` property
- * @prop {string} Address Points - Styled address points.
+ * @prop {string} AddressPoints - Styled address points.
  * @example
  * {
  *      baseLayers: [
@@ -816,7 +816,8 @@ define([
  *         },
  *         'Topo',
  *         'Terrain',
- *         'Color IR'
+ *         'Color IR',
+ *         'Address Points'
  *         ],
  *      overlays: ['Overlay']
  * }

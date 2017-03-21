@@ -2,7 +2,7 @@
 
 ## applianceTokens
 
-[LayerSelector.js:1-780](https://github.com/agrc-widgets/layer-selector/blob/986e68e3953ecb3dca756fecb3f320ccf8b21086/LayerSelector.js#L1-L780 "Source code on GitHub")
+[LayerSelector.js:1-780](https://github.com/agrc-widgets/layer-selector/blob/0e01ec325735468277efbb049ce189ab83e25c5f/LayerSelector.js#L1-L780 "Source code on GitHub")
 
 The happy path tokens for fast tracked basemap layers.
 
@@ -18,7 +18,7 @@ Type: [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference
 -   `ColorIR` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** NAIP 2011 color infrared.
 -   `Overlay` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Roads and place names as a stand alone cache used to create our Hybrid cache.
 -   `Hybrid` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Automatic link of Imagery and Overlay. You must have `Overlay` present in `overlays` property
--   `Address` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Points - Styled address points.
+-   `AddressPoints` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Styled address points.
 
 **Examples**
 
@@ -33,7 +33,8 @@ Type: [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference
         },
         'Topo',
         'Terrain',
-        'Color IR'
+        'Color IR',
+        'Address Points'
         ],
      overlays: ['Overlay']
 }
@@ -41,7 +42,7 @@ Type: [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference
 
 ## visibleLayers
 
-[LayerSelector.js:1-780](https://github.com/agrc-widgets/layer-selector/blob/986e68e3953ecb3dca756fecb3f320ccf8b21086/LayerSelector.js#L1-L780 "Source code on GitHub")
+[LayerSelector.js:1-780](https://github.com/agrc-widgets/layer-selector/blob/0e01ec325735468277efbb049ce189ab83e25c5f/LayerSelector.js#L1-L780 "Source code on GitHub")
 
 The return value of the `visibleLayers` property.
 
@@ -54,7 +55,7 @@ Type: [object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference
 
 ## layerFactory
 
-[LayerSelector.js:1-780](https://github.com/agrc-widgets/layer-selector/blob/986e68e3953ecb3dca756fecb3f320ccf8b21086/LayerSelector.js#L1-L780 "Source code on GitHub")
+[LayerSelector.js:1-780](https://github.com/agrc-widgets/layer-selector/blob/0e01ec325735468277efbb049ce189ab83e25c5f/LayerSelector.js#L1-L780 "Source code on GitHub")
 
 The info about a layer needed to create it and show it on a map and in the layer selector successfully.
 
@@ -70,7 +71,7 @@ Type: [object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference
 
 ## LayerSelector
 
-[LayerSelector.js:176-189](https://github.com/agrc-widgets/layer-selector/blob/986e68e3953ecb3dca756fecb3f320ccf8b21086/LayerSelector.js#L176-L189 "Source code on GitHub")
+[LayerSelector.js:176-189](https://github.com/agrc-widgets/layer-selector/blob/0e01ec325735468277efbb049ce189ab83e25c5f/LayerSelector.js#L176-L189 "Source code on GitHub")
 
 A class for creating a layer selector that changes layers for a given map.
 
@@ -91,7 +92,7 @@ A class for creating a layer selector that changes layers for a given map.
 
 ### visibleLayers
 
-[LayerSelector.js:59-94](https://github.com/agrc-widgets/layer-selector/blob/986e68e3953ecb3dca756fecb3f320ccf8b21086/LayerSelector.js#L59-L94 "Source code on GitHub")
+[LayerSelector.js:59-94](https://github.com/agrc-widgets/layer-selector/blob/0e01ec325735468277efbb049ce189ab83e25c5f/LayerSelector.js#L59-L94 "Source code on GitHub")
 
 **Properties**
 
@@ -110,7 +111,7 @@ this.get('visibleLayers');
 
 ### baseLayerWidgets
 
-[LayerSelector.js:99-99](https://github.com/agrc-widgets/layer-selector/blob/986e68e3953ecb3dca756fecb3f320ccf8b21086/LayerSelector.js#L99-L99 "Source code on GitHub")
+[LayerSelector.js:99-99](https://github.com/agrc-widgets/layer-selector/blob/0e01ec325735468277efbb049ce189ab83e25c5f/LayerSelector.js#L99-L99 "Source code on GitHub")
 
 **Properties**
 
@@ -118,7 +119,7 @@ this.get('visibleLayers');
 
 ### overlayWidgets
 
-[LayerSelector.js:104-104](https://github.com/agrc-widgets/layer-selector/blob/986e68e3953ecb3dca756fecb3f320ccf8b21086/LayerSelector.js#L104-L104 "Source code on GitHub")
+[LayerSelector.js:104-104](https://github.com/agrc-widgets/layer-selector/blob/0e01ec325735468277efbb049ce189ab83e25c5f/LayerSelector.js#L104-L104 "Source code on GitHub")
 
 **Properties**
 
@@ -126,13 +127,13 @@ this.get('visibleLayers');
 
 ## startup
 
-[LayerSelector.js:750-760](https://github.com/agrc-widgets/layer-selector/blob/986e68e3953ecb3dca756fecb3f320ccf8b21086/LayerSelector.js#L750-L760 "Source code on GitHub")
+[LayerSelector.js:750-760](https://github.com/agrc-widgets/layer-selector/blob/0e01ec325735468277efbb049ce189ab83e25c5f/LayerSelector.js#L750-L760 "Source code on GitHub")
 
 We have overriden startup on `_WidgetBase` to call startup on all `LayerSelectorItem` child widgets.
 You should always call startup on this widget after it has been placed in the dom.
 
 ## destroy
 
-[LayerSelector.js:764-778](https://github.com/agrc-widgets/layer-selector/blob/986e68e3953ecb3dca756fecb3f320ccf8b21086/LayerSelector.js#L764-L778 "Source code on GitHub")
+[LayerSelector.js:764-778](https://github.com/agrc-widgets/layer-selector/blob/0e01ec325735468277efbb049ce189ab83e25c5f/LayerSelector.js#L764-L778 "Source code on GitHub")
 
 Remove layers from the map before destroying the widget.
