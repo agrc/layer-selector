@@ -32,6 +32,7 @@ define([
     WebTiledLayer
 ) {
     var imageryAttributionJsonUrl = 'https://mapserv.utah.gov/cdn/attribution/imagery.json';
+
     return declare([_WidgetBase, _TemplatedMixin], {
         /**
          * @private
@@ -106,21 +107,22 @@ define([
          * @private
          * @property {object} _applianceLayers - The default layers hosted in the appliance.
          */
+         /* eslint-disable max-len */
         _applianceLayers: {
-            'Imagery': {
+            Imagery: {
                 urlPattern: 'https://discover.agrc.utah.gov/login/path/{quad}/tiles/utah/${level}/${col}/${row}',
                 hasAttributionData: true,
                 attributionDataUrl: imageryAttributionJsonUrl
             },
-            'Topo': {
+            Topo: {
                 urlPattern: 'https://discover.agrc.utah.gov/login/path/{quad}/tiles/topo_basemap/${level}/${col}/${row}',
                 copyright: 'AGRC'
             },
-            'Terrain': {
+            Terrain: {
                 urlPattern: 'https://discover.agrc.utah.gov/login/path/{quad}/tiles/terrain_basemap/${level}/${col}/${row}',
                 copyright: 'AGRC'
             },
-            'Lite': {
+            Lite: {
                 urlPattern: 'https://discover.agrc.utah.gov/login/path/{quad}/tiles/lite_basemap/${level}/${col}/${row}',
                 copyright: 'AGRC'
             },
@@ -128,19 +130,20 @@ define([
                 urlPattern: 'https://discover.agrc.utah.gov/login/path/{quad}/tiles/naip_2011_nrg/${level}/${col}/${row}',
                 copyright: 'AGRC'
             },
-            'Hybrid': {
+            Hybrid: {
                 urlPattern: 'https://discover.agrc.utah.gov/login/path/{quad}/tiles/utah/${level}/${col}/${row}',
                 linked: ['Overlay'],
                 hasAttributionData: true,
                 attributionDataUrl: imageryAttributionJsonUrl
             },
-            'Overlay': {
+            Overlay: {
                 urlPattern: 'https://discover.agrc.utah.gov/login/path/{quad}/tiles/overlay_basemap/${level}/${col}/${row}'
                 // no attribution for overlay layers since it just duplicates the base map attribution
             },
             'Address Points': {
                 urlPattern: 'https://discover.agrc.utah.gov/login/path/{quad}/tiles/address_points_basemap/${level}/${col}/${row}'
             }
+            /* eslint-enable max-len */
         },
         /**
          * @private
@@ -161,7 +164,8 @@ define([
          * a new div will be created but not placed in the dom. You will need to place it programmatically.
          * @param params {object}
          * @param {esri/map | agrc/widgets/map/BaseMap} params.map - The map to control layer selection within.
-         * @param {layerFactory[]|applianceTokens[]} params.baseLayers - mutually exclusive layers (only one can be visible on your map).
+         * @param {layerFactory[]|applianceTokens[]} params.baseLayers - mutually exclusive layers
+                                                    (only one can be visible on your map).
          * @param {layerFactory[]|applianceTokens[]} [params.overlays] - layers you display over the `baseLayers`.
          * @param {string} [params.quadWord] - The four word authentication token acquired from the appliance.
          * @param {string} [params.separator=<hr class="layer-selector-separator" />] - An HTML fragment used to
@@ -199,11 +203,13 @@ define([
                 domClass.add(this.domNode, this.baseClass + '-hidden');
                 console.warn('layer-selector::`baseLayers` is null or empty. Make sure you have spelled it correctly ' +
                              'and are passing it into the constructor of this widget.');
+
                 return;
             }
-
-            var top = this.top != null ? this.top : true; // eslint-disable-line no-eq-null, eqeqeq
-            var right = this.right != null ? this.top : true; // eslint-disable-line no-eq-null, eqeqeq
+            /* eslint-disable no-eq-null, eqeqeq, no-negated-condition */
+            var top = this.top != null ? this.top : true;
+            var right = this.right != null ? this.top : true;
+            /* eslint-enable no-eq-null, eqeqeq, no-negated-condition */
 
             var locations = {
                 top: top,
@@ -212,7 +218,10 @@ define([
 
             this._placeWidget(locations, this.domNode, this.map.root, this.baseClass);
 
-            this._buildUi(this.baseLayers || [], this.overlays || [], this.quadWord, this.separator || '<hr class="layer-selector-separator" />');
+            this._buildUi(this.baseLayers || [],
+                          this.overlays || [],
+                          this.quadWord,
+                          this.separator || '<hr class="layer-selector-separator" />');
         },
         /**
          * wire events, and such
@@ -220,7 +229,6 @@ define([
          */
         _setupConnections: function () {
             console.log('layer-selector::_setupConnections', arguments);
-
         },
         /**
          * Takes the `baseLayers` and `overlays` and creates the UI markup.
@@ -319,13 +327,13 @@ define([
             array.forEach(layerFactories, function resolveToken(li) {
                 if (typeof li === 'string' || li instanceof String || li.token &&
                    (typeof li.token === 'string' || li.token instanceof String)) {
-
                     var id = (li.token || li);
 
                     if (!this.quadWord) {
                         console.warn('layer-selector::You chose to use a layer token `' + id + '` without setting ' +
                                      'your `quadWord` from the appliance. The requests for tiles will fail to ' +
                                      ' authenticate. Pass `quadWord` into the constructor of this widget.');
+
                         return false;
                     }
 
@@ -336,6 +344,7 @@ define([
                                      'the supported tokens (' + Object.keys(this._applianceLayers).join(', ') +
                                      ') or pass in the information on how to create your custom layer ' +
                                      '(`{Factory, url, id}`).');
+
                         return false;
                     }
 
@@ -412,15 +421,14 @@ define([
                 var selectedIndex = -1;
                 var found = layerFactories.find(function findSelected(layer, i) {
                     selectedIndex = i;
+
                     return layer.selected;
                 }, this);
 
                 if (found) {
                     widgets[selectedIndex].set('selected', true);
-                } else {
-                    if (widgets.length > 0) {
-                        widgets[0].set('selected', true);
-                    }
+                } else if (widgets.length > 0) {
+                    widgets[0].set('selected', true);
                 }
 
                 return;
@@ -464,15 +472,19 @@ define([
             this.set('managedLayers', managedLayers);
 
             if (!managedLayers[layerItem.name].layer) {
-                managedLayers[layerItem.name].layer = new layerItem.layerFactory.Factory(layerItem.layerFactory.url, layerItem.layerFactory);
+                managedLayers[layerItem.name].layer = new layerItem.layerFactory.Factory(layerItem.layerFactory.url,
+                                                                                         layerItem.layerFactory);
             }
 
-            var index = this._determineLayerIndex(layerItem, this.get('managedLayers'), this.map.layerIds, this.map.graphicsLayerIds);
+            var index = this._determineLayerIndex(layerItem,
+                                                  this.get('managedLayers'),
+                                                  this.map.layerIds,
+                                                  this.map.graphicsLayerIds);
 
             if (layerItem.get('selected') === true) {
                 var tileInfo = managedLayers[layerItem.name].layer.tileInfo;
                 var level = this.map.getLevel();
-
+                /* eslint-disable no-underscore-dangle */
                 if (tileInfo && layerItem.layerType === 'baselayer') {
                     this.map.__tileInfo = tileInfo;
                     this.map._params.minZoom = this.map.__tileInfo.lods[0].level;
@@ -490,6 +502,7 @@ define([
                 if (level > -1) {
                     this.map._simpleSliderZoomHandler(null, null, null, level);
                 }
+                /* eslint-enable no-underscore-dangle */
             } else {
                 this.map.removeLayer(managedLayers[layerItem.name].layer);
             }
@@ -524,17 +537,14 @@ define([
                 return array.filter(Object.keys(managedLayers), function countVisibleGraphicOverlayers(key) {
                     return graphicLayerIds.indexOf(key) > -1;
                 }).length;
-            } else {
-                if (!layerIds || layerIds.length === 0) {
-                    return 0;
-                }
-
-                return array.filter(Object.keys(managedLayers), function countVisibleBaselayers(key) {
-                    return layerIds.indexOf(key) > -1;
-                }).length;
+            }
+            if (!layerIds || layerIds.length === 0) {
+                return 0;
             }
 
-            return 0;
+            return array.filter(Object.keys(managedLayers), function countVisibleBaselayers(key) {
+                return layerIds.indexOf(key) > -1;
+            }).length;
         },
         /**
          * Keep the selected radio buttons and checkboxes synchonized with the dom across `LayerSelectorItems`.
@@ -547,10 +557,10 @@ define([
             // turn off all other base layers
             var baseWidget;
             array.forEach(this.baseLayerWidgets, function updateSelected(item) {
-                if (item.name !== id) {
-                    item.set('selected', false);
-                } else {
+                if (item.name === id) {
                     baseWidget = item;
+                } else {
+                    item.set('selected', false);
                 }
             });
 
@@ -588,6 +598,7 @@ define([
                             return value;
                         }
                     }
+
                     return undefined;
                 };
             }
@@ -630,6 +641,7 @@ define([
                                 }
                             }
                         }
+
                         return result;
                     };
                 }());
@@ -645,13 +657,16 @@ define([
 
             var tilesize = 256;
             var earthCircumference = 40075016.685568;
-            var inchesPerMeter =  39.37;
+            var inchesPerMeter = 39.37;
             var initialResolution = earthCircumference / tilesize;
 
+            var dpi = 96;
+            var maxLevel = 20;
+            var squared = 2;
             var lods = [];
-            for (var level = 0; level <= 20; level++) {
-                var resolution = initialResolution / Math.pow(2, level);
-                var scale = resolution * 96 * inchesPerMeter;
+            for (var level = 0; level <= maxLevel; level++) {
+                var resolution = initialResolution / Math.pow(squared, level);
+                var scale = resolution * dpi * inchesPerMeter;
                 lods.push({
                     level: level,
                     scale: scale,
@@ -660,7 +675,7 @@ define([
             }
 
             return {
-                dpi: 96,
+                dpi: dpi,
                 rows: 256,
                 cols: 256,
                 width: 256,
@@ -683,9 +698,9 @@ define([
             console.log('layer-selector:_setTileInfosForApplianceLayers', arguments);
 
             var lods = this._defaultTileInfo.lods;
-            var fiveToNineteen = lods.slice(0, 20);
-            var fiveToSeventeen = lods.slice(0, 18);
-            var zeroToEighteen = lods.slice(0, 19);
+            var fiveToNineteen = lods.slice(0, 20); // eslint-disable-line no-magic-numbers
+            var fiveToSeventeen = lods.slice(0, 18); // eslint-disable-line no-magic-numbers
+            var zeroToEighteen = lods.slice(0, 19); // eslint-disable-line no-magic-numbers
 
             layers.Imagery.tileInfo = new TileInfo(this._defaultTileInfo);
             layers.Hybrid.tileInfo = new TileInfo(this._defaultTileInfo);
@@ -781,13 +796,15 @@ define([
  /**
  * The happy path tokens for fast tracked basemap layers.
  * @typedef {string} applianceTokens
- * @prop {string} Terrain - Elevation with mountain peak elevations, contour lines, as well as many of the places of interest .
+ * @prop {string} Terrain - Elevation with mountain peak elevations, contour lines,
+                            as well as many of the places of interest.
  * @prop {string} Lite - Minimal base map with very muted in color to make your overlayed data stand out beautifully.
  * @prop {string} Topo - USGS Quad Sheet.
  * @prop {string} Imagery - Aerial Imagery.
  * @prop {string} ColorIR - NAIP 2011 color infrared.
  * @prop {string} Overlay - Roads and place names as a stand alone cache used to create our Hybrid cache.
  * @prop {string} Hybrid - Automatic link of Imagery and Overlay. You must have `Overlay` present in `overlays` property
+ * @prop {string} Address Points - Styled address points.
  * @example
  * {
  *      baseLayers: [

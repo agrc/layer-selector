@@ -9,9 +9,9 @@ require([
 ) {
     describe('layer-selector/layer-selector-item', function () {
         var widget;
-        var destroy = function (widget) {
-            widget.destroyRecursive();
-            widget = null;
+        var destroy = function (item) {
+            item.destroyRecursive();
+            item = null;
         };
 
         beforeEach(function () {

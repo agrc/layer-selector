@@ -26,7 +26,8 @@ var browsers = [{
 module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
 
-    var jasminePort = grunt.option('jasminePort') || 8001;
+    var defaultPort = 8001;
+    var jasminePort = grunt.option('jasminePort') || defaultPort;
     var docPort = grunt.option('docPort') || jasminePort - 1;
     var testHost = 'http://localhost:' + jasminePort;
     var docHost = 'http:/localhost:' + docPort;
@@ -44,7 +45,7 @@ module.exports = function (grunt) {
         testname: 'travis_' + process.env.TRAVIS_JOB_ID,
         maxRetries: 10,
         maxPollRetries: 10,
-        'public': 'public',
+        public: 'public',
         throttled: 5,
         sauceConfig: {
             'max-duration': 1800
