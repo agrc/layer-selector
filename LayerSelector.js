@@ -1,4 +1,6 @@
 define([
+    './LayerSelectorItem',
+
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
 
@@ -9,11 +11,12 @@ define([
     'dojo/_base/declare',
     'dojo/_base/lang',
 
+    'esri/config',
     'esri/layers/TileInfo',
-    'esri/layers/WebTiledLayer',
-
-    './LayerSelectorItem'
+    'esri/layers/WebTiledLayer'
 ], function (
+    LayerSelectorItem,
+
     _TemplatedMixin,
     _WidgetBase,
 
@@ -24,11 +27,11 @@ define([
     declare,
     lang,
 
+    esriConfig,
     TileInfo,
-    WebTiledLayer,
-
-    LayerSelectorItem
+    WebTiledLayer
 ) {
+    var imageryAttributionJsonUrl = 'https://mapserv.utah.gov/cdn/attribution/imagery.json';
     return declare([_WidgetBase, _TemplatedMixin], {
         /**
          * @private
@@ -105,26 +108,35 @@ define([
          */
         _applianceLayers: {
             'Imagery': {
-                urlPattern: 'https://discover.agrc.utah.gov/login/path/{quad}/tiles/utah/${level}/${col}/${row}'
+                urlPattern: 'https://discover.agrc.utah.gov/login/path/{quad}/tiles/utah/${level}/${col}/${row}',
+                hasAttributionData: true,
+                attributionDataUrl: imageryAttributionJsonUrl
             },
             'Topo': {
-                urlPattern: 'https://discover.agrc.utah.gov/login/path/{quad}/tiles/topo_basemap/${level}/${col}/${row}'
+                urlPattern: 'https://discover.agrc.utah.gov/login/path/{quad}/tiles/topo_basemap/${level}/${col}/${row}',
+                copyright: 'AGRC'
             },
             'Terrain': {
-                urlPattern: 'https://discover.agrc.utah.gov/login/path/{quad}/tiles/terrain_basemap/${level}/${col}/${row}'
+                urlPattern: 'https://discover.agrc.utah.gov/login/path/{quad}/tiles/terrain_basemap/${level}/${col}/${row}',
+                copyright: 'AGRC'
             },
             'Lite': {
-                urlPattern: 'https://discover.agrc.utah.gov/login/path/{quad}/tiles/lite_basemap/${level}/${col}/${row}'
+                urlPattern: 'https://discover.agrc.utah.gov/login/path/{quad}/tiles/lite_basemap/${level}/${col}/${row}',
+                copyright: 'AGRC'
             },
             'Color IR': {
-                urlPattern: 'https://discover.agrc.utah.gov/login/path/{quad}/tiles/naip_2011_nrg/${level}/${col}/${row}'
+                urlPattern: 'https://discover.agrc.utah.gov/login/path/{quad}/tiles/naip_2011_nrg/${level}/${col}/${row}',
+                copyright: 'AGRC'
             },
             'Hybrid': {
                 urlPattern: 'https://discover.agrc.utah.gov/login/path/{quad}/tiles/utah/${level}/${col}/${row}',
-                linked: ['Overlay']
+                linked: ['Overlay'],
+                hasAttributionData: true,
+                attributionDataUrl: imageryAttributionJsonUrl
             },
             'Overlay': {
                 urlPattern: 'https://discover.agrc.utah.gov/login/path/{quad}/tiles/overlay_basemap/${level}/${col}/${row}'
+                // no attribution for overlay layers since it just duplicates the base map attribution
             },
             'Address Points': {
                 urlPattern: 'https://discover.agrc.utah.gov/login/path/{quad}/tiles/address_points_basemap/${level}/${col}/${row}'
@@ -166,8 +178,10 @@ define([
             }
 
             this._defaultTileInfo = this._createDefaultTileInfo();
-            // params.map.lods = this._defaultTileInfo.lods;
             this._applianceLayers = this._setTileInfosForApplianceLayers(this._applianceLayers);
+
+            // required to successfully make request for attribution json file
+            esriConfig.defaults.io.corsEnabledServers.push('mapserv.utah.gov');
         },
         /**
          * This is fired after all properties of a widget are defined, and the document fragment representing the
@@ -336,7 +350,10 @@ define([
                         linked: layer.linked,
                         id: id,
                         tileInfo: tileInfo,
-                        selected: li.selected
+                        selected: li.selected,
+                        copyright: layer.copyright,
+                        hasAttributionData: layer.hasAttributionData,
+                        attributionDataUrl: layer.attributionDataUrl
                     });
                 } else {
                     resolvedInfos.push(li);
