@@ -1,0 +1,26 @@
+{
+    "contributors": [
+        {
+            "attribution": "Google",
+            "coverageAreas": [
+                {
+                    "zoomMax": 20,
+                    "zoomMin": 17,
+                    "bbox": [36.9, -114.1, 42, -109],
+                    "score": 50
+                }
+            ]
+        },
+        {
+            "attribution": "AGRC",
+            "coverageAreas": [
+                {
+                    "zoomMax": 20,
+                    "zoomMin": 0,
+                    "bbox": [30, -130, 50, -90],
+                    "score": 100
+                }
+            ]
+        }
+    ]
+}

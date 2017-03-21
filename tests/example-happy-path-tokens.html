@@ -31,8 +31,15 @@
             'esri/map',
             'esri/geometry/Extent',
 
+            'dojo/dom-construct',
+
             'dojo/domReady!'
-        ], function(Module, Map, Extent) {
+        ], function(Module, Map, Extent, domConstruct) {
+            var quadWord = '';
+            if (quadWord.length > 0) {
+                domConstruct.empty('map');
+            }
+
             var map = new Map('map', {
                 extent: new Extent({
                     xmax: -12010849.397533866,
@@ -46,7 +53,7 @@
 
             widgetUnderTest = new Module({
                 map: map,
-                quadWord: '',
+                quadWord: quadWord,
                 baseLayers: [
                     'Imagery',
                     'Hybrid',

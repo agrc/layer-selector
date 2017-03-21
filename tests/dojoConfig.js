@@ -14,7 +14,9 @@ window.dojoConfig = {
             main: 'stub-module'
         }
     ],
-    has: {'dojo-undef-api': true}
+    has: {
+        'dojo-undef-api': true
+    }
 };
 
 // for jasmine-favicon-reporter

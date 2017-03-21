@@ -23,14 +23,18 @@
   ],
   "license": "MIT",
   "ignore": [
-    ".grunt",
-    "bower_components",
-    "node_modules",
-    "tests",
+    ".eslintrc",
     ".gitattributes",
     ".gitignore",
-    ".eslintrc",
-    "GruntFile.js"
+    ".grunt",
+    ".travis.yml",
+    "bower_components",
+    "doc",
+    "GruntFile.js",
+    "layer-selector.gif",
+    "node_modules",
+    "README.md",
+    "tests"
   ],
   "dependencies": {
     "esri": "arcgis-js-api#~3.14.0",

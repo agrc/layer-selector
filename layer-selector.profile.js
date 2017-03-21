@@ -1,5 +1,5 @@
-/*eslint-disable no-unused-vars, no-undef */
-profile = {
+/* eslint-disable no-unused-vars, no-undef */
+var profile = {
     resourceTags: {
         amd: function (filename, mid) {
             return !this.copyOnly(filename, mid) && /\.js$/.test(filename);
@@ -9,4 +9,3 @@ profile = {
         }
     }
 };
-/*eslint-enable no-unused-vars, no-undef */

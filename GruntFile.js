@@ -26,7 +26,8 @@ var browsers = [{
 module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
 
-    var jasminePort = grunt.option('jasminePort') || 8001;
+    var defaultPort = 8001;
+    var jasminePort = grunt.option('jasminePort') || defaultPort;
     var docPort = grunt.option('docPort') || jasminePort - 1;
     var testHost = 'http://localhost:' + jasminePort;
     var docHost = 'http:/localhost:' + docPort;
@@ -44,7 +45,7 @@ module.exports = function (grunt) {
         testname: 'travis_' + process.env.TRAVIS_JOB_ID,
         maxRetries: 10,
         maxPollRetries: 10,
-        'public': 'public',
+        public: 'public',
         throttled: 5,
         sauceConfig: {
             'max-duration': 1800
@@ -98,6 +99,9 @@ module.exports = function (grunt) {
             jasmine: { }
         },
         documentation: {
+            options: {
+                destination: './doc'
+            },
             LayerSelector: {
                 files: [{
                     src: 'LayerSelector.js'
@@ -105,7 +109,7 @@ module.exports = function (grunt) {
                 options: {
                     github: true,
                     format: 'md',
-                    filename: './doc/LayerSelector.md'
+                    filename: 'LayerSelector.md'
                 }
             },
             LayerSelectorItem: {
@@ -115,24 +119,18 @@ module.exports = function (grunt) {
                 options: {
                     github: true,
                     format: 'md',
-                    filename: './doc/LayerSelectorItem.md'
+                    filename: 'LayerSelectorItem.md'
                 }
             },
             LayerSelectorHtml: {
                 files: [{
                     src: 'LayerSelector.js'
-                }],
-                options: {
-                    destination: './doc'
-                }
+                }]
             },
             LayerSelectorItemHtml: {
                 files: [{
                     src: 'LayerSelectorItem.js'
-                }],
-                options: {
-                    destination: './doc'
-                }
+                }]
             }
         },
         eslint: {
