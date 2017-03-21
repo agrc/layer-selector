@@ -99,6 +99,9 @@ module.exports = function (grunt) {
             jasmine: { }
         },
         documentation: {
+            options: {
+                destination: './doc'
+            },
             LayerSelector: {
                 files: [{
                     src: 'LayerSelector.js'
@@ -106,7 +109,7 @@ module.exports = function (grunt) {
                 options: {
                     github: true,
                     format: 'md',
-                    filename: './doc/LayerSelector.md'
+                    filename: 'LayerSelector.md'
                 }
             },
             LayerSelectorItem: {
@@ -116,24 +119,18 @@ module.exports = function (grunt) {
                 options: {
                     github: true,
                     format: 'md',
-                    filename: './doc/LayerSelectorItem.md'
+                    filename: 'LayerSelectorItem.md'
                 }
             },
             LayerSelectorHtml: {
                 files: [{
                     src: 'LayerSelector.js'
-                }],
-                options: {
-                    destination: './doc'
-                }
+                }]
             },
             LayerSelectorItemHtml: {
                 files: [{
                     src: 'LayerSelectorItem.js'
-                }],
-                options: {
-                    destination: './doc'
-                }
+                }]
             }
         },
         eslint: {
