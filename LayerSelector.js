@@ -353,10 +353,22 @@ define([
                         tileInfo = new TileInfo(layer.tileInfo);
                     }
 
+                    var linked = [layer.linked, li.linked].reduce(function flatten(acc, value, index) {
+                        if (value) {
+                            acc = acc.concat(value);
+                        }
+
+                        if (index === 1 && acc.length === 0) {
+                            return null;
+                        }
+
+                        return acc;
+                    }, []);
+
                     resolvedInfos.push({
                         Factory: WebTiledLayer,
                         url: layer.urlPattern.replace('{quad}', this.quadWord),
-                        linked: layer.linked || li.linked,
+                        linked: linked,
                         id: id,
                         tileInfo: tileInfo,
                         selected: li.selected,

@@ -267,6 +267,7 @@ require([
                 expect(index).toEqual(1, 'If there is already a baselayer, add on top of it.');
             });
         });
+
         describe('UI', function () {
             it('It should not display separator if there are 1 base layer and > 0 overlays', function () {
                 widget = new WidgetUnderTest({
@@ -543,6 +544,52 @@ require([
 
                     expect(checkedInputs.length).toEqual(0);
                 });
+            });
+        });
+
+        describe('_resolveBasemapTokens', function () {
+            it('hybrid is always linked to overlay', function () {
+                widget = new WidgetUnderTest({
+                    map: map,
+                    quadWord: 'my-quad-word-is'
+                });
+
+                var resolved = widget._resolveBasemapTokens(['Hybrid']);
+
+                expect(resolved.length).toEqual(1);
+                expect(resolved[0].linked.length).toEqual(1);
+                expect(resolved[0].linked).toEqual(['Overlay']);
+            });
+            it('hybrid with extra link is concatentated with overlay', function () {
+                widget = new WidgetUnderTest({
+                    map: map,
+                    quadWord: 'my-quad-word-is'
+                });
+
+                var linked = ['test', 'concatentated', 'links'];
+                var totalLinked = linked.length + 1;
+
+                var resolved = widget._resolveBasemapTokens([{
+                    token: 'Hybrid',
+                    linked: linked
+                }]);
+
+                expect(resolved.length).toEqual(1);
+                expect(resolved[0].linked.length).toEqual(totalLinked);
+                expect(resolved[0].linked).toEqual(['Overlay'].concat(linked));
+            });
+            it('is ok with no links', function () {
+                widget = new WidgetUnderTest({
+                    map: map,
+                    quadWord: 'my-quad-word-is'
+                });
+
+                var tokens = ['Lite', 'Topo'];
+                var resolved = widget._resolveBasemapTokens(tokens);
+
+                expect(resolved.length).toEqual(tokens.length);
+                expect(resolved[0].linked).toEqual(null);
+                expect(resolved[1].linked).toEqual(null);
             });
         });
 
