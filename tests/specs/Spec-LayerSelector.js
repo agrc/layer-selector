@@ -43,6 +43,7 @@ require([
                 getLayer: noop,
                 addLayer: noop,
                 removeLayer: noop,
+                _params: {},
                 getLevel: function () {
                     return -1;
                 }
@@ -457,6 +458,23 @@ require([
                             Factory: noop,
                             selected: true
                         }]
+                    });
+                    widget.startup();
+
+                    var nodeList = query('input[name="overlayer"]', widget.domNode);
+                    var checkedInputs = nodeList.filter(checked);
+
+                    expect(checkedInputs.length).toEqual(1, 'linked should only be checked.');
+                });
+                it('should check overlays when baselayer is token, active, and has linked[name]', function () {
+                    widget = new WidgetUnderTest({
+                        map: map,
+                        quadWord: 'quad-word-thing-zing',
+                        baseLayers: [{
+                            token: 'Lite',
+                            linked: ['Overlay']
+                        }],
+                        overlays: ['Overlay']
                     });
                     widget.startup();
 
