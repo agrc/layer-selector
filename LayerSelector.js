@@ -356,7 +356,7 @@ define([
                     resolvedInfos.push({
                         Factory: WebTiledLayer,
                         url: layer.urlPattern.replace('{quad}', this.quadWord),
-                        linked: layer.linked,
+                        linked: layer.linked || li.linked,
                         id: id,
                         tileInfo: tileInfo,
                         selected: li.selected,
