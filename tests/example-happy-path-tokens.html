@@ -8,7 +8,7 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="../resources/LayerSelector.css">
-    <link rel="stylesheet" href="../bower_components/esri/css/esri.css">
+    <link rel="stylesheet" href="../bower_components/esri/css/main.css">
     <style type='text/css'>
         body, html, #map {
             width: 100%;
@@ -28,31 +28,35 @@
         require([
             'layer-selector',
 
-            'esri/map',
+            'esri/Map',
+            'esri/views/MapView',
             'esri/geometry/Extent',
 
             'dojo/dom-construct',
 
             'dojo/domReady!'
-        ], function(Module, Map, Extent, domConstruct) {
-            var quadWord = '';
+        ], function (Module, Map, MapView, Extent, domConstruct) {
+            var quadWord = 'alabama-anvil-picnic-sunset';
             if (quadWord.length > 0) {
                 domConstruct.empty('map');
             }
 
-            var map = new Map('map', {
-                extent: new Extent({
-                    xmax: -12010849.397533866,
-                    xmin: -12898741.918094235,
-                    ymax: 5224652.298632992,
-                    ymin: 4422369.249751998,
-                    spatialReference: {
-                        wkid: 3857
-                    }})
+            var mapView = new MapView({
+                map: new Map(),
+                container: 'map'
+            });
+            mapView.extent = new Extent({
+                xmax: -12010849.397533866,
+                xmin: -12898741.918094235,
+                ymax: 5224652.298632992,
+                ymin: 4422369.249751998,
+                spatialReference: {
+                    wkid: 3857
+                }
             });
 
             widgetUnderTest = new Module({
-                map: map,
+                mapView: mapView,
                 quadWord: quadWord,
                 baseLayers: [
                     'Imagery',

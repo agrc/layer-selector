@@ -11,9 +11,11 @@ define([
     'dojo/_base/declare',
     'dojo/_base/lang',
 
+    'esri/Basemap',
     'esri/config',
-    'esri/layers/TileInfo',
-    'esri/layers/WebTiledLayer'
+    'esri/layers/support/LOD',
+    'esri/layers/support/TileInfo',
+    'esri/layers/WebTileLayer'
 ], function (
     LayerSelectorItem,
 
@@ -27,7 +29,9 @@ define([
     declare,
     lang,
 
+    Basemap,
     esriConfig,
+    LOD,
     TileInfo,
     WebTiledLayer
 ) {
@@ -163,7 +167,7 @@ define([
          * @param {HTMLElement|string} [node] - The domNode or string id of a domNode to create this widget on. If null
          * a new div will be created but not placed in the dom. You will need to place it programmatically.
          * @param params {object}
-         * @param {esri/map | agrc/widgets/map/BaseMap} params.map - The map to control layer selection within.
+         * @param {esri/views/MapView} params.mapView - The map to control layer selection within.
          * @param {layerFactory[]|applianceTokens[]} params.baseLayers - mutually exclusive layers
                                                     (only one can be visible on your map).
          * @param {layerFactory[]|applianceTokens[]} [params.overlays] - layers you display over the `baseLayers`.
@@ -177,15 +181,15 @@ define([
             console.log('layer-selector::constructor', arguments);
 
             // check for map
-            if (!params.map) {
-                throw new Error('layer-selector::Missing map in constructor args. `new LayerSelector({map: map});`');
+            if (!params.mapView) {
+                throw new Error('layer-selector::Missing mapView in constructor args.');
             }
 
             this._defaultTileInfo = this._createDefaultTileInfo();
             this._applianceLayers = this._setTileInfosForApplianceLayers(this._applianceLayers);
 
             // required to successfully make request for attribution json file
-            esriConfig.defaults.io.corsEnabledServers.push('mapserv.utah.gov');
+            esriConfig.request.corsEnabledServers.push('mapserv.utah.gov');
         },
         /**
          * This is fired after all properties of a widget are defined, and the document fragment representing the
@@ -206,17 +210,18 @@ define([
 
                 return;
             }
+
+            this.mapView.map.basemap = new Basemap();
+
             /* eslint-disable no-eq-null, eqeqeq, no-negated-condition */
             var top = this.top != null ? this.top : true;
             var right = this.right != null ? this.top : true;
             /* eslint-enable no-eq-null, eqeqeq, no-negated-condition */
 
-            var locations = {
-                top: top,
-                right: right
-            };
+            var y = (top) ? 'top' : 'bottom';
+            var x = (right) ? 'right' : 'left';
 
-            this._placeWidget(locations, this.domNode, this.map.root, this.baseClass);
+            this.mapView.ui.add(this, [y, x].join('-'));
 
             this._buildUi(this.baseLayers || [],
                           this.overlays || [],
@@ -266,8 +271,8 @@ define([
                 return layerFactory.linked;
             });
 
-            this.baseLayerWidgets = this._buildLayerItemWidgets(baseLayers, this.layerContainer, 'radio');
-            this.overlayWidgets = this._buildLayerItemWidgets(overlays, this.layerContainer, 'checkbox');
+            this.baseLayerWidgets = this._buildLayerItemWidgets(baseLayers, this.layerContainer, 'radio', 'baselayer');
+            this.overlayWidgets = this._buildLayerItemWidgets(overlays, this.layerContainer, 'checkbox', 'overlay');
 
             if (this.baseLayerWidgets.length === 1) {
                 this.baseLayerWidgets[0].set('hidden', true);
@@ -289,29 +294,6 @@ define([
             if (visibleBaseLayers.length > 0 && this.overlayWidgets.length > 0) {
                 domConstruct.place(separator, this.layerContainer, this.baseLayerWidgets.length);
             }
-        },
-        /**
-         * Places the `node` inside the `refNode`, applying CSS classes to align itself using constructor parameters
-         * `top` and `right`.
-         * @private
-         * @param {object} locations - contains a  boolean `top` and `right` property for determining
-         * which corner to place the widget.
-         * @param {HTMLElement} node - the root node of the widget.
-         * @param {HTMLElement} refNode - the reference node for placing the widget.
-         * @param {string} baseClass - the base css class for suffixing the placement css classes.
-         */
-        _placeWidget: function (locations, node, refNode, baseClass) {
-            console.log('layer-selector:_placeWidget', arguments);
-
-            if (!locations.top) {
-                domClass.replace(node, baseClass + '-bottom', baseClass + '-top');
-            }
-
-            if (!locations.right) {
-                domClass.replace(node, baseClass + '-left', baseClass + '-right');
-            }
-
-            domConstruct.place(node, refNode);
         },
         /**
          * Takes layer tokens from `_applianceLayers` keys and resolves them to `layerFactory` objects with
@@ -367,14 +349,15 @@ define([
 
                     resolvedInfos.push({
                         Factory: WebTiledLayer,
-                        url: layer.urlPattern.replace('{quad}', this.quadWord),
+                        urlTemplate: layer.urlPattern.replace('{quad}', this.quadWord),
                         linked: linked,
                         id: id,
-                        tileInfo: tileInfo,
+                        // tileInfo: tileInfo,
                         selected: li.selected,
-                        copyright: layer.copyright,
-                        hasAttributionData: layer.hasAttributionData,
-                        attributionDataUrl: layer.attributionDataUrl
+                        copyright: layer.copyright
+                        // TODO: not implemented in 4.x yet
+                        // hasAttributionData: layer.hasAttributionData,
+                        // attributionDataUrl: layer.attributionDataUrl
                     });
                 } else {
                     resolvedInfos.push(li);
@@ -388,10 +371,11 @@ define([
          * @private
          * @param {layerFactory[]} layerFactory - layer infos as passed via `baseLayers` or `overlays`
          * @param {HTMLElement} container - the dom node to hold the created elements.
-         * @param {string} type - `radio` or `checkbox`.
+         * @param {string} inputType - `radio` or `checkbox`.
+         * @param {string} layerType - `baselayer` or `overlay`
          * @returns {LayerSelectorItem[]} - The widgets created from the `layerFactory`.
          */
-        _buildLayerItemWidgets: function (layerFactory, container, type) {
+        _buildLayerItemWidgets: function (layerFactory, container, inputType) {
             console.log('layer-selector:_buildLayerItemWidgets', arguments);
 
             if (!layerFactory || !layerFactory.length) {
@@ -402,7 +386,7 @@ define([
             array.forEach(layerFactory, function addToContainer(li) {
                 var item = new LayerSelectorItem({
                     layerFactory: li,
-                    inputType: type
+                    inputType: inputType
                 }).placeAt(container);
 
                 this.own(
@@ -461,15 +445,17 @@ define([
             console.log('layer-selector:_updateMap', arguments);
 
             var managedLayers = this.get('managedLayers') || {};
+            var layerList = (layerItem.layerType === 'baselayer') ?
+                this.mapView.map.basemap.baseLayers : this.mapView.map.layers;
 
             if (layerItem.get('selected') === false) {
                 var managedLayer = managedLayers[layerItem.name] || {};
                 if (!managedLayer.layer) {
-                    managedLayer.layer = this.map.getLayer(layerItem.name);
+                    managedLayer.layer = layerList.getItemAt(layerList.indexOf(layerItem.layer));
                 }
 
                 if (managedLayer.layer) {
-                    this.map.removeLayer(managedLayer.layer);
+                    layerList.remove(managedLayer.layer);
                 }
 
                 return;
@@ -484,79 +470,18 @@ define([
             this.set('managedLayers', managedLayers);
 
             if (!managedLayers[layerItem.name].layer) {
-                managedLayers[layerItem.name].layer = new layerItem.layerFactory.Factory(layerItem.layerFactory.url,
-                                                                                         layerItem.layerFactory);
+                managedLayers[layerItem.name].layer = new layerItem.layerFactory.Factory(layerItem.layerFactory);
             }
 
-            var index = this._determineLayerIndex(layerItem,
-                                                  this.get('managedLayers'),
-                                                  this.map.layerIds,
-                                                  this.map.graphicsLayerIds);
-
             if (layerItem.get('selected') === true) {
-                var tileInfo = managedLayers[layerItem.name].layer.tileInfo;
-                var level = this.map.getLevel();
-                /* eslint-disable no-underscore-dangle */
-                if (tileInfo && layerItem.layerType === 'baselayer') {
-                    this.map.__tileInfo = tileInfo;
-                    this.map._params.minZoom = this.map.__tileInfo.lods[0].level;
-                    this.map._params.maxZoom = this.map.__tileInfo.lods[this.map.__tileInfo.lods.length - 1].level;
-                    this.map._params.minScale = this.map.__tileInfo.lods[0].scale;
-                    this.map._params.maxScale = this.map.__tileInfo.lods[this.map.__tileInfo.lods.length - 1].scale;
-
-                    if (this.map._params.maxZoom < level) {
-                        this.map.setLevel(this.map._params.maxZoom);
-                    }
-                }
-
-                this.map.addLayer(managedLayers[layerItem.name].layer, index);
-
-                if (level > -1) {
-                    this.map._simpleSliderZoomHandler(null, null, null, level);
-                }
-                /* eslint-enable no-underscore-dangle */
+                layerList.add(managedLayers[layerItem.name].layer);
             } else {
-                this.map.removeLayer(managedLayers[layerItem.name].layer);
+                layerList.remove(managedLayers[layerItem.name].layer);
             }
 
             if (layerItem.layerType === 'baselayer') {
                 this._syncSelectedWithUi(layerItem.name);
             }
-        },
-        /**
-         * Takes the layer and determines the index of which to insert into the map.
-         * @private
-         * @param {LayerSelectorItem} layerItem - The item containing the name and type of the layer
-         * @param {object} managedLayers - An object containing a reference to the layers managed by this widget
-         * @param {string[]} layerIds - An array of the layer ids for the map
-         * @param {string[]} graphicLayerIds - An array of the graphics layer ids for the map
-         * @returns {number} The index of the map to put the layer.
-         */
-        _determineLayerIndex: function (layerItem, managedLayers, layerIds, graphicLayerIds) {
-            console.log('layer-selector:_determineLayerIndex', arguments);
-
-            if (layerItem.layerType === 'baselayer') {
-                return 0;
-            }
-
-            var layerType = managedLayers[layerItem.name].layer.declaredClass;
-
-            if (layerType === 'esri.layers.FeatureLayer') {
-                if (!graphicLayerIds || graphicLayerIds.length === 0) {
-                    return 0;
-                }
-
-                return array.filter(Object.keys(managedLayers), function countVisibleGraphicOverlayers(key) {
-                    return graphicLayerIds.indexOf(key) > -1;
-                }).length;
-            }
-            if (!layerIds || layerIds.length === 0) {
-                return 0;
-            }
-
-            return array.filter(Object.keys(managedLayers), function countVisibleBaselayers(key) {
-                return layerIds.indexOf(key) > -1;
-            }).length;
         },
         /**
          * Keep the selected radio buttons and checkboxes synchonized with the dom across `LayerSelectorItems`.
@@ -679,18 +604,16 @@ define([
             for (var level = 0; level <= maxLevel; level++) {
                 var resolution = initialResolution / Math.pow(squared, level);
                 var scale = resolution * dpi * inchesPerMeter;
-                lods.push({
+                lods.push(new LOD({
                     level: level,
                     scale: scale,
                     resolution: resolution
-                });
+                }));
             }
 
             return {
                 dpi: dpi,
-                rows: 256,
-                cols: 256,
-                width: 256,
+                size: tilesize,
                 origin: {
                     x: -20037508.342787,
                     y: 20037508.342787
