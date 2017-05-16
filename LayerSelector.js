@@ -190,6 +190,7 @@ define([
 
             // required to successfully make request for attribution json file
             esriConfig.request.corsEnabledServers.push('mapserv.utah.gov');
+            esriConfig.request.corsEnabledServers.push('discover.agrc.utah.gov');
         },
         /**
          * This is fired after all properties of a widget are defined, and the document fragment representing the
