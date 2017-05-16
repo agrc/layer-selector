@@ -330,10 +330,10 @@ define([
                         return false;
                     }
 
-                    var tileInfo = null;
-                    if (layer.tileInfo) {
-                        tileInfo = new TileInfo(layer.tileInfo);
-                    }
+                    // var tileInfo = null;
+                    // if (layer.tileInfo) {
+                    //     tileInfo = new TileInfo(layer.tileInfo);
+                    // }
 
                     var linked = [layer.linked, li.linked].reduce(function flatten(acc, value, index) {
                         if (value) {
