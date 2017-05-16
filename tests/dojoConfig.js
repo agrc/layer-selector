@@ -6,6 +6,7 @@ window.dojoConfig = {
         'dijit',
         'dojox',
         'esri',
+        'moment',
         {
             name: 'layer-selector',
             location: '../',

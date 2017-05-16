@@ -43,7 +43,10 @@
   "resolutions": {
     "dojo": "v1.12.1/esri-3.20.0",
     "dijit": "v1.12.1/esri-3.20.0",
-    "dojox": "v1.12.1/esri-3.20.0"
+    "dojox": "v1.12.1/esri-3.20.0",
+    "dgrid": "v1.1.0/esri-3.20.0",
+    "dstore": "1.1.1",
+    "util": "v1.12.1/esri-3.20.0"
   },
   "devDependencies": {
     "agrc-jasmine-matchers": "~0.1.0",
