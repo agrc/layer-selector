@@ -331,11 +331,6 @@ define([
                         return false;
                     }
 
-                    // var tileInfo = null;
-                    // if (layer.tileInfo) {
-                    //     tileInfo = new TileInfo(layer.tileInfo);
-                    // }
-
                     var linked = [layer.linked, li.linked].reduce(function flatten(acc, value, index) {
                         if (value) {
                             acc = acc.concat(value);
@@ -353,7 +348,6 @@ define([
                         urlTemplate: layer.urlPattern.replace('{quad}', this.quadWord),
                         linked: linked,
                         id: id,
-                        // tileInfo: tileInfo,
                         selected: li.selected,
                         copyright: layer.copyright
                         // TODO: not implemented in 4.x yet
