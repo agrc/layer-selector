@@ -41,7 +41,7 @@
 
 
             'dojo/domReady!'
-        ], function(Module, esriConfig, Map, SpatialReference, Extent, Point, TiledLayer, WebTiledLayer, TileInfo) {
+        ], function (Module, esriConfig, Map, SpatialReference, Extent, Point, TiledLayer, WebTiledLayer, TileInfo) {
             esriConfig.defaults.io.corsEnabledServers.push(
                       'a.tile.stamen.com',
                       'b.tile.stamen.com',
@@ -52,12 +52,12 @@
             var tilesize = 256;
             var earthCircumference = 40075016.685568;
             var halfEarthCircumference = halfEarthCircumference * 0.5;
-            var inchesPerMeter =  39.37;
+            var inchesPerMeter = 39.37;
             var initialResolution = earthCircumference / tilesize;
 
             var lods = [];
             for (var zoom = 0; zoom <= 20; zoom++) {
-                var resolution = initialResolution / Math.pow( 2, zoom );
+                var resolution = initialResolution / Math.pow(2, zoom);
                 var scale = resolution * 96 * inchesPerMeter;
                 lods.push({
                     level: zoom,
@@ -77,26 +77,26 @@
             widgetUnderTest = new Module({
                 map: map,
                 baseLayers: [
-                {
-                    Factory: WebTiledLayer,
-                    url: 'http://${subDomain}.tile.stamen.com/toner/${level}/${col}/${row}.png',
-                    id: 'Imagery',
-                    subDomains: ['a', 'b', 'c', 'd'],
-                    selected: true,
-                    tileInfo: new TileInfo({
-                        dpi: 96,
-                        rows: 256,
-                        cols: 256,
-                        origin: {
-                            x: -20037508.342787,
-                            y: 20037508.342787
-                        },
-                        spatialReference: {
-                            wkid: 102100
-                        },
-                        lods: lods
-                    })
-                }]
+                    {
+                        Factory: WebTiledLayer,
+                        url: 'http://${subDomain}.tile.stamen.com/toner/${level}/${col}/${row}.png',
+                        id: 'Imagery',
+                        subDomains: ['a', 'b', 'c', 'd'],
+                        selected: true,
+                        tileInfo: new TileInfo({
+                            dpi: 96,
+                            rows: 256,
+                            cols: 256,
+                            origin: {
+                                x: -20037508.342787,
+                                y: 20037508.342787
+                            },
+                            spatialReference: {
+                                wkid: 102100
+                            },
+                            lods: lods
+                        })
+                    }]
             });
 
             widgetUnderTest.startup();
