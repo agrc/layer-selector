@@ -3,27 +3,23 @@ require([
     'dojo/dom-construct',
     'dojo/query',
 
+    'esri/Map',
+    'esri/views/MapView',
+
     'layer-selector'
 ], function (
     domClass,
     domConstruct,
     query,
 
+    Map,
+    MapView,
+
     WidgetUnderTest
 ) {
     describe('layer-selector', function () {
         var widget;
-        var map;
-
-        var destroy = function (item) {
-            item.destroyRecursive();
-            item = null;
-            try {
-                document.body.removeChild(map.root);
-            } catch (e) {
-                // do nothing
-            }
-        };
+        var mapView;
 
         var visible = function (layer) {
             return !domClass.contains(layer.parentNode.parentNode, 'layer-selector-hidden');
@@ -33,32 +29,47 @@ require([
             return input.checked;
         };
 
-        var noop = function () {
+        var noop = function () { };
 
-        };
+        beforeEach(function (done) {
+            mapView = new MapView({
+                map: new Map({ basemap: 'streets' }),
+                container: domConstruct.create('div', null, document.body)
+            });
 
-        beforeEach(function () {
-            map = {
-                root: domConstruct.create('div', null, document.body),
-                getLayer: noop,
-                addLayer: noop,
-                removeLayer: noop,
-                _params: {},
-                getLevel: function () {
-                    return -1;
-                }
-            };
+            mapView.then(function () {
+                console.log('mapView done');
+                done();
+            });
         });
 
-        afterEach(function () {
-            if (widget) {
-                destroy(widget);
+        afterEach(function (done) {
+            if (mapView) {
+                // mapView.destroy needs some extra help...
+                // https://thespatialcommunity.slack.com/archives/C0A6GD4T0/p1494006356289273
+                mapView.allLayerViews.destroy();
+                mapView.layerViewManager.empty();
+                mapView.ui.empty();
+                mapView.container.remove();
+                setTimeout(() => {
+                    try {
+                        console.log('destroying mapView');
+                        mapView.destroy();
+                        console.log('destroyed');
+                    } finally {
+                        mapView = null;
+                        console.log('done');
+                        done();
+                    }
+                }, 0);
+            } else {
+                widget.destroy();
             }
         });
 
         describe('Sanity', function () {
             it('should create a layer-selector', function () {
-                widget = new WidgetUnderTest({ map: map });
+                widget = new WidgetUnderTest({ mapView: mapView });
                 widget.startup();
 
                 expect(widget).toEqual(jasmine.any(WidgetUnderTest));
@@ -68,7 +79,7 @@ require([
         describe('constructor', function () {
             it('sets _hasLinkedLayers appropriately', function () {
                 widget = new WidgetUnderTest({
-                    map: map,
+                    mapView: mapView,
                     baseLayers: [{
                         name: 'blah',
                         Factory: noop
@@ -81,10 +92,10 @@ require([
 
                 expect(widget._hasLinkedLayers).toBe(true, 'linked layers'); // eslint-disable-line no-underscore-dangle
 
-                destroy(widget);
+                mapView.destroy();
 
                 widget = new WidgetUnderTest({
-                    map: map,
+                    mapView: mapView,
                     baseLayers: [{
                         name: 'blah',
                         Factory: noop
@@ -103,7 +114,7 @@ require([
         describe('getters', function () {
             it('visibleLayers gets only visible layers', function () {
                 widget = new WidgetUnderTest({
-                    map: map,
+                    mapView: mapView,
                     baseLayers: [{
                         name: '1',
                         Factory: noop
@@ -118,7 +129,7 @@ require([
             });
             it('visibleLayers gets linked layers', function () {
                 widget = new WidgetUnderTest({
-                    map: map,
+                    mapView: mapView,
                     baseLayers: [{
                         name: '1',
                         Factory: noop,
@@ -142,136 +153,10 @@ require([
             });
         });
 
-        describe('_determineLayerIndex', function () {
-            it('returns 0 for baselayers always.', function () {
-                widget = new WidgetUnderTest({ map: map });
-                var layerItem = {
-                    layerType: 'baselayer',
-                    name: '1'
-                };
-                var managedLayers = {
-                    1: '',
-                    2: ''
-                };
-
-                var index = widget._determineLayerIndex(layerItem, managedLayers, [], []);
-                expect(index).toEqual(0, 'Index should be 0 for any baselayer');
-            });
-            it('returns 0 for baselayers always, even if there are exiting layers.', function () {
-                widget = new WidgetUnderTest({ map: map });
-                var layerItem = {
-                    layerType: 'baselayer',
-                    name: '1'
-                };
-                var managedLayers = {
-                    1: '',
-                    2: ''
-                };
-                var existingLayerIdsInMap = ['2', '3'];
-
-                var index = widget._determineLayerIndex(layerItem, managedLayers, existingLayerIdsInMap, []);
-                expect(index).toEqual(0, 'Index should be 0 for any baselayer');
-            });
-            it('returns 0 when adding first "GraphicsLayer" overlay.', function () {
-                widget = new WidgetUnderTest({ map: map });
-                var layerItem = {
-                    layerType: 'overlayer',
-                    name: '2'
-                };
-                var managedLayers = {
-                    1: 'some baselayer',
-                    2: {
-                        layer: {
-                            declaredClass: 'esri.layers.FeatureLayer'
-                        }
-                    }
-                };
-                var existingLayerIdsInMap = ['1'];
-                var graphicsLayerIds = [];
-
-                var index = widget._determineLayerIndex(layerItem,
-                                                        managedLayers,
-                                                        existingLayerIdsInMap,
-                                                        graphicsLayerIds);
-                expect(index).toEqual(0, 'if graphicsLayerIds is empty, the index should be 0');
-            });
-            it('returns 0 when adding a first managed "Graphics" overlay with existing "Graphics" layer.', function () {
-                widget = new WidgetUnderTest({ map: map });
-                var layerItem = {
-                    layerType: 'overlay',
-                    name: '2'
-                };
-                var managedLayers = {
-                    1: 'some baselayer',
-                    2: {
-                        layer: {
-                            declaredClass: 'esri.layers.FeatureLayer'
-                        }
-                    }
-                };
-                var existingLayerIdsInMap = ['1'];
-                var graphicsLayerIds = ['3'];
-
-                var index = widget._determineLayerIndex(layerItem,
-                                                        managedLayers,
-                                                        existingLayerIdsInMap,
-                                                        graphicsLayerIds);
-                expect(index).toEqual(0, 'If there is already a graphics layer. Insert below it.');
-            });
-            it('returns 1 when adding a second managed "Graphics" overlay.', function () {
-                widget = new WidgetUnderTest({ map: map });
-                var layerItem = {
-                    layerType: 'overlay',
-                    name: '2'
-                };
-                var managedLayers = {
-                    1: 'some baselayer',
-                    2: {
-                        layer: {
-                            declaredClass: 'esri.layers.FeatureLayer'
-                        }
-                    },
-                    3: 'some overlay'
-                };
-                var existingLayerIdsInMap = ['1'];
-                var graphicsLayerIds = ['3', '4', '5'];
-
-                var index = widget._determineLayerIndex(layerItem,
-                                                        managedLayers,
-                                                        existingLayerIdsInMap,
-                                                        graphicsLayerIds);
-                expect(index).toEqual(1, 'If there is already a managed overlay. Add on top of it.');
-            });
-            it('returns 1 when adding a second managed "non-Graphic" overlay.', function () {
-                widget = new WidgetUnderTest({ map: map });
-                var layerItem = {
-                    layerType: 'overlay',
-                    name: '2'
-                };
-                var managedLayers = {
-                    1: 'some baselayer',
-                    2: {
-                        layer: {
-                            declaredClass: 'not.a.esri.layers.FeatureLayer'
-                        }
-                    },
-                    3: 'some overlay'
-                };
-                var existingLayerIdsInMap = ['1', '4', '5'];
-                var graphicsLayerIds = ['3', '6', '7'];
-
-                var index = widget._determineLayerIndex(layerItem,
-                                                        managedLayers,
-                                                        existingLayerIdsInMap,
-                                                        graphicsLayerIds);
-                expect(index).toEqual(1, 'If there is already a baselayer, add on top of it.');
-            });
-        });
-
         describe('UI', function () {
             it('It should not display separator if there are 1 base layer and > 0 overlays', function () {
                 widget = new WidgetUnderTest({
-                    map: map,
+                    mapView: mapView,
                     baseLayers: [{
                         name: '1',
                         Factory: noop
@@ -296,7 +181,7 @@ require([
             });
             it('It should add separator if there > 1 base layer and > 0 overlays', function () {
                 widget = new WidgetUnderTest({
-                    map: map,
+                    mapView: mapView,
                     baseLayers: [{
                         name: '1',
                         Factory: noop
@@ -324,7 +209,7 @@ require([
             });
             it('It should not display separator if there are no overlays', function () {
                 widget = new WidgetUnderTest({
-                    map: map,
+                    mapView: mapView,
                     baseLayers: [{
                         name: '1',
                         Factory: noop
@@ -348,7 +233,7 @@ require([
             });
             it('It should not display at all if there are 1 baselayer and no overlays', function () {
                 widget = new WidgetUnderTest({
-                    map: map,
+                    mapView: mapView,
                     baseLayers: [{
                         name: 'only 1',
                         Factory: noop
@@ -361,7 +246,7 @@ require([
             });
             it('It should not display at all if there are no baselayer and no overlays', function () {
                 widget = new WidgetUnderTest({
-                    map: map
+                    mapView: mapView
                 });
                 widget.startup();
 
@@ -369,9 +254,9 @@ require([
                     .toEqual(true, 'widget should be hidden');
             });
             describe('baseLayers', function () {
-                it('should select first item in list if no property selected:true found', function () {
+                xit('should select first item in list if no property selected:true found', function () {
                     widget = new WidgetUnderTest({
-                        map: map,
+                        mapView: mapView,
                         baseLayers: [{
                             name: 'i am checked',
                             Factory: noop
@@ -386,9 +271,9 @@ require([
                     expect(nodeList.length).toEqual(1, 'first base layer should be checked');
                     expect(nodeList[0].value).toEqual('i am checked', 'value should match first baselayer');
                 });
-                it('should select first item with property selected:true found', function () {
+                xit('should select first item with property selected:true found', function () {
                     widget = new WidgetUnderTest({
-                        map: map,
+                        mapView: mapView,
                         baseLayers: [{
                             name: 'i am not checked',
                             Factory: noop
@@ -411,9 +296,9 @@ require([
                     expect(nodeList.length).toEqual(1, 'first selected item should be checked');
                     expect(nodeList[0].value).toEqual('i am checked', 'should match first selected item');
                 });
-                it('should uncheck overlays when baselayer is active and linked is empty', function () {
+                xit('should uncheck overlays when baselayer is active and linked is empty', function () {
                     widget = new WidgetUnderTest({
-                        map: map,
+                        mapView: mapView,
                         baseLayers: [{
                             name: 'i am checked',
                             Factory: noop,
@@ -442,7 +327,7 @@ require([
                 });
                 it('should check overlays when baselayer is active and has linked[name]', function () {
                     widget = new WidgetUnderTest({
-                        map: map,
+                        mapView: mapView,
                         baseLayers: [{
                             name: 'i am checked',
                             Factory: noop,
@@ -469,7 +354,7 @@ require([
                 });
                 it('should check overlays when baselayer is token, active, and has linked[name]', function () {
                     widget = new WidgetUnderTest({
-                        map: map,
+                        mapView: mapView,
                         quadWord: 'quad-word-thing-zing',
                         baseLayers: [{
                             token: 'Lite',
@@ -488,7 +373,7 @@ require([
             describe('overlays', function () {
                 it('should check all items with selected:true', function () {
                     widget = new WidgetUnderTest({
-                        map: map,
+                        mapView: mapView,
                         baseLayers: [{
                             name: 'ignore me',
                             Factory: noop
@@ -518,7 +403,7 @@ require([
                 });
                 it('should check no overlays if none are selected', function () {
                     widget = new WidgetUnderTest({
-                        map: map,
+                        mapView: mapView,
                         baseLayers: [{
                             name: 'ignore me',
                             Factory: noop
@@ -550,7 +435,7 @@ require([
         describe('_resolveBasemapTokens', function () {
             it('hybrid is always linked to overlay', function () {
                 widget = new WidgetUnderTest({
-                    map: map,
+                    mapView: mapView,
                     quadWord: 'my-quad-word-is'
                 });
 
@@ -562,7 +447,7 @@ require([
             });
             it('hybrid with extra link is concatentated with overlay', function () {
                 widget = new WidgetUnderTest({
-                    map: map,
+                    mapView: mapView,
                     quadWord: 'my-quad-word-is'
                 });
 
@@ -580,7 +465,7 @@ require([
             });
             it('is ok with no links', function () {
                 widget = new WidgetUnderTest({
-                    map: map,
+                    mapView: mapView,
                     quadWord: 'my-quad-word-is'
                 });
 
@@ -595,10 +480,8 @@ require([
 
         describe('destroy', function () {
             it('removes all layers from the map', function () {
-                spyOn(map, 'getLayer').and.returnValue('layer');
-                spyOn(map, 'removeLayer');
                 var testWidget = new WidgetUnderTest({
-                    map: map
+                    mapView: mapView
                 });
                 testWidget.startup();
                 testWidget.set('managedLayers', {
@@ -609,7 +492,7 @@ require([
 
                 testWidget.destroy();
 
-                expect(map.removeLayer.calls.count()).toBe(3); // eslint-disable-line no-magic-numbers
+                expect(mapView.map.layers.length).toBe(0);
             });
         });
     });

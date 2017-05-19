@@ -696,11 +696,11 @@ define([
 
             var managedLayers = this.get('managedLayers') || {};
             Object.keys(managedLayers).forEach(function removeLayer(layerName) {
-                if (managedLayers.hasOwnProperty(layerName)) {
-                    var layer = this.map.getLayer(layerName);
-                    if (layer) {
-                        this.map.removeLayer(layer);
-                    }
+                var layer = this.mapView.map.allLayers.find(function (name) {
+                    return name === layerName;
+                });
+                if (layer) {
+                    this.mapView.map.allLayers.remove(layer);
                 }
             }, this);
 
