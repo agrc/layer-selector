@@ -41,7 +41,12 @@
     "bootstrap": "~3.3.5"
   },
   "resolutions": {
-    "dojo": "v1.10.4/esri-3.14.0"
+    "dojo": "v1.10.4/esri-3.14.0",
+    "dojox": "v1.10.4/esri-3.14.0",
+    "dijit": "v1.10.4/esri-3.14.0",
+    "util": "v1.10.4/esri-3.14.0",
+    "dgrid": "0.3.17/esri-3.14.0",
+    "dstore": "v1.1.0"
   },
   "devDependencies": {
     "agrc-jasmine-matchers": "~0.1.0",
