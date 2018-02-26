@@ -12,6 +12,7 @@ define([
     'dojo/_base/lang',
 
     'esri/config',
+    'esri/layers/ArcGISDynamicMapServiceLayer',
     'esri/layers/TileInfo',
     'esri/layers/WebTiledLayer'
 ], function (
@@ -28,6 +29,7 @@ define([
     lang,
 
     esriConfig,
+    ArcGISDynamicMapServiceLayer,
     TileInfo,
     WebTiledLayer
 ) {
@@ -509,7 +511,12 @@ define([
                     }
                 }
 
-                this.map.addLayer(managedLayers[layerItem.name].layer, index);
+                var activeLayer = managedLayers[layerItem.name].layer;
+                this.map.addLayer(activeLayer, index);
+
+                if (activeLayer instanceof ArcGISDynamicMapServiceLayer) {
+                    activeLayer.show();
+                }
 
                 if (level > -1) {
                     this.map._simpleSliderZoomHandler(null, null, null, level);
