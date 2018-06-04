@@ -111,7 +111,7 @@ define([
          * @private
          * @property {object} _applianceLayers - The default layers hosted in the appliance.
          */
-         /* eslint-disable max-len */
+        /* eslint-disable max-len */
         _applianceLayers: {
             Imagery: {
                 urlPattern: 'https://discover.agrc.utah.gov/login/path/{quad}/tiles/utah/${level}/${col}/${row}',
@@ -225,9 +225,9 @@ define([
             this.mapView.ui.add(this, [y, x].join('-'));
 
             this._buildUi(this.baseLayers || [],
-                          this.overlays || [],
-                          this.quadWord,
-                          this.separator || '<hr class="layer-selector-separator" />');
+                this.overlays || [],
+                this.quadWord,
+                this.separator || '<hr class="layer-selector-separator" />');
         },
         /**
          * wire events, and such
@@ -723,7 +723,7 @@ define([
  * @property {LayerSelectorItem[]} widgets - The visible `LayerSelectorItems`.
  * @property {esri/layer[]} layers - The visible `esri/layer/*`.
  */
- /**
+/**
  * The happy path tokens for fast tracked basemap layers.
  * @typedef {string} applianceTokens
  * @prop {string} Terrain - Elevation with mountain peak elevations, contour lines,
