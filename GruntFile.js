@@ -6,11 +6,11 @@ module.exports = function (grunt) {
     var docPort = grunt.option('docPort') || jasminePort - 1;
     var testHost = 'http://localhost:' + jasminePort;
     var docHost = 'http:/localhost:' + docPort;
-    var jsFiles = ['!bower_components', '!node_modules', '!.git', '!.grunt', '*.js', 'tests/**/*.js'];
+    var jsFiles = ['!node_modules', '!.git', '!.grunt', '*.js', 'tests/**/*.js'];
     var otherFiles = ['templates/*.html', 'tests/*.html', 'resources/*.svg'];
     var bumpFiles = [
         'package.json',
-        'bower.json'
+        'package-lock.json'
     ];
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -100,13 +100,11 @@ module.exports = function (grunt) {
                     outfile: 'tests/_specRunner.html',
                     specs: ['tests/**/Spec*.js'],
                     vendor: [
-                        'bower_components/jasmine-favicon-reporter/vendor/favico.js',
-                        'bower_components/jasmine-favicon-reporter/jasmine-favicon-reporter.js',
-                        'bower_components/jasmine-jsreporter/jasmine-jsreporter.js',
+                        'node_modules/jasmine-favicon-reporter/vendor/favico.js',
+                        'node_modules/jasmine-favicon-reporter/jasmine-favicon-reporter.js',
                         '../tests/dojoConfig.js',
-                        'bower_components/dojo/dojo.js',
-                        '../tests/jasmineAMDErrorChecking.js',
-                        '../tests/jsReporterSanitizer.js'
+                        'node_modules/dojo/dojo.js',
+                        '../tests/jasmineAMDErrorChecking.js'
                     ],
                     host: testHost
                 }

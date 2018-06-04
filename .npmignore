@@ -3,11 +3,11 @@
 .gitignore
 .grunt
 .travis.yml
+data/
 doc/
 GruntFile.js
 layer-selector.gif
 node_modules/
 README.md
-tests/
 secrets.sample.json
-data/
+tests/

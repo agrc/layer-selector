@@ -1,6 +1,4 @@
 [![Build Status](https://travis-ci.com/agrc-widgets/layer-selector.svg)](https://travis-ci.com/agrc-widgets/layer-selector)
-[![Bower version](https://badge.fury.io/bo/agrc-layer-selector.svg)](https://badge.fury.io/bo/agrc-layer-selector)
-
 
 ![layer-selector](/layer-selector.gif)
 

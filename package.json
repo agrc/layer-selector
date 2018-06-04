@@ -9,6 +9,7 @@
   "main": "./main",
   "dojoBuild": "layer-selector.profile.js",
   "scripts": {
+    "prepare": "napa simsalabim/jasmine-favicon-reporter",
     "test": "grunt travis --verbose"
   },
   "keywords": [
@@ -34,6 +35,11 @@
     "grunt-eslint": "20.1.0",
     "grunt-newer": "^1.1.1",
     "grunt-shell": "^2.1.0",
-    "load-grunt-tasks": "4.0.0"
+    "load-grunt-tasks": "4.0.0",
+    "napa": "3.0.0"
+  },
+  "dependencies": {
+    "arcgis-js-api": "4.7.2",
+    "bootstrap": "3.3.7"
   }
 }
