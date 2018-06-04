@@ -1,28 +1,3 @@
-var osx = 'OS X 10.10';
-var windows = 'Windows 8.1';
-var browsers = [{
-    browserName: 'safari',
-    platform: osx
-}, {
-    browserName: 'firefox',
-    platform: windows
-}, {
-    browserName: 'chrome',
-    platform: windows
-}, {
-    browserName: 'internet explorer',
-    platform: windows,
-    version: '11'
-}, {
-    browserName: 'internet explorer',
-    platform: 'Windows 8',
-    version: '10'
-}, {
-    browserName: 'internet explorer',
-    platform: 'Windows 7',
-    version: '9'
-}];
-
 module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
 
@@ -37,29 +12,6 @@ module.exports = function (grunt) {
         'package.json',
         'bower.json'
     ];
-    var sauceConfig = {
-        urls: ['http://127.0.0.1:8001/tests/_specRunner.html'],
-        tunnelTimeout: 120,
-        build: process.env.TRAVIS_JOB_ID,
-        browsers: browsers,
-        testname: 'travis_' + process.env.TRAVIS_JOB_ID,
-        maxRetries: 10,
-        maxPollRetries: 10,
-        public: 'public',
-        throttled: 5,
-        sauceConfig: {
-            'max-duration': 1800
-        },
-        statusCheckAttempts: 500
-    };
-    try {
-        var secrets = grunt.file.readJSON('secrets.json');
-        sauceConfig.username = secrets.sauce_name;
-        sauceConfig.key = secrets.sauce_key;
-        sauceConfig.testname = 'local';
-    } catch (e) {
-        // swallow for build server
-    }
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         amdcheck: {
@@ -160,11 +112,6 @@ module.exports = function (grunt) {
                 }
             }
         },
-        'saucelabs-jasmine': {
-            all: {
-                options: sauceConfig
-            }
-        },
         stylus: {
             main: {
                 options: {
@@ -257,7 +204,6 @@ module.exports = function (grunt) {
     grunt.registerTask('travis', [
         'eslint:main',
         'connect:jasmine',
-        'jasmine:main:build',
-        'saucelabs-jasmine'
+        'jasmine'
     ]);
 };
