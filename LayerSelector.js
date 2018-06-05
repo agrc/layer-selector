@@ -694,6 +694,10 @@ define([
         destroy: function () {
             console.log('layer-selector:destroy', arguments);
 
+            if (!this.mapView.map) {
+                return;
+            }
+
             var managedLayers = this.get('managedLayers') || {};
             Object.keys(managedLayers).forEach(function removeLayer(layerName) {
                 var layer = this.mapView.map.allLayers.find(function (name) {
