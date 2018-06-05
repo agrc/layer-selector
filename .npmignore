@@ -8,6 +8,4 @@ doc/
 GruntFile.js
 layer-selector.gif
 node_modules/
-README.md
-secrets.sample.json
 tests/
