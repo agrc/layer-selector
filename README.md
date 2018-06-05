@@ -13,6 +13,8 @@ npm install @agrc/layer-selector
  - [Happy path Web Mercator](./tests/example-happy-path-tokens.html) * _requires quad token auth_
  - [Linked Overlays](./tests/example-linked-overlays.html)
  - [Custom LODS](./tests/example-custom-lods.html)
+ 
+ [docs](http://agrc-widgets.github.io/layer-selector/)
 
 ## Development
 
