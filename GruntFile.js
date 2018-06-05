@@ -40,7 +40,7 @@ module.exports = function (grunt) {
             docs: {
                 options: {
                     port: docPort,
-                    open: docHost + '/doc'
+                    open: docHost + '/docs'
                 }
             },
             open: {
@@ -52,7 +52,7 @@ module.exports = function (grunt) {
         },
         documentation: {
             options: {
-                destination: './doc'
+                destination: './docs'
             },
             LayerSelector: {
                 files: [{

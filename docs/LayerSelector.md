@@ -2,7 +2,7 @@
 
 ## applianceTokens
 
-[LayerSelector.js:1-714](https://github.com/agrc-widgets/layer-selector/blob/5991408e7440957bf7d9e53c70f1e45fcea54257/LayerSelector.js#L1-L714 "Source code on GitHub")
+[LayerSelector.js:1-714](https://github.com/agrc-widgets/layer-selector/blob/f982500986bd9a05a06957f1897cd6b622f5e642/LayerSelector.js#L1-L714 "Source code on GitHub")
 
 The happy path tokens for fast tracked basemap layers.
 
@@ -42,7 +42,7 @@ Type: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Globa
 
 ## visibleLayers
 
-[LayerSelector.js:1-714](https://github.com/agrc-widgets/layer-selector/blob/5991408e7440957bf7d9e53c70f1e45fcea54257/LayerSelector.js#L1-L714 "Source code on GitHub")
+[LayerSelector.js:1-714](https://github.com/agrc-widgets/layer-selector/blob/f982500986bd9a05a06957f1897cd6b622f5e642/LayerSelector.js#L1-L714 "Source code on GitHub")
 
 The return value of the `visibleLayers` property.
 
@@ -55,7 +55,7 @@ Type: [object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Globa
 
 ## layerFactory
 
-[LayerSelector.js:1-714](https://github.com/agrc-widgets/layer-selector/blob/5991408e7440957bf7d9e53c70f1e45fcea54257/LayerSelector.js#L1-L714 "Source code on GitHub")
+[LayerSelector.js:1-714](https://github.com/agrc-widgets/layer-selector/blob/f982500986bd9a05a06957f1897cd6b622f5e642/LayerSelector.js#L1-L714 "Source code on GitHub")
 
 The info about a layer needed to create it and show it on a map and in the layer selector successfully.
 
@@ -71,7 +71,7 @@ Type: [object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Globa
 
 ## LayerSelector
 
-[LayerSelector.js:180-194](https://github.com/agrc-widgets/layer-selector/blob/5991408e7440957bf7d9e53c70f1e45fcea54257/LayerSelector.js#L180-L194 "Source code on GitHub")
+[LayerSelector.js:180-194](https://github.com/agrc-widgets/layer-selector/blob/f982500986bd9a05a06957f1897cd6b622f5e642/LayerSelector.js#L180-L194 "Source code on GitHub")
 
 A class for creating a layer selector that changes layers for a given map.
 
@@ -92,7 +92,7 @@ A class for creating a layer selector that changes layers for a given map.
 
 ### visibleLayers
 
-[LayerSelector.js:63-98](https://github.com/agrc-widgets/layer-selector/blob/5991408e7440957bf7d9e53c70f1e45fcea54257/LayerSelector.js#L63-L98 "Source code on GitHub")
+[LayerSelector.js:63-98](https://github.com/agrc-widgets/layer-selector/blob/f982500986bd9a05a06957f1897cd6b622f5e642/LayerSelector.js#L63-L98 "Source code on GitHub")
 
 **Properties**
 
@@ -111,7 +111,7 @@ this.get('visibleLayers');
 
 ### baseLayerWidgets
 
-[LayerSelector.js:103-103](https://github.com/agrc-widgets/layer-selector/blob/5991408e7440957bf7d9e53c70f1e45fcea54257/LayerSelector.js#L103-L103 "Source code on GitHub")
+[LayerSelector.js:103-103](https://github.com/agrc-widgets/layer-selector/blob/f982500986bd9a05a06957f1897cd6b622f5e642/LayerSelector.js#L103-L103 "Source code on GitHub")
 
 **Properties**
 
@@ -119,7 +119,7 @@ this.get('visibleLayers');
 
 ### overlayWidgets
 
-[LayerSelector.js:108-108](https://github.com/agrc-widgets/layer-selector/blob/5991408e7440957bf7d9e53c70f1e45fcea54257/LayerSelector.js#L108-L108 "Source code on GitHub")
+[LayerSelector.js:108-108](https://github.com/agrc-widgets/layer-selector/blob/f982500986bd9a05a06957f1897cd6b622f5e642/LayerSelector.js#L108-L108 "Source code on GitHub")
 
 **Properties**
 
@@ -127,13 +127,13 @@ this.get('visibleLayers');
 
 ## startup
 
-[LayerSelector.js:680-690](https://github.com/agrc-widgets/layer-selector/blob/5991408e7440957bf7d9e53c70f1e45fcea54257/LayerSelector.js#L680-L690 "Source code on GitHub")
+[LayerSelector.js:680-690](https://github.com/agrc-widgets/layer-selector/blob/f982500986bd9a05a06957f1897cd6b622f5e642/LayerSelector.js#L680-L690 "Source code on GitHub")
 
 We have overriden startup on `_WidgetBase` to call startup on all `LayerSelectorItem` child widgets.
 You should always call startup on this widget after it has been placed in the dom.
 
 ## destroy
 
-[LayerSelector.js:694-712](https://github.com/agrc-widgets/layer-selector/blob/5991408e7440957bf7d9e53c70f1e45fcea54257/LayerSelector.js#L694-L712 "Source code on GitHub")
+[LayerSelector.js:694-712](https://github.com/agrc-widgets/layer-selector/blob/f982500986bd9a05a06957f1897cd6b622f5e642/LayerSelector.js#L694-L712 "Source code on GitHub")
 
 Remove layers from the map before destroying the widget.
