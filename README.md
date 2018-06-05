@@ -1,11 +1,12 @@
-[![Build Status](https://travis-ci.org/agrc-widgets/layer-selector.svg)](https://travis-ci.org/agrc-widgets/layer-selector)
-[![Bower version](https://badge.fury.io/bo/agrc-layer-selector.svg)](https://badge.fury.io/bo/agrc-layer-selector)
-[![Sauce Test Status](https://saucelabs.com/browser-matrix/agrc-layerselector.svg)](https://saucelabs.com/u/agrc-layerselector)
-
+[![Build Status](https://travis-ci.com/agrc-widgets/layer-selector.svg)](https://travis-ci.com/agrc-widgets/layer-selector)
 
 ![layer-selector](/layer-selector.gif)
 
 ## Usage
+
+```
+npm install @agrc/layer-selector
+```
 
  - [ArcGISTiledMapServiceLayers](./tests/example-mapserv-basemaps.html)
  - [esri basemap](./tests/example-placement-over-esri-map.html)
@@ -45,4 +46,4 @@
 
 `grunt travis` - _Good for testing CI issues_
 
-1. Runs jasmine tests in saucelabs
+1. Runs jasmine tests in Headless Chrome

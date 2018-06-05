@@ -2,23 +2,23 @@
 
 ## applianceTokens
 
-[LayerSelector.js:1-780](https://github.com/agrc-widgets/layer-selector/blob/0e01ec325735468277efbb049ce189ab83e25c5f/LayerSelector.js#L1-L780 "Source code on GitHub")
+[LayerSelector.js:1-714](https://github.com/agrc-widgets/layer-selector/blob/5991408e7440957bf7d9e53c70f1e45fcea54257/LayerSelector.js#L1-L714 "Source code on GitHub")
 
 The happy path tokens for fast tracked basemap layers.
 
-Type: [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)
+Type: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)
 
 **Properties**
 
--   `Terrain` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Elevation with mountain peak elevations, contour lines,
+-   `Terrain` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Elevation with mountain peak elevations, contour lines,
     as well as many of the places of interest.
--   `Lite` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Minimal base map with very muted in color to make your overlayed data stand out beautifully.
--   `Topo` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** USGS Quad Sheet.
--   `Imagery` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Aerial Imagery.
--   `ColorIR` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** NAIP 2011 color infrared.
--   `Overlay` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Roads and place names as a stand alone cache used to create our Hybrid cache.
--   `Hybrid` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Automatic link of Imagery and Overlay. You must have `Overlay` present in `overlays` property
--   `AddressPoints` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Styled address points.
+-   `Lite` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Minimal base map with very muted in color to make your overlayed data stand out beautifully.
+-   `Topo` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** USGS Quad Sheet.
+-   `Imagery` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Aerial Imagery.
+-   `ColorIR` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** NAIP 2011 color infrared.
+-   `Overlay` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Roads and place names as a stand alone cache used to create our Hybrid cache.
+-   `Hybrid` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Automatic link of Imagery and Overlay. You must have `Overlay` present in `overlays` property
+-   `AddressPoints` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Styled address points.
 
 **Examples**
 
@@ -42,57 +42,57 @@ Type: [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference
 
 ## visibleLayers
 
-[LayerSelector.js:1-780](https://github.com/agrc-widgets/layer-selector/blob/0e01ec325735468277efbb049ce189ab83e25c5f/LayerSelector.js#L1-L780 "Source code on GitHub")
+[LayerSelector.js:1-714](https://github.com/agrc-widgets/layer-selector/blob/5991408e7440957bf7d9e53c70f1e45fcea54257/LayerSelector.js#L1-L714 "Source code on GitHub")
 
 The return value of the `visibleLayers` property.
 
-Type: [object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)
+Type: [object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)
 
 **Properties**
 
--   `widgets` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;LayerSelectorItem>** The visible `LayerSelectorItems`.
--   `layers` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;esri/layer>** The visible `esri/layer/*`.
+-   `widgets` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;LayerSelectorItem>** The visible `LayerSelectorItems`.
+-   `layers` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;esri/layer>** The visible `esri/layer/*`.
 
 ## layerFactory
 
-[LayerSelector.js:1-780](https://github.com/agrc-widgets/layer-selector/blob/0e01ec325735468277efbb049ce189ab83e25c5f/LayerSelector.js#L1-L780 "Source code on GitHub")
+[LayerSelector.js:1-714](https://github.com/agrc-widgets/layer-selector/blob/5991408e7440957bf7d9e53c70f1e45fcea54257/LayerSelector.js#L1-L714 "Source code on GitHub")
 
 The info about a layer needed to create it and show it on a map and in the layer selector successfully.
 
-Type: [object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)
+Type: [object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)
 
 **Properties**
 
--   `Factory` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** the constructor function for creating a layer.
--   `url` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The url to the map service.
--   `id` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The id of the layer. This is shown in the LayerSelectorItem.
--   `tileInfo` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** The `esri/TileInfo` object if the layer has custom levels.
--   `linked` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>** The id of overlays to automatically enable when selected.
+-   `Factory` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** the constructor function for creating a layer.
+-   `urlTemplate` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The url to the map service.
+-   `id` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The id of the layer. This is shown in the LayerSelectorItem.
+-   `tileInfo` **[object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** The `esri/TileInfo` object if the layer has custom levels.
+-   `linked` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** The id of overlays to automatically enable when selected.
 
 ## LayerSelector
 
-[LayerSelector.js:176-189](https://github.com/agrc-widgets/layer-selector/blob/0e01ec325735468277efbb049ce189ab83e25c5f/LayerSelector.js#L176-L189 "Source code on GitHub")
+[LayerSelector.js:180-194](https://github.com/agrc-widgets/layer-selector/blob/5991408e7440957bf7d9e53c70f1e45fcea54257/LayerSelector.js#L180-L194 "Source code on GitHub")
 
 A class for creating a layer selector that changes layers for a given map.
 
 **Parameters**
 
--   `node` **([HTMLElement](https://developer.mozilla.org/en-US/docs/Web/HTML/Element) \| [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))?** The domNode or string id of a domNode to create this widget on. If null
-    a new div will be created but not placed in the dom. You will need to place it programmatically.
 -   `params`  {object}
-    -   `params.map` **(esri/map | agrc/widgets/map/BaseMap)** The map to control layer selection within.
-    -   `params.baseLayers` **([Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[layerFactory](#layerfactory)> | [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[applianceTokens](#appliancetokens)>)** mutually exclusive layers
+    -   `params.mapView` **esri/views/MapView** The map to control layer selection within.
+    -   `params.baseLayers` **([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[layerFactory](#layerfactory)> | [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[applianceTokens](#appliancetokens)>)** mutually exclusive layers
         (only one can be visible on your map).
-    -   `params.overlays` **([Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[layerFactory](#layerfactory)> | [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[applianceTokens](#appliancetokens)>)?** layers you display over the `baseLayers`.
-    -   `params.quadWord` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** The four word authentication token acquired from the appliance.
-    -   `params.separator` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** An HTML fragment used to
+    -   `params.overlays` **([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[layerFactory](#layerfactory)> | [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[applianceTokens](#appliancetokens)>)?** layers you display over the `baseLayers`.
+    -   `params.quadWord` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** The four word authentication token acquired from the appliance.
+    -   `params.separator` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** An HTML fragment used to
         separate baselayers from overlays. (optional, default `<hrclass`)
-    -   `params.top` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** True if the widget should be placed in the top of the container. (optional, default `true`)
-    -   `params.right` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** True if the widget should be placed in the right of the container. (optional, default `true`)
+    -   `params.top` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** True if the widget should be placed in the top of the container. (optional, default `true`)
+    -   `params.right` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** True if the widget should be placed in the right of the container. (optional, default `true`)
+-   `node` **([HTMLElement](https://developer.mozilla.org/docs/Web/HTML/Element) \| [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))?** The domNode or string id of a domNode to create this widget on. If null
+    a new div will be created but not placed in the dom. You will need to place it programmatically.
 
 ### visibleLayers
 
-[LayerSelector.js:59-94](https://github.com/agrc-widgets/layer-selector/blob/0e01ec325735468277efbb049ce189ab83e25c5f/LayerSelector.js#L59-L94 "Source code on GitHub")
+[LayerSelector.js:63-98](https://github.com/agrc-widgets/layer-selector/blob/5991408e7440957bf7d9e53c70f1e45fcea54257/LayerSelector.js#L63-L98 "Source code on GitHub")
 
 **Properties**
 
@@ -111,29 +111,29 @@ this.get('visibleLayers');
 
 ### baseLayerWidgets
 
-[LayerSelector.js:99-99](https://github.com/agrc-widgets/layer-selector/blob/0e01ec325735468277efbb049ce189ab83e25c5f/LayerSelector.js#L99-L99 "Source code on GitHub")
+[LayerSelector.js:103-103](https://github.com/agrc-widgets/layer-selector/blob/5991408e7440957bf7d9e53c70f1e45fcea54257/LayerSelector.js#L103-L103 "Source code on GitHub")
 
 **Properties**
 
--   `baseLayerWidgets` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;LayerSelectorItem>** The constructed `LayerSelectorItem` widgets.
+-   `baseLayerWidgets` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;LayerSelectorItem>** The constructed `LayerSelectorItem` widgets.
 
 ### overlayWidgets
 
-[LayerSelector.js:104-104](https://github.com/agrc-widgets/layer-selector/blob/0e01ec325735468277efbb049ce189ab83e25c5f/LayerSelector.js#L104-L104 "Source code on GitHub")
+[LayerSelector.js:108-108](https://github.com/agrc-widgets/layer-selector/blob/5991408e7440957bf7d9e53c70f1e45fcea54257/LayerSelector.js#L108-L108 "Source code on GitHub")
 
 **Properties**
 
--   `overlayWidgets` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;LayerSelectorItem>** The constructed `LayerSelectorItem` widgets.
+-   `overlayWidgets` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;LayerSelectorItem>** The constructed `LayerSelectorItem` widgets.
 
 ## startup
 
-[LayerSelector.js:750-760](https://github.com/agrc-widgets/layer-selector/blob/0e01ec325735468277efbb049ce189ab83e25c5f/LayerSelector.js#L750-L760 "Source code on GitHub")
+[LayerSelector.js:680-690](https://github.com/agrc-widgets/layer-selector/blob/5991408e7440957bf7d9e53c70f1e45fcea54257/LayerSelector.js#L680-L690 "Source code on GitHub")
 
 We have overriden startup on `_WidgetBase` to call startup on all `LayerSelectorItem` child widgets.
 You should always call startup on this widget after it has been placed in the dom.
 
 ## destroy
 
-[LayerSelector.js:764-778](https://github.com/agrc-widgets/layer-selector/blob/0e01ec325735468277efbb049ce189ab83e25c5f/LayerSelector.js#L764-L778 "Source code on GitHub")
+[LayerSelector.js:694-712](https://github.com/agrc-widgets/layer-selector/blob/5991408e7440957bf7d9e53c70f1e45fcea54257/LayerSelector.js#L694-L712 "Source code on GitHub")
 
 Remove layers from the map before destroying the widget.

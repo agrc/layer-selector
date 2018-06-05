@@ -2,42 +2,46 @@
 
 ## layerFactory
 
-[LayerSelectorItem.js:1-143](https://github.com/agrc-widgets/layer-selector/blob/0e01ec325735468277efbb049ce189ab83e25c5f/LayerSelectorItem.js#L1-L143 "Source code on GitHub")
+[LayerSelectorItem.js:1-143](https://github.com/agrc-widgets/layer-selector/blob/5991408e7440957bf7d9e53c70f1e45fcea54257/LayerSelectorItem.js#L1-L143 "Source code on GitHub")
 
 The info about a layer needed to create it and show it on a map and in the layer selector successfully.
 
-Type: [object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)
+Type: [object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)
 
 **Properties**
 
--   `Factory` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** the constructor function for creating a layer.
--   `url` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The url to the map service.
--   `id` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The id of the layer. This is shown in the LayerSelectorItem.
--   `tileInfo` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** The `esri/TileInfo` object if the layer has custom levels.
--   `linked` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>** The id of overlays to automatically enable when selected.
+-   `Factory` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** the constructor function for creating a layer.
+-   `url` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The url to the map service.
+-   `id` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The id of the layer. This is shown in the LayerSelectorItem.
+-   `tileInfo` **[object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** The `esri/TileInfo` object if the layer has custom levels.
+-   `linked` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** The id of overlays to automatically enable when selected.
 
 ## LayerSelectorItem
 
-[LayerSelectorItem.js:116-124](https://github.com/agrc-widgets/layer-selector/blob/0e01ec325735468277efbb049ce189ab83e25c5f/LayerSelectorItem.js#L116-L124 "Source code on GitHub")
+[LayerSelectorItem.js:116-124](https://github.com/agrc-widgets/layer-selector/blob/5991408e7440957bf7d9e53c70f1e45fcea54257/LayerSelectorItem.js#L116-L124 "Source code on GitHub")
 
 The UI element wrapping a radio or checkbox and label representing a `esri/layer/Layer` that can be turned
 on and off in a map.
 
 **Parameters**
 
--   `node` **([HTMLElement](https://developer.mozilla.org/en-US/docs/Web/HTML/Element) \| [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))?** The domNode or string id of a domNode to create this widget on. If null
+-   `node` **([HTMLElement](https://developer.mozilla.org/docs/Web/HTML/Element) \| [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))?** The domNode or string id of a domNode to create this widget on. If null
     a new div will be created but not placed in the dom. You will need to place it programmatically.
--   `params` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+-   `params` **[object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
     -   `params.layerFactory` **[layerFactory](#layerfactory)** The Factory object representing a layer.
-    -   `params.inputType` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** `radio` or `checkbox` depending on the type of input. (optional, default `radio`)
+    -   `params.inputType` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** `radio` or `checkbox` depending on the type of input. (optional, default `radio`)
 
 ### selected
 
-[LayerSelectorItem.js:45-49](https://github.com/agrc-widgets/layer-selector/blob/0e01ec325735468277efbb049ce189ab83e25c5f/LayerSelectorItem.js#L45-L49 "Source code on GitHub")
+[LayerSelectorItem.js:45-49](https://github.com/agrc-widgets/layer-selector/blob/5991408e7440957bf7d9e53c70f1e45fcea54257/LayerSelectorItem.js#L45-L49 "Source code on GitHub")
 
 **Parameters**
 
--   `checked` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** `true` if the widgets input should be checked.
+-   `checked` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** `true` if the widgets input should be checked.
+
+**Properties**
+
+-   `null-null` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** `_WidgetBase` custom setter for setting the checkbox on an input.
 
 **Examples**
 
@@ -48,11 +52,15 @@ this.get('selected');
 
 ### hidden
 
-[LayerSelectorItem.js:59-62](https://github.com/agrc-widgets/layer-selector/blob/0e01ec325735468277efbb049ce189ab83e25c5f/LayerSelectorItem.js#L59-L62 "Source code on GitHub")
+[LayerSelectorItem.js:59-62](https://github.com/agrc-widgets/layer-selector/blob/5991408e7440957bf7d9e53c70f1e45fcea54257/LayerSelectorItem.js#L59-L62 "Source code on GitHub")
 
 **Parameters**
 
--   `hide` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** `true` if the widget should add a CSS class to hide itself.
+-   `hide` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** `true` if the widget should add a CSS class to hide itself.
+
+**Properties**
+
+-   `null-null` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** `_WidgetBase` custom setter for setting the css class on the widget domNode.
 
 **Examples**
 
@@ -63,11 +71,17 @@ this.get('hidden');
 
 ### layerFactory
 
-[LayerSelectorItem.js:74-81](https://github.com/agrc-widgets/layer-selector/blob/0e01ec325735468277efbb049ce189ab83e25c5f/LayerSelectorItem.js#L74-L81 "Source code on GitHub")
+[LayerSelectorItem.js:74-81](https://github.com/agrc-widgets/layer-selector/blob/5991408e7440957bf7d9e53c70f1e45fcea54257/LayerSelectorItem.js#L74-L81 "Source code on GitHub")
 
 **Parameters**
 
 -   `layerFactory` **[layerFactory](#layerfactory)** The `layerFactory` to build the UI markup from.
+
+**Properties**
+
+-   `null-null` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** `_WidgetBase` custom setter for setting the the alt text and label name.
+    We do not always have the name at build rendering time (layer tokens). Therefore the templateString
+    has been modified and the values are updated with this function.
 
 **Examples**
 
@@ -78,11 +92,15 @@ this.get('layerFactory');
 
 ### inputType
 
-[LayerSelectorItem.js:91-100](https://github.com/agrc-widgets/layer-selector/blob/0e01ec325735468277efbb049ce189ab83e25c5f/LayerSelectorItem.js#L91-L100 "Source code on GitHub")
+[LayerSelectorItem.js:91-100](https://github.com/agrc-widgets/layer-selector/blob/5991408e7440957bf7d9e53c70f1e45fcea54257/LayerSelectorItem.js#L91-L100 "Source code on GitHub")
 
 **Parameters**
 
--   `inputType` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?**  (optional, default `radio`)
+-   `inputType` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**  (optional, default `radio`)
+
+**Properties**
+
+-   `null-null` **[function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** `_WidgetBase` custom setter for applying the input type attribute.
 
 **Examples**
 
@@ -93,8 +111,8 @@ this.get('inputType');
 
 ### layerType
 
-[LayerSelectorItem.js:105-105](https://github.com/agrc-widgets/layer-selector/blob/0e01ec325735468277efbb049ce189ab83e25c5f/LayerSelectorItem.js#L105-L105 "Source code on GitHub")
+[LayerSelectorItem.js:105-105](https://github.com/agrc-widgets/layer-selector/blob/5991408e7440957bf7d9e53c70f1e45fcea54257/LayerSelectorItem.js#L105-L105 "Source code on GitHub")
 
 **Properties**
 
--   `layerType-null` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The type of `LayerSelectorItem`. `baselayer` (radio) or `overlayer` (checkbox).
+-   `layerType-null` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The type of `LayerSelectorItem`. `baselayer` (radio) or `overlayer` (checkbox).

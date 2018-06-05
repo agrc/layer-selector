@@ -1,9 +1,8 @@
 .DS_Store
 .grunt/
-node_modules/
-bower_components/
-resources/vars.css
-resources/LayerSelectorItem.css
 doc/assets/
 doc/index.html
+node_modules/
+resources/LayerSelectorItem.css
+resources/vars.css
 secrets.json

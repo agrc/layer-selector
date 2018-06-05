@@ -1,0 +1,11 @@
+.eslintrc
+.gitattributes
+.gitignore
+.grunt
+.travis.yml
+data/
+doc/
+GruntFile.js
+layer-selector.gif
+node_modules/
+tests/

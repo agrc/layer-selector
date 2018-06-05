@@ -7,10 +7,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../bower_components/esri/css/esri.css">
     <link rel="stylesheet" href="../resources/LayerSelector.css">
-    <style type='text/css'>
+    <link rel="stylesheet" href="../node_modules/arcgis-js-api/css/main.css">
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <style type="text/css">
         body, html, #map {
             width: 100%;
             height: 100%;
@@ -21,85 +21,108 @@
     </style>
 
     <!-- JAVASCRIPT -->
-    <script type='text/javascript' src="dojoConfig.js"></script>
-    <script type='text/javascript' src="../bower_components/dojo/dojo.js"></script>
-    <script type="text/javascript">
-        var baseUrl = window.location.pathname.replace(/\/[^\/]+$/, '') + '/' + '../../';
-        var widgetUnderTest;
+    <script type="text/javascript" src="dojoConfig.js"></script>
+    <script type="text/javascript" src="../node_modules/dojo/dojo.js"></script>
 
+    <script type="text/javascript">
+        var widgetUnderTest;
         require([
             'layer-selector',
 
+            'esri/Map',
+            'esri/views/MapView',
+            'esri/geometry/Extent',
+
             'dojo/domReady!'
-        ], function(Module) {
-            Module.prototype._updateMap = function () {};
+        ], function (Module, Map, MapView, Extent) {
+            var mapView = new MapView({
+                map: new Map(),
+                container: 'map'
+            });
+            mapView.extent = new Extent({
+                xmax: -12010849.397533866,
+                xmin: -12898741.918094235,
+                ymax: 5224652.298632992,
+                ymin: 4422369.249751998,
+                spatialReference: {
+                    wkid: 3857
+                }
+            });
+
+            const noop = function () {};
 
             widgetUnderTest = new Module({
-                map: {
-                    root: document.body
-                },
+                mapView: mapView,
                 right: false,
                 baseLayers: [{
-                    id: 'Layer1'
+                    id: 'Layer1',
+                    Factory: noop
                 }],
                 overlays: [{
-                    id: 'Overlay1'
+                    id: 'Overlay1',
+                    Factory: noop
                 }]
             }, 'node');
 
             widgetUnderTest.startup();
 
             var widgetUnderTest2 = new Module({
-                map: {
-                    root: document.body
-                },
+                mapView: mapView,
                 baseLayers: [{
                     id: 'Layer1',
+                    Factory: noop,
                     linked: ['Overlay1']
                 }, {
-                    id: 'Layer2'
+                    id: 'Layer2',
+                    Factory: noop
                 }],
                 overlays: [{
-                    id: 'Overlay1'
+                    id: 'Overlay1',
+                    Factory: noop
                 }, {
-                    id: 'Overlay2'
+                    id: 'Overlay2',
+                    Factory: noop
                 }]
             }, 'node2');
 
             widgetUnderTest2.startup();
             var widgetUnderTest3 = new Module({
-                map: {
-                    root: document.body
-                },
+                mapView: mapView,
                 top: false,
                 baseLayers: [{
-                    id: 'Layer1'
+                    id: 'Layer1',
+                    Factory: noop
                 }, {
-                    id: 'Layer2'
+                    id: 'Layer2',
+                    Factory: noop
                 }],
                 overlays: [{
-                    id: 'Overlay1'
+                    id: 'Overlay1',
+                    Factory: noop
                 }, {
-                    id: 'Overlay2'
+                    id: 'Overlay2',
+                    Factory: noop
                 }]
             }, 'node3');
 
             widgetUnderTest3.startup();
             var widgetUnderTest4 = new Module({
-                map: {
-                    root: document.body
-                },
+                mapView: mapView,
                 top: false,
                 right: false,
                 baseLayers: [{
-                    id: 'Long layer name here'
+                    id: 'Long layer name here',
+                    Factory: noop
                 }, {
-                    id: 'Another long layer name'
+                    id: 'Another long layer name',
+                    Factory: noop
                 }],
                 overlays: [{
-                    id: 'Overlay1'
+                    id: 'Overlay1',
+                    Factory: noop
                 }, {
-                    id: 'Overlay2'
+                    id: 'Overlay2',
+                    Factory: noop
                 }]
             }, 'node4');
 
@@ -112,5 +135,7 @@
     <div class="node" id="node2"></div>
     <div class="node" id="node3"></div>
     <div class="node" id="node4"></div>
+
+    <div class="node" id="map"></div>
 </body>
 </html>
