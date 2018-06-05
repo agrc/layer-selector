@@ -50,4 +50,6 @@ window.dojoConfig = {
     }
 };
 
-jasmine.getEnv().addReporter(new JasmineFaviconReporter());
+if (window.jasmine) {
+    window.jasmine.getEnv().addReporter(new JasmineFaviconReporter());
+}

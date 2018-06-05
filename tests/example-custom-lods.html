@@ -4,12 +4,12 @@
     <title>layer-selector Tests</title>
 
     <!-- META TAGS -->
-    <meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 
     <!-- CSS -->
-    <link rel='stylesheet' href='../resources/LayerSelector.css'>
-    <link rel='stylesheet' href='../node_modules/esri/css/esri.css'>
-    <style type='text/css'>
+    <link rel="stylesheet" href="../resources/LayerSelector.css">
+    <link rel="stylesheet" href="../node_modules/arcgis-js-api/css/main.css">
+    <style type="text/css">
         body, html, #map {
             width: 100%;
             height: 100%;
@@ -20,11 +20,10 @@
     </style>
 
     <!-- JAVASCRIPT -->
-    <script type='text/javascript' src='dojoConfig.js'></script>
-    <script type='text/javascript' src='../node_modules/dojo/dojo.js'></script>
+    <script type="text/javascript" src="dojoConfig.js"></script>
+    <script type="text/javascript" src="../node_modules/dojo/dojo.js"></script>
 
-    <script type='text/javascript'>
-        var baseUrl = window.location.pathname.replace(/\/[^\/]+$/, '') + '/' + '../../';
+    <script type="text/javascript">
         var widgetUnderTest;
 
         require([
@@ -32,22 +31,22 @@
 
             'esri/config',
             'esri/map',
-            'esri/SpatialReference',
+            'esri/views/MapView',
+            'esri/geometry/SpatialReference',
             'esri/geometry/Extent',
             'esri/geometry/Point',
-            'esri/layers/ArcGISTiledMapServiceLayer',
-            'esri/layers/WebTiledLayer',
-            'esri/layers/TileInfo',
+            'esri/layers/WebTileLayer',
+            'esri/layers/support/TileInfo',
 
 
             'dojo/domReady!'
-        ], function (Module, esriConfig, Map, SpatialReference, Extent, Point, TiledLayer, WebTiledLayer, TileInfo) {
-            esriConfig.defaults.io.corsEnabledServers.push(
-                      'a.tile.stamen.com',
-                      'b.tile.stamen.com',
-                      'c.tile.stamen.com',
-                      'd.tile.stamen.com'
-                    );
+        ], function (Module, esriConfig, Map, MapView, SpatialReference, Extent, Point, WebTileLayer, TileInfo) {
+            esriConfig.request.corsEnabledServers.push(
+                'a.tile.stamen.com',
+                'b.tile.stamen.com',
+                'c.tile.stamen.com',
+                'd.tile.stamen.com'
+            );
 
             var tilesize = 256;
             var earthCircumference = 40075016.685568;
@@ -66,20 +65,21 @@
                 });
             }
 
-            var map = new Map('map', {
-                center: [-122.45, 37.75], // longitude, latitude
-                zoom: 13
+            var map = new Map();
+            var mapView = new MapView({
+                map: map,
+                container: 'map'
             });
 
             fiveNineteen = lods.slice(0, 20);
             fiveSeventeen = lods.slice(0, 18);
 
             widgetUnderTest = new Module({
-                map: map,
+                mapView: mapView,
                 baseLayers: [
                     {
-                        Factory: WebTiledLayer,
-                        url: 'http://${subDomain}.tile.stamen.com/toner/${level}/${col}/${row}.png',
+                        Factory: WebTileLayer,
+                        urlTemplate: 'http://{subDomain}.tile.stamen.com/toner/{level}/{col}/{row}.png',
                         id: 'Imagery',
                         subDomains: ['a', 'b', 'c', 'd'],
                         selected: true,
@@ -104,10 +104,10 @@
 </script>
 </head>
 <body>
-    <div id='map'></div>
-    <div class='node' id='node'></div>
-    <div class='node' id='node2'></div>
-    <div class='node' id='node3'></div>
-    <div class='node' id='node4'></div>
+    <div id="map"></div>
+    <div class="node" id="node"></div>
+    <div class="node" id="node2"></div>
+    <div class="node" id="node3"></div>
+    <div class="node" id="node4"></div>
 </body>
 </html>

@@ -37,7 +37,7 @@ require([
                 container: domConstruct.create('div', null, document.body)
             });
 
-            mapView.then(function () {
+            mapView.when(function () {
                 console.log('mapView done');
                 done();
             });
@@ -47,8 +47,6 @@ require([
             if (mapView) {
                 // mapView.destroy needs some extra help...
                 // https://thespatialcommunity.slack.com/archives/C0A6GD4T0/p1494006356289273
-                mapView.allLayerViews.destroy();
-                mapView.layerViewManager.empty();
                 mapView.ui.empty();
                 mapView.container.remove();
                 setTimeout(() => {
@@ -62,7 +60,9 @@ require([
                         done();
                     }
                 }, 0);
-            } else {
+            }
+
+            if (widget) {
                 widget.destroy();
             }
         });
@@ -77,7 +77,7 @@ require([
         });
 
         describe('constructor', function () {
-            it('sets _hasLinkedLayers appropriately', function () {
+            it('sets _hasLinkedLayers appropriately has linked layers', function () {
                 widget = new WidgetUnderTest({
                     mapView: mapView,
                     baseLayers: [{
@@ -91,9 +91,9 @@ require([
                 });
 
                 expect(widget._hasLinkedLayers).toBe(true, 'linked layers'); // eslint-disable-line no-underscore-dangle
+            });
 
-                mapView.destroy();
-
+            it('sets _hasLinkedLayers appropriately does not have linked layers', function () {
                 widget = new WidgetUnderTest({
                     mapView: mapView,
                     baseLayers: [{
@@ -139,9 +139,11 @@ require([
                         Factory: noop
                     }],
                     overlays: [{
-                        name: '3'
+                        name: '3',
+                        Factory: noop
                     }, {
-                        name: '4'
+                        name: '4',
+                        Factory: noop
                     }]
                 });
 
@@ -254,7 +256,7 @@ require([
                     .toEqual(true, 'widget should be hidden');
             });
             describe('baseLayers', function () {
-                xit('should select first item in list if no property selected:true found', function () {
+                it('should select first item in list if no property selected:true found', function () {
                     widget = new WidgetUnderTest({
                         mapView: mapView,
                         baseLayers: [{
@@ -271,7 +273,7 @@ require([
                     expect(nodeList.length).toEqual(1, 'first base layer should be checked');
                     expect(nodeList[0].value).toEqual('i am checked', 'value should match first baselayer');
                 });
-                xit('should select first item with property selected:true found', function () {
+                it('should select first item with property selected:true found', function () {
                     widget = new WidgetUnderTest({
                         mapView: mapView,
                         baseLayers: [{
@@ -296,7 +298,7 @@ require([
                     expect(nodeList.length).toEqual(1, 'first selected item should be checked');
                     expect(nodeList[0].value).toEqual('i am checked', 'should match first selected item');
                 });
-                xit('should uncheck overlays when baselayer is active and linked is empty', function () {
+                it('should uncheck overlays when baselayer is active and linked is empty', function () {
                     widget = new WidgetUnderTest({
                         mapView: mapView,
                         baseLayers: [{
