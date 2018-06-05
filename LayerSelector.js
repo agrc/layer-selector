@@ -716,7 +716,7 @@ define([
  * The info about a layer needed to create it and show it on a map and in the layer selector successfully.
  * @typedef {object} layerFactory
  * @property {function} Factory - the constructor function for creating a layer.
- * @property {string} url - The url to the map service.
+ * @property {string} urlTemplate - The url to the map service.
  * @property {string} id - The id of the layer. This is shown in the LayerSelectorItem.
  * @property {object} tileInfo - The `esri/TileInfo` object if the layer has custom levels.
  * @property {string[]} linked - The id of overlays to automatically enable when selected.
