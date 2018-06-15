@@ -635,17 +635,17 @@ define([
             layers.Imagery.tileInfo = new TileInfo(this._defaultTileInfo);
             layers.Hybrid.tileInfo = new TileInfo(this._defaultTileInfo);
 
-            var tileInfo = lang.clone(this._defaultTileInfo);
+            var tileInfo = Object.assign({}, this._defaultTileInfo);
             tileInfo.lods = zeroToEighteen;
 
             layers['Color IR'].tileInfo = new TileInfo(tileInfo);
 
-            tileInfo = lang.clone(this._defaultTileInfo);
+            tileInfo = Object.assign({}, this._defaultTileInfo);
             tileInfo.lods = fiveToSeventeen;
 
             layers.Topo.tileInfo = new TileInfo(tileInfo);
 
-            tileInfo = lang.clone(this._defaultTileInfo);
+            tileInfo = Object.assign({}, this._defaultTileInfo);
             tileInfo.lods = fiveToNineteen;
 
             layers.Lite.tileInfo = new TileInfo(tileInfo);
