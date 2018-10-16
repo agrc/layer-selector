@@ -208,7 +208,7 @@ define([
             }
             /* eslint-disable no-eq-null, eqeqeq, no-negated-condition */
             var top = this.top != null ? this.top : true;
-            var right = this.right != null ? this.top : true;
+            var right = this.right != null ? this.right : true;
             /* eslint-enable no-eq-null, eqeqeq, no-negated-condition */
 
             var locations = {
