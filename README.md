@@ -1,3 +1,5 @@
+# Note: This repo has been replaced by https://github.com/agrc/kitchen-sink
+
 [![Build Status](https://travis-ci.com/agrc-widgets/layer-selector.svg)](https://travis-ci.com/agrc-widgets/layer-selector)
 
 ![layer-selector](/layer-selector.gif)
