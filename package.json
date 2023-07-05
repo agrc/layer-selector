@@ -27,7 +27,7 @@
     "grunt-bump": "^0.8.0",
     "grunt-connect-proxy": "^0.2.0",
     "grunt-contrib-connect": "^1.0.2",
-    "grunt-contrib-jasmine": "2.0.1",
+    "grunt-contrib-jasmine": "4.0.0",
     "grunt-contrib-stylus": "^1.2.0",
     "grunt-contrib-watch": "1.1.0",
     "grunt-documentation": "^1.0.0",
